@@ -6,7 +6,7 @@ const BrowserRouter = function (routes, rootElement) {
 
   const generatePage = () => {
     const path = getRoute();
-    console.log("🚀 ~ file: BrowserRouter.js:9 ~ generatePage ~ path:", path)
+    
     if (rootElement.childNodes.length) {
       rootElement.replaceChild(
         this.renderStructure(routes[path]),
