@@ -1,11 +1,12 @@
 const BrowserRouter = function (routes, rootElement) {
   const getRoute = () => {
-    const path = location.pathname === 'index.html' ? '/' : location.pathname;
+    const path = location.pathname === '/index.html' ? '/' : location.pathname;
     return path;
   }
 
   const generatePage = () => {
     const path = getRoute();
+    console.log("🚀 ~ file: BrowserRouter.js:9 ~ generatePage ~ path:", path)
     if (rootElement.childNodes.length) {
       rootElement.replaceChild(
         this.renderStructure(routes[path]),
