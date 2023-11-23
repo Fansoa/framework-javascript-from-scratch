@@ -1,6 +1,11 @@
 const BrowserRouter = function (routes, rootElement) {
+  const getRoute = () => {
+    const path = location.pathname === 'index.html' ? '/' : location.pathname;
+    return path;
+  }
+
   const generatePage = () => {
-    const path = location.pathname;
+    const path = getRoute();
     if (rootElement.childNodes.length) {
       rootElement.replaceChild(
         this.renderStructure(routes[path]),
@@ -8,6 +13,7 @@ const BrowserRouter = function (routes, rootElement) {
       );
     } else rootElement.appendChild(this.renderStructure(routes[path]));
   };
+  
   generatePage();
   const oldPushState = history.pushState;
   history.pushState = function (state, title, url) {
