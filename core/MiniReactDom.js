@@ -6,6 +6,8 @@ const MiniReactDom = {
   },
   renderStructure: function generateDom(structure) {
     let element;
+    if (!structure) return;
+
     if (typeof structure.type === "string") {
       if (structure.type === "TEXT_NODE") {
         return document.createTextNode(structure.content);
@@ -14,7 +16,12 @@ const MiniReactDom = {
     }
     if (structure.props) {
       for (const propName in structure.props) {
-        if (propName === "style") {
+        if (propName === "class") {
+          if(structure.props[propName]) {
+            const classList = structure.props["class"].split(" ");
+            element.classList.add(...classList);
+          }
+        } else if (propName === "style") {
           Object.assign(element.style, structure.props[propName]);
         } else if (propName.startsWith("data-")) {
           element.dataset[propName.replace("data-", "")] =
@@ -33,7 +40,9 @@ const MiniReactDom = {
     }
     if (structure.children) {
       for (const child of structure.children) {
-        element.appendChild(this.renderStructure(child));
+        if (child) {
+          element.appendChild(this.renderStructure(child));
+        }
       }
     }
 

@@ -1,68 +1,48 @@
-import { BrowserLink } from "../components/BrowserRouter.js";
+import { Component } from "../core/MiniReact.js";
+import EventCard from "../components/Events/EventCard.js";
 
-export default {
-  type: "div",
-  children: [
-    BrowserLink({
-      title: "Page 1",
-      to: "/page1",
-    }),
-    //{
-    //  type: HashLink,
-    //  props: {
-    //    title: "Page 1",
-    //    to: "/page1",
-    //  },
-    //},
-    {
-      type: "TEXT_NODE",
-      content: "Coucou page2",
-    },
-  ],
-};
+const testEvents = [
+  {
+    sport: "Foot",
+    name: "Pieds balle",
+    place: "Paris",
+    date: "21-10-2024",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReXErzBS7diUM2lu4rTnNbst2v_eFbbgAyiYTx7k3MFA&s",
+  },
+  {
+    sport: "Tennis",
+    name: "Rot lent Garros",
+    place: "Marseille",
+    date: "02-04-2032",
+    img: "https://openseauserdata.com/files/b261626a159edf64a8a92aa7306053b8.png",
+  },
+  {
+    sport: "Boxe",
+    name: "Fight club",
+    place: "Lyon",
+    date: "12-14-2021",
+    img: "https://images.unsplash.com/photo-1494253109108-2e30c049369b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHJhbmRvbXxlbnwwfHwwfHx8MA%3D%3D",
+  },
+];
 
-// class Page2 extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       count: 0,
-//     };
-//   }
+class page2 extends Component {
+  render() {
+    return super.render(
+      this.toString()
+    );
+  }
 
-//   render() {
-//     return {
-//       type: "div",
-//       props: {
-//         style: {
-//           "background-color": "green",
-//         },
-//       },
-//       children: [
-//         {
-//           type: Button,
-//           props: {
-//             onClick: () => alert("Coucou"),
-//             title: "Click me",
-//           },
-//         },
-//         {
-//           type: "h1",
-//           props: {},
-//           children: [
-//             {
-//               type: "TEXT_NODE",
-//               content: "Counter: {{ state.count }}",
-//             },
-//           ],
-//         },
-//         {
-//           type: Button,
-//           props: {
-//             onClick: () => this.setState({ count: this.state.count + 1 }),
-//             title: "Count +1",
-//           },
-//         },
-//       ],
-//     };
-//   }
-// }
+  toString() {
+    return `<main class="bg-white flex flex-col">
+        <div
+          class="content-start flex-wrap self-center w-[894px] max-w-full mt-10 px-5"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 flex max-md:flex-col max-md:items-stretch">
+            ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
+          </div>
+        </div>
+      </main>`
+  }
+}
+
+export default page2;
