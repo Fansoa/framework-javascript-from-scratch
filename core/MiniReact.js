@@ -29,16 +29,15 @@ export class Component {
         
         if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
             return createElement('TEXT_NODE', null, null, node.textContent.trim(), null);
-            }
+        }
             
-            if (node.nodeType === Node.ELEMENT_NODE) {
-                data.type = node.tagName.toLowerCase();
-                
-                if (node.hasAttributes()) {
-                    data.props = Array.from(node.attributes).reduce((attrs, attribute) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+            data.type = node.tagName.toLowerCase();
+
+            if (node.hasAttributes()) {
+                data.props = Array.from(node.attributes).reduce((attrs, attribute) => {
                     if(attribute.nodeName === 'style'){
                         attrs[attribute.name] = JSON.parse(attribute.value);
-                        
                         return attrs;
                     }
 
@@ -55,7 +54,7 @@ export class Component {
 
                     attrs[attribute.name] = attribute.value;
                     return attrs;
-                    }, {});
+                }, {});
             }
             
             if (node.hasChildNodes()) {
@@ -63,7 +62,7 @@ export class Component {
             }
         }
         
-        return this.isEmpty(data) ? null : createElement(data.type, data.props, data.props.events, null, data.children);
+        return this.isEmpty(data) ? null : createElement(data.type, data.props, data?.props?.events, null, data.children);
     }
 
     encodeMethod(method) {
