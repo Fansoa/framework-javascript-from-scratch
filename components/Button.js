@@ -1,13 +1,16 @@
 import { Component } from "../core/MiniReact.js";
-import { createElement } from "../core/MiniReact.js";
 
 class Button extends Component {
+  handleClick() {
+    alert('Hello');
+  }
+
   render() {
     return super.render(
       `
         <button 
           style={"background-color":"red"}
-          events={"click":["function(){console.log('toto')}","function(){console.log('tata')}"],"mouseup":["function(){console.log('toto')}","function(){console.log('tata')}"]}
+          events={"click":[${this.encodeMethod(this.props.onClick)},${this.encodeMethod(this.handleClick)}]}
         >
           ${this.props.title}
         </button>

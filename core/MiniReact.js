@@ -16,11 +16,11 @@ export class Component {
     isEmpty(obj) {
         return Object.keys(obj).length === 0;
     }
-   
+
     htmlToJson(htmlString) {
         const domParser = new DOMParser();
         const doc = domParser.parseFromString(htmlString, 'text/html');
-        
+
         return this.parseNode(doc.body.firstChild);
     }
     
@@ -43,14 +43,14 @@ export class Component {
                     }
 
                     if(attribute.nodeName === 'events'){
-                        attrs[attribute.name] = JSON.parse(attribute.value);
-                        
+                        this.decodeURIComponent(attribute.value)
+                        attrs[attribute.name] = JSON.parse(this.decodeURIComponent(attribute.value));
                         let objTmp = {}
                         for (const [event, functionList] of Object.entries(attrs[attribute.name])) {
                             objTmp[event] = functionList.map(func => eval(`(${func})`));
                         }
-                          
-                        return { ...attrs, events : objTmp}
+
+                        return { ...attrs, events : objTmp};
                     }
 
                     attrs[attribute.name] = attribute.value;
@@ -66,9 +66,16 @@ export class Component {
         return this.isEmpty(data) ? null : createElement(data.type, data.props, data.props.events, null, data.children);
     }
 
+    encodeMethod(method) {
+        return `"${encodeURIComponent(method)}"`.replace(/\w+(\(\))/, 'function()');
+    }
+
+    decodeURIComponent(uriComponent) {
+        return decodeURIComponent(uriComponent).replace(/(\t|\n|\r)/g, ' ');
+    }
+
     render(element){
-        const json = this.htmlToJson(element);
-        return json
+        return this.htmlToJson(element);
     }
 }
 
