@@ -42,7 +42,6 @@ export class Component {
                     }
 
                     if(attribute.nodeName === 'events'){
-                        this.decodeURIComponent(attribute.value)
                         attrs[attribute.name] = JSON.parse(this.decodeURIComponent(attribute.value));
                         let objTmp = {}
                         for (const [event, functionList] of Object.entries(attrs[attribute.name])) {
@@ -66,7 +65,15 @@ export class Component {
     }
 
     encodeMethod(method) {
-        return `"${encodeURIComponent(method)}"`.replace(/\w+(\(\))/, 'function()');
+        let encodeStringMethod = `"${encodeURIComponent(method)}"`.replace(/\w+(\(\))/, 'function()');
+
+        for (const prop in this.props) {
+            const regex = new RegExp(`this\\.props\\.${prop}`, 'g');
+            const propValue = typeof this.props[prop] === 'string' ? `'${this.props[prop]}'` : this.props[prop]
+            encodeStringMethod = encodeStringMethod.replace(regex, propValue);
+        }
+        
+        return encodeStringMethod;
     }
 
     decodeURIComponent(uriComponent) {

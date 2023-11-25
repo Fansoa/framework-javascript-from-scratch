@@ -1,5 +1,6 @@
 import { Component } from "../core/MiniReact.js";
 import EventCard from "../components/Events/EventCard.js";
+import BrowserLinkComponent from "../components/BrowserLink.js";
 
 const testEvents = [
   {
@@ -41,6 +42,10 @@ class page2 extends Component {
             ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
           </div>
         </div>
+        ${new BrowserLinkComponent({
+          to: "/page1",
+          title: "Go to page 2"
+        }).toString()}
       </main>`
   }
 }
