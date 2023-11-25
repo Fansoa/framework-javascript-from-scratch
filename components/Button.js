@@ -3,7 +3,16 @@ import { createElement } from "../core/MiniReact.js";
 
 class Button extends Component {
   render() {
-    return createElement('button', { style: { 'background-color': 'red'}}, { click: [this.props.onClick]}, null, [createElement('TEXT_NODE', null, null, this.props.title, null)])
+    return super.render(
+      `
+        <button 
+          style={"background-color":"red"}
+          events={"click":["function(){console.log('toto')}","function(){console.log('tata')}"],"mouseup":["function(){console.log('toto')}","function(){console.log('tata')}"]}
+        >
+          ${this.props.title}
+        </button>
+      `
+    )
   }
 }
 
