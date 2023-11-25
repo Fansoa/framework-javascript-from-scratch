@@ -17,6 +17,7 @@ export default class BrowserLinkComponent extends Component {
       href="${this.props.to}"
       to="${this.props.to}"
       events={"click":[${this.encodeMethod(this.handleClick)}]}
-    >${this.props.title}</span>`;
+      class="cursor-pointer${this.props.class ? ' ' + this.props.class : ''}"
+    >${this.props.content}</span>`;
   }
 }
