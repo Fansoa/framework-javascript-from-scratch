@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.js";
 import SearchSection from "../components/Sections/SearchSection.js";
 import SeeMoreSection from "../components/Sections/SeeMoreSection.js";
 
-class Homepage extends Component {
+export default class Homepage extends Component {
   render() {
     return super.render(
       this.toString()
@@ -39,5 +39,3 @@ class Homepage extends Component {
       </div>`
   }
 }
-
-export default Homepage;
