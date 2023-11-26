@@ -4,9 +4,9 @@ import BrowserLinkComponent from "../components/BrowserLink.js";
 export default class Footer extends Component {
   menuLinks={
     rightMenuLinks: [
-      {to: "/page1", content: "truc 1"},
-      {to: "/page1", content: "truc 1"},
-      {to: "/page1", content: "truc 1"},
+      {to: "/", content: "truc 1"},
+      {to: "/", content: "truc 1"},
+      {to: "/", content: "truc 1"},
     ],
     linkedinLinks: [
       {to: "https://www.linkedin.com/in/christopher-debray/", name: "Christopher Debray"},
@@ -70,7 +70,7 @@ export default class Footer extends Component {
                     class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
                   >
                     ${new BrowserLinkComponent({
-                      to: "/page1",
+                      to: "/",
                       content: "truc 1"
                     }).toString()}
                   </div>

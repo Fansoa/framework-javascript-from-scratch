@@ -1,7 +1,7 @@
-import page1 from "./pages/page1.js";
-import page2 from "./pages/page2.js";
+import Homepage from "./pages/Homepage.js";
+import EventListingPage from "./pages/EventListingPage.js";
 
 export default {
-  "/": new page2().render(),
-  "/page1": page1,
+  "/": new Homepage().render(),
+  "/listing-events": new EventListingPage().render(),
 };
