@@ -2,6 +2,8 @@ import { Component } from "../core/MiniReact.js";
 import EventCard from "../components/Events/EventCard.js";
 import Footer from "../components/Footer.js";
 import Navbar from "../components/Navbar.js";
+import SearchSection from "../components/Sections/SearchSection.js";
+import SeeMoreSection from "../components/Sections/SeeMoreSection.js";
 
 const testEvents = [
   {
@@ -35,9 +37,10 @@ class page2 extends Component {
   }
 
   toString() {
-    return `<div>
+    return `<div class="page">
         ${new Navbar().toString()}
-        <main class="bg-white flex flex-col pt-12 pb-6">
+        <main class="bg-white flex flex-col">
+          ${new SeeMoreSection().toString()}
           <div
             class="content-start flex-wrap self-center w-[894px] max-w-full mt-10 px-5"
           >
@@ -45,6 +48,7 @@ class page2 extends Component {
               ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
             </div>
           </div>
+          ${new SearchSection().toString()}
         </main>
         ${new Footer().toString()}
       </div>`

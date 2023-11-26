@@ -23,7 +23,7 @@ export default class Footer extends Component {
 
   toString() {
     return `<footer
-    class="justify-center items-center content-center flex-wrap bg-blue-950 self-stretch flex w-full flex-col px-5 py-9 max-md:max-w-full mt-3"
+    class="justify-center items-center content-center flex-wrap bg-blue-950 self-stretch flex w-full flex-col px-5 py-10 max-md:max-w-full"
   >
     <div class="max-w-full w-full">
       <div class="flex justify-between gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0 w-full">

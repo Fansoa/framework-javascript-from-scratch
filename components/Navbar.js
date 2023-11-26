@@ -1,5 +1,6 @@
 import { Component } from "../core/MiniReact.js";
 import BrowserLinkComponent from "./BrowserLink.js";
+import BaseInput from "./Form/BaseInput.js";
 
 export default class Navbar extends Component {
   navbarLinks=[
@@ -58,16 +59,15 @@ export default class Navbar extends Component {
         </div>
       </div>
     </div>
-    <div
-      class="items-stretch rounded border border-[color:var(--Inactive----Gray\_400,#9B9B9B)] flex justify-between gap-5 px-2.5 py-1 border-solid"
-    >
-      <div class="text-neutral-400 text-base leading-5">Recherche</div>
-      <img
-        loading="lazy"
-        srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/ce7a2a36-120a-4d39-9bfe-1a75fa7b91c1?apiKey=6abfd9a8b9514122a12bdd9d84df704a"
-        class="w-6 justify-center"
-      />
-    </div>
+    ${new BaseInput({
+      placeholder: 'Rechercher',
+      class: {
+        container: 'max-w-[160px]',
+        icon: '!-right-2 !-top-1',
+        input: '!py-2'
+      },
+    }).toString()}
+
     <div
       class="sm:hidden"
       id="burger-menu"
