@@ -21,7 +21,7 @@ export default class Navbar extends Component {
 
   toString() {
     return `<nav
-    class="justify-between content-center flex-wrap shadow-sm bg-white self-stretch z-[1] flex w-full px-3.5 py-3 max-md:max-w-full fixed bg-red-500"
+    class="justify-between content-center flex-wrap shadow-lg bg-white self-stretch z-[1] flex w-full px-3.5 py-3 max-md:max-w-full fixed bg-red-500"
   >
     <div class="flex items-stretch justify-between gap-5 mt-2">
       ${new BrowserLinkComponent({

@@ -42,12 +42,12 @@ export default class Footer extends Component {
           <div
             class="items-stretch content-center flex-wrap flex grow justify-between gap-5 px-1.5 py-4 max-md:mt-2.5"
           >
-            <div class="items-stretch flex grow basis-[0%] flex-col">
-              <div
+            <section class="items-stretch flex grow basis-[0%] flex-col">
+              <h1
                 class="text-white text-center text-xs font-bold leading-4 whitespace-nowrap"
               >
                 Fondateurs
-              </div>
+              </h1>
               ${this.menuLinks.linkedinLinks.map(link => {
                 return `
                   <div
@@ -57,13 +57,13 @@ export default class Footer extends Component {
                   </div>
                 `
               }).join('')}
-            </div>
-            <div class="items-stretch flex grow basis-[0%] flex-col">
-              <div
+            </section>
+            <section class="items-stretch flex grow basis-[0%] flex-col">
+              <h1
                 class="text-white text-center text-xs font-bold leading-4 whitespace-nowrap"
               >
                 Je sais pas
-              </div>
+              </h1>
               ${this.menuLinks.rightMenuLinks.map(link => {
                 return `
                   <div
@@ -76,7 +76,7 @@ export default class Footer extends Component {
                   </div>
                 `
               }).join('')}
-            </div>
+            </section>
           </div>
         </div>
       </div>
