@@ -1,39 +1,69 @@
 export class Component {
-    constructor(props){
+    constructor(props) {
         this.props = props;
         this.state = {};
+        this.cachedStructure = [];
     }
 
-    setState(newVal){
-        this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
-        console.error(this.render());
-        const event = new CustomEvent('reRender', { 
-            structure: {
-                title: 'Error!',
-                message: 'There was a problem creating your account.'
+    setState(newState, component) {
+        this.state = typeof newState === 'function' ? newState(this.state) : newState;
+        const changedState = this.state;
+
+        component.render();
+
+        const event = new CustomEvent('reRender', {
+            detail: {
+                componentDetail: {
+                    newState: changedState,
+                    componentId: this.componentKey,
+                    component,
+                }
             }
         });
 
         window.dispatchEvent(event);
     }
+
+    createElement(type, props, content, children, state, componentKey = null) {
+        let structure;
+        if (typeof type === 'function') {
+            structure = new type(props).render();
+            structure.parentProps = props;
+            structure.owner = this;
+        } else {
+            structure = {
+                type,
+                props,
+                content,
+                children,
+                state,
+                componentKey,
+                owner: this
+            };
+        }
     
-    useState(state){
-        this.state = state;
-        return [state, this.setState]
+        if (!structure) {
+            if (typeof type === 'function') {
+                structure = new type(props).render();
+                structure.parentProps = props;
+                structure.owner = this;
+            } else {
+                structure = {
+                    type,
+                    props,
+                    content,
+                    children,
+                    state,
+                    componentKey,
+                    owner: this
+                };
+            }
+        }
+    
+        return structure;
     }
 
-    createElement(type, props, content, children, state, key = null) {
-        return {
-            type,
-            props,
-            content,
-            children,
-            state,
-            key,
-        };
-    }
-
-    generateKey(prefix = 'cpnt') {
-        return this.key ? this.key : Math.random().toString(36);
+    generateComponentKey() {
+        return this.componentKey ? this.componentKey : Math.random().toString(36);
     }
 }

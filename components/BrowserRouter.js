@@ -1,4 +1,17 @@
-const BrowserRouter = function (routes, rootElement) {
+import routes from "../routes.js";
+
+export const BrowserService = {
+  getRoute() {
+    const path = location.pathname === '/index.html' ? '/' : location.pathname;
+    return path;
+  },
+
+  getRouteStructure() {
+    return routes[this.getRoute()];
+  },
+}
+
+export const BrowserRouter = function (routes, rootElement) {
   const getRoute = () => {
     const path = location.pathname === '/index.html' ? '/' : location.pathname;
     return path;
@@ -6,13 +19,10 @@ const BrowserRouter = function (routes, rootElement) {
 
   const generatePage = () => {
     const path = getRoute();
-    
-    if (rootElement.childNodes.length) {
-      rootElement.replaceChild(
-        this.renderStructure(routes[path]),
-        rootElement.childNodes[0]
-      );
-    } else rootElement.appendChild(this.renderStructure(routes[path]));
+    this.renderPage(rootElement, routes[path])
+
+    this.savedTree = routes[path];
+    this.currentFiber = routes[path];
   };
   
   generatePage();
@@ -46,5 +56,3 @@ export const BrowserLink = function (props) {
     ],
   };
 };
-
-export default BrowserRouter;

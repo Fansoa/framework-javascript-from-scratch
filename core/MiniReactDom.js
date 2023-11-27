@@ -1,22 +1,87 @@
-import BrowserRouter from "../components/BrowserRouter.js";
+import { BrowserRouter, BrowserService } from "../components/BrowserRouter.js";
 import { EVENT_TYPE_LIST } from "./constants.js";
 
 const MiniReactDom = {
-  currentVirtualDom: null,
-  updatedVirtualDom: null,
+  renderPage(rootElement, domToRender) {
+  
+    if (rootElement.childNodes.length) {
+      rootElement.replaceChild(
+        this.renderStructure(domToRender),
+        rootElement.childNodes[0]
+      );
+    } else {
+      rootElement.appendChild(this.renderStructure(domToRender))
+    };
+  },
 
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
-  },
-  renderStructure: function (structure) {
-    this.currentVirtualDom = structure;
     window.addEventListener("reRender", (event) => {
-      console.log(event.structure);
+      const newPageStructure = BrowserService.getRouteStructure();
+
+      const componentDetail = event.detail.componentDetail;
+      this.updateRender(componentDetail.component, newPageStructure);
+
+      this.renderPage(rootElement, newPageStructure)
+      console.error(this.savedTree)
     });
-    return this.generateDom(this.currentVirtualDom);
+  },
+  updateRender(component, object) {
+    function findComponentById(componentId, obj) {
+      if (obj.componentKey === componentId) {
+        return obj;
+      }
+      if (obj.children) {
+        for (const child of obj.children) {
+          const found = findComponentById(componentId, child);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+  
+    let componentToUpdate = findComponentById(component.componentKey, object);
+    if (componentToUpdate) {
+      const componentStructure = component.renderedStructure
+
+      componentToUpdate.children = componentStructure.children;
+      componentToUpdate.needsUpdate = componentStructure.needsUpdate;
+      componentToUpdate.props = componentStructure.props;
+      componentToUpdate.renderedStructure = componentStructure.renderedStructure;
+      componentToUpdate.state = componentStructure.state;
+      componentToUpdate.dom = null;
+      return true;
+    }
+  
+    return false;
+  },
+  // updateFiberState(newState, componentId, object) {
+  //   function findComponentById(componentId, obj) {
+  //     if (obj.componentKey === componentId) {
+  //       return obj;
+  //     }
+  //     if (obj.children) {
+  //       for (const child of obj.children) {
+  //         const found = findComponentById(componentId, child);
+  //         if (found) return found;
+  //       }
+  //     }
+  //     return null;
+  //   }
+  
+  //   const componentToUpdate = findComponentById(componentId, object);
+  //   if (componentToUpdate) {
+  //     componentToUpdate.state = newState;
+  //     return true;
+  //   }
+  
+  //   return false;
+  // },
+
+  renderStructure: function (structure) {
+    return this.generateDom(structure);
   },
   generateDom(structure) {
-    console.warn(structure)
     let element;
     if (typeof structure.type === "string") {
       if (structure.type === "TEXT_NODE") {
@@ -24,6 +89,7 @@ const MiniReactDom = {
       }
       element = document.createElement(structure.type);
     }
+
     if (structure.props) {
       for (const propName in structure.props) {
         if (propName === "style") {
@@ -43,6 +109,7 @@ const MiniReactDom = {
         }
       }
     }
+
     if (structure.events) {
       for (const eventName in structure.events) {
         for (const eventListeners of structure.events[eventName]) {
@@ -50,27 +117,44 @@ const MiniReactDom = {
         }
       }
     }
+
     if (structure.children) {
-      for (const child of structure.children) {
-        element.appendChild(this.renderStructure(child));
+      for (let index = 0; index < structure.children.length; index++) {
+        const child = structure.children[index];
+        try {
+          let childToAppend;
+          if (
+            this.currentFiber &&
+            this.currentFiber.componentKey &&
+            child.parentProps === this.currentFiber.parentProps &&
+            child.state === this.currentFiber.state
+          ) {
+            console.log('Cache element', this.currentFiber);
+            childToAppend = this.currentFiber.dom;
+          }
+    
+          if(!childToAppend) {
+            childToAppend = this.renderStructure(child);
+            this.currentFiber = child;
+          }
+          element.appendChild(this.renderStructure(child));
+        } catch (error) {
+          // Error handling code
+        }
       }
     }
 
-    // element.addEventListener("reRender", () => {
-    //   this.updatedVirtualDom = this.generateDom(structure)
-    //   console.log(this.currentVirtualDom)
-    //   console.log(this.updatedVirtualDom)
-    // });
+
+
+    this.currentFiber = structure;
+
+    if (structure.componentKey) {
+      element.setAttribute('data-componentKey', structure.componentKey);
+    }
+    structure.dom = element;
 
     return element;
   }
 };
 
 export default MiniReactDom;
-
-/**
- * Tu fais un render.
- *    Créer un virtualDom avec generateDom, celui ci n'est render que lorsque la fonction render est lancée
- * 
- * 
- */
