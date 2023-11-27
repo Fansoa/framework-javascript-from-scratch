@@ -29,7 +29,7 @@ const testEvents = [
   },
 ];
 
-class page2 extends Component {
+class EventListingPage extends Component {
   render() {
     return super.render(
       this.toString()
@@ -55,4 +55,4 @@ class page2 extends Component {
   }
 }
 
-export default page2;
+export default EventListingPage;

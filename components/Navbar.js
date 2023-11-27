@@ -4,8 +4,8 @@ import BaseInput from "./Form/BaseInput.js";
 
 export default class Navbar extends Component {
   navbarLinks=[
-    {to: "/page1", src: "https://cdn.builder.io/api/v1/image/assets/TEMP/7bcb275b-57a3-4fcb-88c0-9599226febd2?apiKey=6abfd9a8b9514122a12bdd9d84df704a", title: "Accueil"},
-    {to: "/page1", src: "https://cdn.builder.io/api/v1/image/assets/TEMP/51fd9c9d-4592-4cd2-a6c7-72f7bd3c5803?apiKey=6abfd9a8b9514122a12bdd9d84df704a", title: "Liste des events"},
+    {to: "/", src: "https://cdn.builder.io/api/v1/image/assets/TEMP/7bcb275b-57a3-4fcb-88c0-9599226febd2?apiKey=6abfd9a8b9514122a12bdd9d84df704a", title: "Accueil"},
+    {to: "/listing-events", src: "https://cdn.builder.io/api/v1/image/assets/TEMP/51fd9c9d-4592-4cd2-a6c7-72f7bd3c5803?apiKey=6abfd9a8b9514122a12bdd9d84df704a", title: "Liste des events"},
   ]
 
   render () {
@@ -25,7 +25,7 @@ export default class Navbar extends Component {
   >
     <div class="flex items-stretch justify-between gap-5 mt-2">
       ${new BrowserLinkComponent({
-        to: "/page1",
+        to: "/",
         class: "w-full sm:w-auto",
         content: `<img
           loading="lazy"
