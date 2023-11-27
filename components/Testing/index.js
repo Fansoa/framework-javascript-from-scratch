@@ -14,7 +14,7 @@ export default class Testing extends Component {
     render() {
       return this.createElement(
           'button',
-          { onClick: () => this.handleClickTesting() },
+          { onClick: () => this.handleClickTesting(),class: "bg-cyan-500" },
           null,
           [
               this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.test}`, null, this.state),

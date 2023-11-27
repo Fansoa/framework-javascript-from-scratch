@@ -15,11 +15,18 @@ class IncrementButton extends Component {
 
     render() {
         return this.createElement(
-            'button',
-            { onClick: () => this.handleClick() },
+            'div',
+            null,
             null,
             [
                 this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.count} `, null, this.state),
+                this.createElement('button',
+                    { onClick: () => this.handleClick(), class: "bg-red-500" },
+                    null,
+                    [
+                        this.createElement('TEXT_NODE', null, 'CLICK ME', null, this.state),
+                    ],
+                ),
                 new Testing(
                     { label: 'bouton'}
                 ).render()

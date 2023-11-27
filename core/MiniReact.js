@@ -7,13 +7,20 @@ export class Component {
     setState(newVal){
         console.error("SET STATE")
         this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
-        const event = new CustomEvent('reRender', { 
-            detail: {
-                structure: this.render(),
-            }
-        });
+        this.shouldRerender = true;
+        this.triggerRerender();
+    }
 
-        dispatchEvent(event);
+    triggerRerender() {
+        if (this.shouldRerender) {
+            const event = new CustomEvent('reRender', {
+                detail: {
+                    structure: this.render(),
+                },
+            });
+            dispatchEvent(event);
+            this.shouldRerender = false;
+        }
     }
     
     useState(state){
