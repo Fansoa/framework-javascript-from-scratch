@@ -16,7 +16,6 @@ const MiniReactDom = {
     return this.generateDom(structure);
   },
   generateDom(structure) {
-    console.warn(structure)
     let element;
     if (typeof structure.type === "string") {
       if (structure.type === "TEXT_NODE") {

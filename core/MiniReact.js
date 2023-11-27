@@ -5,22 +5,14 @@ export class Component {
     }
 
     setState(newVal){
-        console.error("SET STATE")
         this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
-        this.shouldRerender = true;
-        this.triggerRerender();
-    }
+        const event = new CustomEvent('reRender', { 
+            detail: {
+                structure: this.render(),
+            }
+        });
 
-    triggerRerender() {
-        if (this.shouldRerender) {
-            const event = new CustomEvent('reRender', {
-                detail: {
-                    structure: this.render(),
-                },
-            });
-            dispatchEvent(event);
-            this.shouldRerender = false;
-        }
+        dispatchEvent(event);
     }
     
     useState(state){
