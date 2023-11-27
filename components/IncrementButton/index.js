@@ -6,7 +6,7 @@ class IncrementButton extends Component {
         super(props);
         this.state = { count: 0 };
         this.handleClick = this.handleClick.bind(this);
-        this.key = this.generateKey();
+        this.componentKey = this.generateComponentKey();
     }
 
     handleClick() {
@@ -19,13 +19,13 @@ class IncrementButton extends Component {
             { onClick: () => this.handleClick() },
             null,
             [
-                this.createElement('TEXT_NODE', null, this.props.label + this.state.count, null, this.state),
+                this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.count} `, null, this.state),
                 new Testing(
                     { label: 'bouton'}
                 ).render()
             ],
             this.state,
-            this.generateKey(),
+            this.componentKey,
         );
     }
 }

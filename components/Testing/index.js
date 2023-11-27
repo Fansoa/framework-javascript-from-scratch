@@ -4,19 +4,23 @@ export default class Testing extends Component {
     constructor(props) {
         super(props);
         this.state = { test: 'miaou' };
-        this.key = this.generateKey();
+        this.componentKey = this.generateComponentKey();
+    }
+
+    handleClickTesting() {
+      this.setState(prev => ({ test: prev.test + 'S' }))
     }
 
     render() {
       return this.createElement(
           'button',
-          null,
+          { onClick: () => this.handleClickTesting() },
           null,
           [
-              this.createElement('TEXT_NODE', null, this.props.label, null, this.state),
+              this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.test}`, null, this.state),
           ],
           this.state,
-          this.generateKey(),
+          this.componentKey,
       );
     }
 }

@@ -5,16 +5,15 @@ export class Component {
     }
 
     setState(newVal){
+        console.error("SET STATE")
         this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
-        console.error(this.render());
         const event = new CustomEvent('reRender', { 
-            structure: {
-                title: 'Error!',
-                message: 'There was a problem creating your account.'
+            detail: {
+                structure: this.render(),
             }
         });
 
-        window.dispatchEvent(event);
+        dispatchEvent(event);
     }
     
     useState(state){
@@ -22,18 +21,18 @@ export class Component {
         return [state, this.setState]
     }
 
-    createElement(type, props, content, children, state, key = null) {
+    createElement(type, props, content, children, state, componentKey = null) {
         return {
             type,
             props,
             content,
             children,
             state,
-            key,
+            componentKey,
         };
     }
 
-    generateKey(prefix = 'cpnt') {
-        return this.key ? this.key : Math.random().toString(36);
+    generateComponentKey(prefix = 'cpnt') {
+        return this.componentKey ? this.componentKey : Math.random().toString(36);
     }
 }
