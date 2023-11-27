@@ -1,7 +1,8 @@
-import Homepage from "./pages/Homepage.js";
-import EventListingPage from "./pages/EventListingPage.js";
+// import page1 from "./pages/page1.js";
+import IncrementButton from "./components/IncrementButton/index.js";
 
 export default {
-  "/": new Homepage().render(),
-  "/listing-events": new EventListingPage().render(),
+  "/": new IncrementButton({ label: 'bouton', onClick: () => console.log('Button is clicked')}).render(),
+  // "/": page1,
+  // "/page1": page1,
 };
