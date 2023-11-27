@@ -8,7 +8,7 @@ export default class EventCard extends Component {
   }
 
   toString() {
-    return `<div
+    return `<article
     class="shadow-md bg-white flex grow flex-col items-stretch w-full mx-auto pb-7 rounded-md max-md:mt-8 hover:-translate-y-2 transition-all cursor-pointer"
   >
     <div
@@ -24,11 +24,11 @@ export default class EventCard extends Component {
     <div
       class="flex w-[123px] max-w-full flex-col items-stretch ml-2.5 mt-7 self-start"
     >
-      <div
+      <h1
         class="text-black text-base font-bold leading-5 underline whitespace-nowrap"
       >
         ${this.props.sportEvent.name}
-      </div>
+      </h1>
       <div class="text-black text-base leading-5 whitespace-nowrap mt-6">
         ${this.props.sportEvent.place}
       </div>
@@ -36,6 +36,6 @@ export default class EventCard extends Component {
         ${this.props.sportEvent.date}
       </div>
     </div>
-    </div>`;
+    </article>`;
   }
 }
