@@ -1,6 +1,7 @@
 import { Component } from "../core/MiniReact.js";
 import EventCard from "../components/Events/EventCard.js";
 import Footer from "../components/Footer.js";
+import Navbar from "../components/Navbar.js";
 
 const testEvents = [
   {
@@ -34,16 +35,19 @@ class page2 extends Component {
   }
 
   toString() {
-    return `<main class="bg-white flex flex-col">
-        <div
-          class="content-start flex-wrap self-center w-[894px] max-w-full mt-10 px-5"
-        >
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 flex max-md:flex-col max-md:items-stretch">
-            ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
+    return `<div>
+        ${new Navbar().toString()}
+        <main class="bg-white flex flex-col pt-12 pb-6">
+          <div
+            class="content-start flex-wrap self-center w-[894px] max-w-full mt-10 px-5"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 flex max-md:flex-col max-md:items-stretch">
+              ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
+            </div>
           </div>
-        </div>
+        </main>
         ${new Footer().toString()}
-      </main>`
+      </div>`
   }
 }
 

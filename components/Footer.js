@@ -2,6 +2,19 @@ import { Component } from "../core/MiniReact.js";
 import BrowserLinkComponent from "../components/BrowserLink.js";
 
 export default class Footer extends Component {
+  menuLinks={
+    rightMenuLinks: [
+      {to: "/page1", content: "truc 1"},
+      {to: "/page1", content: "truc 1"},
+      {to: "/page1", content: "truc 1"},
+    ],
+    linkedinLinks: [
+      {to: "https://www.linkedin.com/in/christopher-debray/", name: "Christopher Debray"},
+      {to: "https://www.linkedin.com/in/francoisvrn/", name: "François Verin"},
+      {to: "https://www.linkedin.com/in/christopher-debray/", name: "Alexis Girard"},
+    ],
+  }
+
   render() {
     return super.render(
       this.toString()
@@ -35,21 +48,15 @@ export default class Footer extends Component {
               >
                 Fondateurs
               </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
-              >
-                <a href="https://www.linkedin.com/in/christopher-debray/">Christopher Debray</a>
-              </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-2.5"
-              >
-                <a href="https://www.linkedin.com/in/francoisvrn/">François Verin</a>
-              </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-2.5"
-              >
-                Alexis Girard
-              </div>
+              ${this.menuLinks.linkedinLinks.map(link => {
+                return `
+                  <div
+                    class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
+                  >
+                    <a href="${link.to}">${link.name}</a>
+                  </div>
+                `
+              }).join('')}
             </div>
             <div class="items-stretch flex grow basis-[0%] flex-col">
               <div
@@ -57,30 +64,18 @@ export default class Footer extends Component {
               >
                 Je sais pas
               </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
-              >
-                ${new BrowserLinkComponent({
-                  to: "/page1",
-                  title: "truc 1"
-                }).toString()}
-              </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-2.5"
-              >
-                ${new BrowserLinkComponent({
-                  to: "/page1",
-                  title: "truc 1"
-                }).toString()}
-              </div>
-              <div
-                class="text-white text-center text-xs leading-4 whitespace-nowrap mt-2.5"
-              >
-                ${new BrowserLinkComponent({
-                  to: "/page1",
-                  title: "truc 1"
-                }).toString()}
-              </div>
+              ${this.menuLinks.rightMenuLinks.map(link => {
+                return `
+                  <div
+                    class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
+                  >
+                    ${new BrowserLinkComponent({
+                      to: "/page1",
+                      content: "truc 1"
+                    }).toString()}
+                  </div>
+                `
+              }).join('')}
             </div>
           </div>
         </div>
