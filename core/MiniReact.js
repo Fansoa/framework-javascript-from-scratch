@@ -4,8 +4,9 @@ export class Component {
         this.state = {};
     }
 
-    setState(newVal){
-        this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
+    setState(newState){
+        console.log("🚀 ~ file: MiniReact.js:8 ~ Component ~ setState ~ newState:", newState(this.state))
+        this.state = typeof newState === 'function' ? newState(this.state) : newState
         const event = new CustomEvent('reRender', { 
             detail: {
                 structure: this.render(),
@@ -31,7 +32,7 @@ export class Component {
         };
     }
 
-    generateComponentKey(prefix = 'cpnt') {
+    generateComponentKey() {
         return this.componentKey ? this.componentKey : Math.random().toString(36);
     }
 }

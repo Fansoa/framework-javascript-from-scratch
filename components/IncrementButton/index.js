@@ -4,13 +4,17 @@ import Testing from "../Testing/index.js";
 class IncrementButton extends Component {
     constructor(props) {
         super(props);
-        this.state = { count: 0 };
+        this.state = { count: 0, text: '' };
         this.handleClick = this.handleClick.bind(this);
         this.componentKey = this.generateComponentKey();
     }
 
     handleClick() {
-        this.setState(prev => ({ count: prev.count + 1 }))
+        this.setState(prev => ( { ...prev, count: prev.count + 1 }))
+    }
+
+    handleClickText() {
+        this.setState(prev => ( { ...prev, text: prev.text + '-' }))
     }
 
     render() {
@@ -19,12 +23,19 @@ class IncrementButton extends Component {
             null,
             null,
             [
-                this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.count} `, null, this.state),
+                this.createElement('TEXT_NODE', null, `${this.props.label} ${this.state.text} ${this.state.count} `, null, this.state),
                 this.createElement('button',
-                    { onClick: () => this.handleClick(), class: "bg-red-500" },
+                    { onClick: () => this.handleClick(), class: "bg-green-500" },
                     null,
                     [
-                        this.createElement('TEXT_NODE', null, 'CLICK ME', null, this.state),
+                        this.createElement('TEXT_NODE', null, 'Increment state.count', null, this.state),
+                    ],
+                ),
+                this.createElement('button',
+                    { onClick: () => this.handleClickText(), class: "bg-red-500" },
+                    null,
+                    [
+                        this.createElement('TEXT_NODE', null, 'Increment state.text', null, this.state),
                     ],
                 ),
                 new Testing(
