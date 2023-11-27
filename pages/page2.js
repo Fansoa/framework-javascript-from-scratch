@@ -1,5 +1,6 @@
 import { Component } from "../core/MiniReact.js";
 import EventCard from "../components/Events/EventCard.js";
+import Footer from "../components/Footer.js";
 
 const testEvents = [
   {
@@ -41,6 +42,7 @@ class page2 extends Component {
             ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
           </div>
         </div>
+        ${new Footer().toString()}
       </main>`
   }
 }
