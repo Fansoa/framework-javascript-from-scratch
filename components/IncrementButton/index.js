@@ -12,7 +12,7 @@ class IncrementButton extends Component {
         //     return {count: state.count + 1};
         // });
         console.log("toto")
-        this.setState()
+        this.setState(prev => prev.count+1)
         console.log(this.state)
         
     }

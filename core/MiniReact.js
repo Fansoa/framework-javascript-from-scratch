@@ -14,8 +14,11 @@ export class Component {
     }
 
     setState(newVal){
-        this.state = newVal === typeof 'func' ? newVal(prev) : newVal
-        this.state = state;
+        console.log("🚀 ~ file: MiniReact.js:17 ~ Component ~ setState ~ newVal:", typeof newVal)
+        this.state = typeof newVal === 'function' ? newVal(this.state) : newVal
+        console.log("🚀 ~ file: MiniReact.js:18 ~ Component ~ setState ~ newVal === typeof 'func':", typeof newVal === 'function')
+        console.log("🚀 ~ file: MiniReact.js:18 ~ Component ~ setState ~ this.state:", this.state)
+        // this.state = state;
     }
     
     useState(state){
