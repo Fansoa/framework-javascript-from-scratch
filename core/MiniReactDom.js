@@ -3,13 +3,6 @@ import { EVENT_TYPE_LIST } from "./constants.js";
 
 const MiniReactDom = {
   render: function (rootElement, routes) {
-    window.addEventListener("reRender", (event) => {
-      const newStructure = event.detail.structure;
-      const oldElement = document.querySelector(`[data-componentkey="${newStructure.componentKey}"]`);
-      const newElement = this.renderStructure(newStructure);
-
-      oldElement.replaceWith(newElement);
-    });
     BrowserRouter.bind(this)(routes, rootElement);
   },
   renderStructure: function (structure) {
@@ -62,10 +55,9 @@ const MiniReactDom = {
     if (structure.componentKey) {
       element.addEventListener("reRender", (event) => {
         const newStructure = event.detail.structure;
-        const oldElement = event.detail.element;
         const newElement = this.renderStructure(newStructure);
   
-        oldElement.replaceWith(newElement);
+        element.replaceWith(newElement);
       });
     }
 

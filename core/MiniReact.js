@@ -1,41 +1,51 @@
 export class Component {
-    constructor(props){
+    constructor(props) {
         this.props = props;
         this.state = {};
+        this.childStructure = [];
+        /**
+         * Savoir si compo est en cache ou pas
+         * Quand tu createElem
+         *      curseur mis sur l'élément pour lequel il a appelé le render
+         *      
+         */
     }
 
-    setState(newState){
+    setState(newState) {
         this.state = typeof newState === 'function' ? newState(this.state) : newState
-        const element = document.querySelector(`[data-componentkey="${this.componentKey}"]`);
         const event = new CustomEvent('reRender', { 
             detail: {
-                structure: this.render(),
-                element
+                structure: this.render()
             }
         });
 
-        element.dispatchEvent(event);
-    }
-    
-    useState(state){
-        this.state = state;
-        return [state, this.setState]
+        document.querySelector(`[data-componentkey="${this.componentKey}"]`).dispatchEvent(event);
     }
 
     createElement(type, props, content, children, state, componentKey = null) {
+        let structure;
         if (typeof type === 'function') {
-            return new type(props).render();
+            structure = new type(props).render();
+            structure.owner = this;
+        } else {
+            structure = {
+                type,
+                props,
+                content,
+                children,
+                state,
+                componentKey,
+                owner: this
+            };
         }
 
-        return {
-            type,
-            props,
-            content,
-            children,
-            state,
-            componentKey,
-        };
+        // this.childStructure.push(structure);
+        return structure;
     }
+    /**
+     * On rajoute le owner du composant
+     * 
+     */
 
     generateComponentKey() {
         return this.componentKey ? this.componentKey : Math.random().toString(36);

@@ -8,7 +8,7 @@ export default class Testing extends Component {
     }
 
     handleClickTesting() {
-      this.setState(prev => ({ test: prev.test + 'S' }))
+      this.setState(prev => ({ test: prev.test + 'S' }));
     }
 
     render() {
