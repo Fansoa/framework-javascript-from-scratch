@@ -38,9 +38,14 @@ class IncrementButton extends Component {
                         this.createElement('TEXT_NODE', null, 'Increment state.text', null, this.state),
                     ],
                 ),
-                new Testing(
-                    { label: 'bouton'}
-                ).render()
+                // new Testing(
+                //     { label: 'bouton'}
+                // ).render()
+                this.createElement(Testing, {label:'button'})
+                /**
+                 * tu fais un createElement, si c'est une classe tu l'instancie
+                 * mais tu l'instancie que si ces props sont différent
+                 * */
             ],
             this.state,
             this.componentKey,

@@ -2,9 +2,9 @@ import { Component } from "../../core/MiniReact.js";
 
 export default class Testing extends Component {
     constructor(props) {
-        super(props);
-        this.state = { test: 'miaou' };
-        this.componentKey = this.generateComponentKey();
+      super(props);
+      this.state = { test: 'miaou' };
+      this.componentKey = this.generateComponentKey();
     }
 
     handleClickTesting() {

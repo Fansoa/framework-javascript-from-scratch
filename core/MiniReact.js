@@ -23,6 +23,10 @@ export class Component {
     }
 
     createElement(type, props, content, children, state, componentKey = null) {
+        if (typeof type === 'function') {
+            return new type(props).render();
+        }
+
         return {
             type,
             props,
@@ -36,4 +40,11 @@ export class Component {
     generateComponentKey() {
         return this.componentKey ? this.componentKey : Math.random().toString(36);
     }
+
+    /**
+     * Ajouter une method display
+     * 
+     *      Si les props passé sont différent de ceux sauvegardé
+     *          il faut rerender l'enfant
+     */
 }
