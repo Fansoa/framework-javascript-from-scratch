@@ -5,15 +5,16 @@ export class Component {
     }
 
     setState(newState){
-        console.log("🚀 ~ file: MiniReact.js:8 ~ Component ~ setState ~ newState:", newState(this.state))
         this.state = typeof newState === 'function' ? newState(this.state) : newState
+        const element = document.querySelector(`[data-componentkey="${this.componentKey}"]`);
         const event = new CustomEvent('reRender', { 
             detail: {
                 structure: this.render(),
+                element
             }
         });
 
-        dispatchEvent(event);
+        element.dispatchEvent(event);
     }
     
     useState(state){

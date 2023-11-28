@@ -59,6 +59,16 @@ const MiniReactDom = {
       element.setAttribute('data-componentKey', structure.componentKey);
     }
 
+    if (structure.componentKey) {
+      element.addEventListener("reRender", (event) => {
+        const newStructure = event.detail.structure;
+        const oldElement = event.detail.element;
+        const newElement = this.renderStructure(newStructure);
+  
+        oldElement.replaceWith(newElement);
+      });
+    }
+
     return element;
   }
 };
