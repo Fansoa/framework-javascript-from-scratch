@@ -2,7 +2,7 @@ export class Component {
     constructor(props) {
         this.props = props;
         this.state = {};
-        this.childStructure = [];
+        this.cachedStructure = {};
         /**
          * Savoir si compo est en cache ou pas
          * Quand tu createElem
@@ -12,8 +12,9 @@ export class Component {
     }
 
     setState(newState) {
-        this.state = typeof newState === 'function' ? newState(this.state) : newState
-        const event = new CustomEvent('reRender', { 
+        this.state = typeof newState === 'function' ? newState(this.state) : newState;
+
+        const event = new CustomEvent('reRender', {
             detail: {
                 structure: this.render()
             }
@@ -22,6 +23,14 @@ export class Component {
         document.querySelector(`[data-componentkey="${this.componentKey}"]`).dispatchEvent(event);
     }
 
+    /**
+     * créer un cache avec un curseur pour check si l'instance existe.
+     *      oui réconcialation
+     */
+
+    /**
+     * Tu check si tu as un cache, si tu as un cache, tu vérifie si les props du cache sont différents du nouveau.
+     */
     createElement(type, props, content, children, state, componentKey = null) {
         let structure;
         if (typeof type === 'function') {
@@ -39,7 +48,17 @@ export class Component {
             };
         }
 
-        // this.childStructure.push(structure);
+        // console.log({
+        //     props,
+        //     type,
+        //     structure
+        // })
+
+        this.cachedStructure = {
+            props,
+            type,
+            structure
+        };
         return structure;
     }
     /**
