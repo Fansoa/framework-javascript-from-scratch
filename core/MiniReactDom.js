@@ -5,6 +5,7 @@ const MiniReactDom = {
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
   },
+  
   renderStructure: function (structure) {
     return this.generateDom(structure);
   },
@@ -16,6 +17,7 @@ const MiniReactDom = {
       }
       element = document.createElement(structure.type);
     }
+
     if (structure.props) {
       for (const propName in structure.props) {
         if (propName === "style") {
@@ -35,6 +37,7 @@ const MiniReactDom = {
         }
       }
     }
+
     if (structure.events) {
       for (const eventName in structure.events) {
         for (const eventListeners of structure.events[eventName]) {
@@ -42,6 +45,7 @@ const MiniReactDom = {
         }
       }
     }
+
     if (structure.children) {
       for (const child of structure.children) {
         element.appendChild(this.renderStructure(child));
@@ -62,7 +66,26 @@ const MiniReactDom = {
     }
 
     return element;
-  }
+  },
+
+  nextUnitOfWork = null,
+
+  workLoop(deadline) {
+    let shouldYield = false
+    while (nextUnitOfWork && !shouldYield) {
+      nextUnitOfWork = performUnitOfWork(
+        nextUnitOfWork
+      )
+      shouldYield = deadline.timeRemaining() < 1
+    }
+    requestIdleCallback(workLoop)
+  },
+
+  requestIdleCallback(workLoop),
+
+  performUnitOfWork(nextUnitOfWork) {
+
+  },
 };
 
 export default MiniReactDom;

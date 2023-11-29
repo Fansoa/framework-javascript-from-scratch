@@ -1,0 +1,17 @@
+{
+  "img": [
+    "url1",
+    "url2",
+    "url3"
+  ],
+  "place": "nom de rue",
+  "coordinates": [
+    {
+      "lat": 48.89566,
+      "lng": 2.22971
+    }
+  ],
+  "description": "string",
+  "contact" : "string",
+  "eventId" : "identifiant de l'event (l'index du tableau)"
+}
