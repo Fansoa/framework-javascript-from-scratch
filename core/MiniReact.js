@@ -2,7 +2,6 @@ export class Component {
     constructor(props) {
         this.props = props;
         this.state = {};
-        this.cachedStructure = [];
     }
 
     setState(newState) {
@@ -14,7 +13,9 @@ export class Component {
             }
         });
 
-        document.querySelector(`[data-componentkey="${this.componentKey}"]`).dispatchEvent(event);
+        window.dispatchEvent(event);
+
+        // document.querySelector(`[data-componentkey="${this.componentKey}"]`).dispatchEvent(event);
     }
 
     createElement(type, props, content, children, state, componentKey = null) {

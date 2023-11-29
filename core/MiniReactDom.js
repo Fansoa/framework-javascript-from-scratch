@@ -1,21 +1,36 @@
-import BrowserRouter from "../components/BrowserRouter.js";
+import { BrowserRouter, BrowserService } from "../components/BrowserRouter.js";
 import { EVENT_TYPE_LIST } from "./constants.js";
 
 const MiniReactDom = {
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
+    console.log(this.savedTree)
+
+    window.addEventListener("reRender", (event) => {
+      const newStructure = this.renderStructure(BrowserService.getRouteStructure());
+      
+      this.savedTree = newStructure;
+    });
   },
   renderStructure: function (structure) {
     return this.generateDom(structure);
   },
   generateDom(structure) {
     let element;
+    
+    // Si c'est un string on le render et rerender comme on veut
+    // NOPE
     if (typeof structure.type === "string") {
       if (structure.type === "TEXT_NODE") {
         return document.createTextNode(structure.content);
       }
       element = document.createElement(structure.type);
     }
+
+    if (this.savedTree) {
+      
+    }
+
     if (structure.props) {
       for (const propName in structure.props) {
         if (propName === "style") {
@@ -50,15 +65,6 @@ const MiniReactDom = {
 
     if (structure.componentKey) {
       element.setAttribute('data-componentKey', structure.componentKey);
-    }
-
-    if (structure.componentKey) {
-      element.addEventListener("reRender", (event) => {
-        const newStructure = event.detail.structure;
-        const newElement = this.renderStructure(newStructure);
-  
-        element.replaceWith(newElement);
-      });
     }
 
     return element;
