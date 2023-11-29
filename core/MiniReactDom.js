@@ -1,5 +1,6 @@
 import BrowserRouter from "../components/BrowserRouter.js";
 import { EVENT_TYPE_LIST } from "./constants.js";
+import { cache } from "./CachingService.js";
 
 const MiniReactDom = {
   render: function (rootElement, routes) {

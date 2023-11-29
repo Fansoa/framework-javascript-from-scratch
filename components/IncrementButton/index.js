@@ -3,7 +3,7 @@ import Testing from "../Testing/index.js";
 
 class IncrementButton extends Component {
     constructor(props) {
-        super(props);
+        const test = super(props);
         this.state = { count: 0, text: '' };
         this.handleClick = this.handleClick.bind(this);
         this.componentKey = this.generateComponentKey();

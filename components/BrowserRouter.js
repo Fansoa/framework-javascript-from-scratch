@@ -1,3 +1,5 @@
+import { cache } from "../core/CachingService.js";
+
 const BrowserRouter = function (routes, rootElement) {
   const getRoute = () => {
     const path = location.pathname === '/index.html' ? '/' : location.pathname;
@@ -12,7 +14,12 @@ const BrowserRouter = function (routes, rootElement) {
         this.renderStructure(routes[path]),
         rootElement.childNodes[0]
       );
-    } else rootElement.appendChild(this.renderStructure(routes[path]));
+    } else {
+      rootElement.appendChild(this.renderStructure(routes[path]))
+      this.savedTree = routes[path];
+      cache.savedTree = routes[path]
+      // console.error(cache)
+    };
   };
   
   generatePage();
