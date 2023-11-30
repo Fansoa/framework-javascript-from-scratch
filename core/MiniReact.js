@@ -5,15 +5,18 @@ export class Component {
         this.cachedStructure = [];
     }
 
-    setState(newState) {
+    setState(newState, component) {
         this.state = typeof newState === 'function' ? newState(this.state) : newState;
         const changedState = this.state;
+
+        component.render();
 
         const event = new CustomEvent('reRender', {
             detail: {
                 componentDetail: {
                     newState: changedState,
                     componentId: this.componentKey,
+                    component,
                 }
             }
         });

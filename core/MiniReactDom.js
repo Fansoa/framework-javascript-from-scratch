@@ -5,23 +5,15 @@ const MiniReactDom = {
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
     window.addEventListener("reRender", (event) => {
-      // console.error(this.savedTree);
       const newPageStructure = BrowserService.getRouteStructure();
-      // const newStructure = event.detail.structure;
-      // const newElement = this.renderStructure(newStructure);
 
-      // element.replaceWith(newElement);
       const componentDetail = event.detail.componentDetail;
-      this.updateFiberState(componentDetail.newState, componentDetail.componentId, newPageStructure);
-      console.group('Root')
-      console.log(newPageStructure);
+      this.updateRender(componentDetail.component, newPageStructure);
 
-      // this.generateDom(newPageStructure)
-      console.groupEnd();
-      // rootElement.appendChild(this.renderStructure(newPageStructure));
+      console.error(this.savedTree)
     });
   },
-  updateFiberState(newState, componentId, object) {
+  updateRender(component, object) {
     function findComponentById(componentId, obj) {
       if (obj.componentKey === componentId) {
         return obj;
@@ -35,14 +27,52 @@ const MiniReactDom = {
       return null;
     }
   
-    const componentToUpdate = findComponentById(componentId, object);
+    let componentToUpdate = findComponentById(component.componentKey, object);
     if (componentToUpdate) {
-      componentToUpdate.state = newState;
+      // console.group('if componentToUpdate')
+      // console.error(componentToUpdate)
+      // console.log(component);
+      // console.groupEnd()
+      //componentToUpdate = component.renderedStructure;
+      // console.log(componentToUpdate)
+      // console.log(component)
+      const componentStructure = component.renderedStructure
+
+      componentToUpdate.children = componentStructure.children;
+      componentToUpdate.needsUpdate = componentStructure.needsUpdate;
+      componentToUpdate.props = componentStructure.props;
+      componentToUpdate.renderedStructure = componentStructure.renderedStructure;
+      componentToUpdate.state = componentStructure.state;
+      componentToUpdate.dom = null;
+      //componentToUpdate = "nique bien ta grosse race"
+      // componentToUpdate.state = newState;
       return true;
     }
   
     return false;
   },
+  // updateFiberState(newState, componentId, object) {
+  //   function findComponentById(componentId, obj) {
+  //     if (obj.componentKey === componentId) {
+  //       return obj;
+  //     }
+  //     if (obj.children) {
+  //       for (const child of obj.children) {
+  //         const found = findComponentById(componentId, child);
+  //         if (found) return found;
+  //       }
+  //     }
+  //     return null;
+  //   }
+  
+  //   const componentToUpdate = findComponentById(componentId, object);
+  //   if (componentToUpdate) {
+  //     componentToUpdate.state = newState;
+  //     return true;
+  //   }
+  
+  //   return false;
+  // },
 
   renderStructure: function (structure) {
     return this.generateDom(structure);

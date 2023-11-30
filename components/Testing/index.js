@@ -8,13 +8,12 @@ export default class Testing extends Component {
     }
 
     handleClickTesting() {
-      console.error(this)
       this.needsUpdate=true
-      this.setState(prev => ({ test: prev.test + 'S' }));
+      this.setState(prev => ({ test: prev.test + 'S' }), this);
     }
 
     render() {
-      return this.createElement(
+      this.renderedStructure = this.createElement(
           'button',
           { onClick: () => this.handleClickTesting(),class: "bg-cyan-500" },
           null,
@@ -24,5 +23,8 @@ export default class Testing extends Component {
           this.state,
           this.componentKey,
       );
+
+      return this.renderedStructure;
     }
+
 }
