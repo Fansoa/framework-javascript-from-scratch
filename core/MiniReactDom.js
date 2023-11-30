@@ -12,10 +12,9 @@ const MiniReactDom = {
 
       // element.replaceWith(newElement);
       const componentDetail = event.detail.componentDetail;
-      console.log(this.savedTree)
-      // this.updateFiberState(componentDetail.newState, componentDetail.componentId, newPageStructure);
+      this.updateFiberState(componentDetail.newState, componentDetail.componentId, newPageStructure);
       console.group('Root')
-      // console.log(newPageStructure);
+      console.log(newPageStructure);
 
       // this.generateDom(newPageStructure)
       console.groupEnd();

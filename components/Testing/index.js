@@ -8,6 +8,8 @@ export default class Testing extends Component {
     }
 
     handleClickTesting() {
+      console.error(this)
+      this.needsUpdate=true
       this.setState(prev => ({ test: prev.test + 'S' }));
     }
 

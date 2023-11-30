@@ -10,10 +10,12 @@ class IncrementButton extends Component {
     }
 
     handleClick() {
+        this.needsUpdate=true
         this.setState(prev => ( { ...prev, count: prev.count + 1 }))
     }
 
     handleClickText() {
+        this.needsUpdate=true
         this.setState(prev => ( { ...prev, text: prev.text + '-' }))
     }
 
