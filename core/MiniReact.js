@@ -8,6 +8,8 @@ export class Component {
     setState(newState) {
         this.state = typeof newState === 'function' ? newState(this.state) : newState;
         const changedState = this.state;
+        this.markForUpdate();
+
 
         const event = new CustomEvent('reRender', {
             detail: {
@@ -19,6 +21,15 @@ export class Component {
         });
 
         window.dispatchEvent(event);
+    }
+
+    markForUpdate() {
+        this.needsUpdate = true;
+
+        // If it's a class component, propagate the update to the parent
+        // if (this.parentComponent) {
+        //     this.parentComponent.markForUpdate();
+        // }
     }
 
     createElement(type, props, content, children, state, componentKey = null) {
