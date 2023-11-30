@@ -7,10 +7,14 @@ export class Component {
 
     setState(newState) {
         this.state = typeof newState === 'function' ? newState(this.state) : newState;
+        const changedState = this.state;
 
         const event = new CustomEvent('reRender', {
             detail: {
-                structure: this.render()
+                componentDetail: {
+                    newState: changedState,
+                    componentId: this.componentKey,
+                }
             }
         });
 

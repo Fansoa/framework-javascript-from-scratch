@@ -1,18 +1,55 @@
-import BrowserRouter from "../components/BrowserRouter.js";
+import { BrowserRouter, BrowserService } from "../components/BrowserRouter.js";
 import { EVENT_TYPE_LIST } from "./constants.js";
 
 const MiniReactDom = {
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
-    /** @todo mettre en place le rerender de toute la page, pas juste d'un élément */
+    /** 
+     * @todo mettre en place le rerender de toute la page, pas juste d'un élément
+     * 
+     * Actuellement lors du setState on ne sauvegarde pas le nouveau state dans la structure
+     * */
     window.addEventListener("reRender", (event) => {
-      console.log()
+      const newPageStructure = BrowserService.getRouteStructure();
       // const newStructure = event.detail.structure;
       // const newElement = this.renderStructure(newStructure);
 
       // element.replaceWith(newElement);
+      const componentDetail = event.detail.componentDetail;
+      this.updateFiberState(componentDetail.newState, componentDetail.componentId, newPageStructure);
+      // console.log(newPageStructure)
+      // rootElement.innerHtml = this.renderStructure(newPageStructure)
+      console.group('Root')
+      // console.log(rootElement);
+      console.error(newPageStructure);
+      console.groupEnd();
+      this.renderStructure(newPageStructure)
+      // rootElement.appendChild(this.renderStructure(newPageStructure));
     });
   },
+  updateFiberState(newState, componentId, object) {
+    function findComponentById(componentId, obj) {
+      if (obj.componentKey === componentId) {
+        return obj;
+      }
+      if (obj.children) {
+        for (const child of obj.children) {
+          const found = findComponentById(componentId, child);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+  
+    const componentToUpdate = findComponentById(componentId, object);
+    if (componentToUpdate) {
+      componentToUpdate.state = newState;
+      return true;
+    }
+  
+    return false;
+  },
+
   renderStructure: function (structure) {
     return this.generateDom(structure);
   },
@@ -105,10 +142,11 @@ const MiniReactDom = {
             console.log('New ', structure)
             return this.currentFiber.dom;
           }
+          console.log('poney', child)
     
           this.currentFiber = child;
     
-          console.error(element)
+          // console.error(element)
           element.appendChild(this.renderStructure(child));
         } catch (error) {
           // Error handling code

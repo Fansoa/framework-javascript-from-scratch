@@ -1,4 +1,17 @@
-const BrowserRouter = function (routes, rootElement) {
+import routes from "../routes.js";
+
+export const BrowserService = {
+  getRoute() {
+    const path = location.pathname === '/index.html' ? '/' : location.pathname;
+    return path;
+  },
+
+  getRouteStructure() {
+    return routes[this.getRoute()];
+  }
+}
+
+export const BrowserRouter = function (routes, rootElement) {
   const getRoute = () => {
     const path = location.pathname === '/index.html' ? '/' : location.pathname;
     return path;
@@ -51,5 +64,3 @@ export const BrowserLink = function (props) {
     ],
   };
 };
-
-export default BrowserRouter;
