@@ -1,11 +1,8 @@
-import { cache } from "./CachingService.js";
-
 export class Component {
     constructor(props) {
         this.props = props;
         this.state = {};
         this.cachedStructure = [];
-        this.cacheService = cache;
     }
 
     setState(newState) {
@@ -37,23 +34,6 @@ export class Component {
                 componentKey,
                 owner: this
             };
-        }
-
-        // return structure;
-
-        if (structure.parentProps && this.cacheService.savedTree) {
-            console.warn(structure)
-            console.log(componentKey)
-            const cachedStructure = this.cacheService.getStructureByComponentKey(structure.componentKey);
-            console.log(cachedStructure)
-            // if (cachedStructure ) {
-            //     //&& this.areParentPropsEqual(cachedStructure.parentProps, props)
-            //     console.group('GROUP')
-            //     console.log(cachedStructure)
-            //     console.log(props)
-            //     console.groupEnd()
-            //     structure = cachedStructure;
-            // }
         }
     
         if (!structure) {
