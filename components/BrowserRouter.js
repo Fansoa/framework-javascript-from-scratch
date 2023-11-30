@@ -6,7 +6,7 @@ const BrowserRouter = function (routes, rootElement) {
 
   const generatePage = () => {
     const path = getRoute();
-    
+
     if (rootElement.childNodes.length) {
       rootElement.replaceChild(
         this.renderStructure(routes[path]),
@@ -14,8 +14,10 @@ const BrowserRouter = function (routes, rootElement) {
       );
     } else {
       rootElement.appendChild(this.renderStructure(routes[path]))
-      this.savedTree = routes[path];
     };
+
+    this.savedTree = routes[path];
+    this.currentFiber = routes[path];
   };
   
   generatePage();

@@ -14,11 +14,10 @@ export class Component {
             }
         });
 
-        document.querySelector(`[data-componentkey="${this.componentKey}"]`).dispatchEvent(event);
+        window.dispatchEvent(event);
     }
 
     createElement(type, props, content, children, state, componentKey = null) {
-        console.error(componentKey)
         let structure;
         if (typeof type === 'function') {
             structure = new type(props).render();
