@@ -8,7 +8,7 @@ export const BrowserService = {
 
   getRouteStructure() {
     return routes[this.getRoute()];
-  }
+  },
 }
 
 export const BrowserRouter = function (routes, rootElement) {
@@ -19,15 +19,7 @@ export const BrowserRouter = function (routes, rootElement) {
 
   const generatePage = () => {
     const path = getRoute();
-
-    if (rootElement.childNodes.length) {
-      rootElement.replaceChild(
-        this.renderStructure(routes[path]),
-        rootElement.childNodes[0]
-      );
-    } else {
-      rootElement.appendChild(this.renderStructure(routes[path]))
-    };
+    this.renderPage(rootElement, routes[path])
 
     this.savedTree = routes[path];
     this.currentFiber = routes[path];

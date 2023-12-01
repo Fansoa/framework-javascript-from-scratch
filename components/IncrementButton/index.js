@@ -11,16 +11,16 @@ class IncrementButton extends Component {
 
     handleClick() {
         this.needsUpdate=true
-        this.setState(prev => ( { ...prev, count: prev.count + 1 }))
+        this.setState(prev => ( { ...prev, count: prev.count + 1 }), this)
     }
 
     handleClickText() {
         this.needsUpdate=true
-        this.setState(prev => ( { ...prev, text: prev.text + '-' }))
+        this.setState(prev => ( { ...prev, text: prev.text + '-' }), this)
     }
 
     render() {
-        return this.createElement(
+        this.renderedStructure = this.createElement(
             'div',
             null,
             null,
@@ -52,6 +52,8 @@ class IncrementButton extends Component {
             this.state,
             this.componentKey,
         );
+
+        return this.renderedStructure;
     }
 }
 

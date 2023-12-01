@@ -2,6 +2,18 @@ import { BrowserRouter, BrowserService } from "../components/BrowserRouter.js";
 import { EVENT_TYPE_LIST } from "./constants.js";
 
 const MiniReactDom = {
+  renderPage(rootElement, domToRender) {
+  
+    if (rootElement.childNodes.length) {
+      rootElement.replaceChild(
+        this.renderStructure(domToRender),
+        rootElement.childNodes[0]
+      );
+    } else {
+      rootElement.appendChild(this.renderStructure(domToRender))
+    };
+  },
+
   render: function (rootElement, routes) {
     BrowserRouter.bind(this)(routes, rootElement);
     window.addEventListener("reRender", (event) => {
@@ -10,6 +22,7 @@ const MiniReactDom = {
       const componentDetail = event.detail.componentDetail;
       this.updateRender(componentDetail.component, newPageStructure);
 
+      this.renderPage(rootElement, newPageStructure)
       console.error(this.savedTree)
     });
   },
@@ -29,13 +42,6 @@ const MiniReactDom = {
   
     let componentToUpdate = findComponentById(component.componentKey, object);
     if (componentToUpdate) {
-      // console.group('if componentToUpdate')
-      // console.error(componentToUpdate)
-      // console.log(component);
-      // console.groupEnd()
-      //componentToUpdate = component.renderedStructure;
-      // console.log(componentToUpdate)
-      // console.log(component)
       const componentStructure = component.renderedStructure
 
       componentToUpdate.children = componentStructure.children;
@@ -44,8 +50,6 @@ const MiniReactDom = {
       componentToUpdate.renderedStructure = componentStructure.renderedStructure;
       componentToUpdate.state = componentStructure.state;
       componentToUpdate.dom = null;
-      //componentToUpdate = "nique bien ta grosse race"
-      // componentToUpdate.state = newState;
       return true;
     }
   
@@ -87,11 +91,6 @@ const MiniReactDom = {
     }
 
     if (structure.props) {
-      // if(structure.componentKey) {
-      //   console.warn(this.currentFiber)
-      //   console.log(structure)
-      // }
-
       for (const propName in structure.props) {
         if (propName === "style") {
           Object.assign(element.style, structure.props[propName]);
@@ -123,16 +122,21 @@ const MiniReactDom = {
       for (let index = 0; index < structure.children.length; index++) {
         const child = structure.children[index];
         try {
+          let childToAppend;
           if (
             this.currentFiber &&
             this.currentFiber.componentKey &&
             child.parentProps === this.currentFiber.parentProps &&
             child.state === this.currentFiber.state
           ) {
-            return this.currentFiber.dom;
+            console.log('Cache element', this.currentFiber);
+            childToAppend = this.currentFiber.dom;
           }
     
-          this.currentFiber = child;
+          if(!childToAppend) {
+            childToAppend = this.renderStructure(child);
+            this.currentFiber = child;
+          }
           element.appendChild(this.renderStructure(child));
         } catch (error) {
           // Error handling code
