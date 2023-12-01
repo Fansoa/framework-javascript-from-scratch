@@ -76,6 +76,15 @@ export class MiniReact {
   isEvent(propName) {
     return propName.includes('event.');
   }
+
+  useState(initialState) {
+    let state = initialState;
+
+    const setState = callback => {
+      state = callback(state);
+    }
+    return [state, setState];
+  }
 }
 
 export const MiniReactInstance = new MiniReact();

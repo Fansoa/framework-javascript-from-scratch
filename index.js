@@ -6,19 +6,22 @@
 
 import { MiniReactInstance } from "./restart/core/MiniReact.js";
 
-const buttonComponent = MiniReactInstance.createElement(
-  'button',
-  {
-    'className': 'w-full bg-green-500',
-    'event.click': function (event) {
-      event.stopPropagation()
-      alert('button component click')
+function buttonComponent() {
+  const [state, setState] = MiniReactInstance.useState(0);
+  return MiniReactInstance.createElement(
+    'button',
+    {
+      'className': 'w-full bg-green-500',
+      'event.click': function (event) {
+        event.stopPropagation()
+        setState(state => state+1)
+      },
     },
-  },
-  [
-    'Button component'
-  ]
-);
+    [
+      'Button component'
+    ]
+  );
+}
 
 const element = MiniReactInstance.createElement(
   'div',
@@ -45,7 +48,7 @@ const element = MiniReactInstance.createElement(
         'Button'
       ]
     ),
-    buttonComponent
+    buttonComponent()
   ]
 );
 const root = document.getElementById("root");
