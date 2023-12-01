@@ -4,7 +4,18 @@
 // MiniReactDom.render(document.getElementById("root"), routes);
 
 
-import { MiniReact } from "./restart/core/MiniReact";
+import { MiniReactInstance } from "./restart/core/MiniReact.js";
 
+const element = MiniReactInstance.createElement(
+  'div',
+  {
+    'id': 'myDiv'
+  },
+  [
+    MiniReactInstance.createTextElement('Hello')
+  ]
+);
+
+console.log(element)
 const root = document.getElementById("root");
-MiniReactDom.render(element, root);
+MiniReactInstance.render(element, root);

@@ -36,3 +36,5 @@ export class MiniReact {
     }
   }
 }
+
+export const MiniReactInstance = new MiniReact();
