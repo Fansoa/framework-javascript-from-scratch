@@ -2,6 +2,9 @@ export class MiniReact {
   treeRoot = null;
 
   render(element, container) {
+    window.addEventListener('reRender', (event) => {
+      console.log(event.detail);
+    })
     this.treeRoot = {
       dom: container,
       props: {
@@ -82,6 +85,13 @@ export class MiniReact {
 
     const setState = callback => {
       state = callback(state);
+      const event = new CustomEvent('reRender', {
+        detail: {
+          state
+        }
+      });
+
+      window.dispatchEvent(event);
     }
     return [state, setState];
   }

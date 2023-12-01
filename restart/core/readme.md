@@ -68,8 +68,11 @@ Création du this.treeRoot
 
 6. Ajouter un useState (se baser sur la structure react plutôt que d'aller direct vers un setState) ⛔	**À changer ! Le useState ne DOIT PAS être dans le miniReact, sinon il faudrait importer l'instance du miniReact dans chaque composant.**
 
-    1. 1 paramètre pour le use state qui définira le state par défaut
+    1. 1 paramètre pour le use state qui définira le state par défaut ✅
 
-    2. setState prend en paramètre une fonction (prev.counter => prev.counter+1) par exemple 
+    2. setState prend en paramètre une fonction (prev.counter => prev.counter+1) par exemple ✅
 
-    3. renvoie le state + le setState
+    3. renvoie le state + le setState ✅
+
+    4. ⛔ Pour le moment le setState ne fonctionne pas, le state n'est pas mis à jour pour le composant
+
