@@ -6,6 +6,20 @@
 
 import { MiniReactInstance } from "./restart/core/MiniReact.js";
 
+const buttonComponent = MiniReactInstance.createElement(
+  'button',
+  {
+    'className': 'w-full bg-green-500',
+    'event.click': function (event) {
+      event.stopPropagation()
+      alert('button component click')
+    },
+  },
+  [
+    'Button component'
+  ]
+);
+
 const element = MiniReactInstance.createElement(
   'div',
   {
@@ -14,12 +28,24 @@ const element = MiniReactInstance.createElement(
     'event.click': function () {
       alert('Coucou')
     },
-    'event.mouseout': function () {
-      alert('mouseout')
-    }
   },
   [
-    MiniReactInstance.createTextElement('Hello')
+    'Hello',
+    MiniReactInstance.createElement(
+      'button',
+      {
+        'id': 'myButton',
+        'className': 'w-full bg-blue-500',
+        'event.click': function (event) {
+          event.stopPropagation()
+          alert('button click')
+        },
+      },
+      [
+        'Button'
+      ]
+    ),
+    buttonComponent
   ]
 );
 const root = document.getElementById("root");

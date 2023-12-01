@@ -15,7 +15,7 @@ export class MiniReact {
     container.appendChild(rootDom)
   }
 
-  createElement(type, props, ...children) {
+  createElement(type, props, children) {
     return {
       type,
       props: {
@@ -24,7 +24,7 @@ export class MiniReact {
       children: children.map(child =>
         typeof child === "object"
           ? child
-          : createTextElement(child)
+          : this.createTextElement(child)
       ),
     }
   }
@@ -44,9 +44,15 @@ export class MiniReact {
       document.createTextNode(structure.props.content) :
       document.createElement(structure.type);
 
-    this.setDomProps(dom, structure.props);
-    this.setDomEvents(dom, structure.props);
+    if (structure.props) {
+      this.setDomProps(dom, structure.props);
+      this.setDomEvents(dom, structure.props);
+    }
 
+    structure.children.forEach((childStructure) => {
+      const childDom = this.createDom(childStructure);
+      dom.appendChild(childDom);
+    });
     return dom;
   }
 

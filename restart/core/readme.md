@@ -54,10 +54,12 @@ Création du this.treeRoot
 
 1. createDom (pour convertir l'objet de configuration en node afin de pouvoir l'afficher)  ✅
 
-2. Créer une méthode setProps (On set les props uniquement, ni les events ni les children) ✅
+2. Créer une méthode setDomProps (On set les props uniquement, ni les events ni les children) ✅
     1. Check si le props est un event ou non ✅
-    2. Gérer l'ajout des class (className)
+    2. Gérer l'ajout des class (className) ✅
 
-3. Créer une méthode setEvents (Qui implémentera les events uniquement)
+3. Créer une méthode setDomEvents (Qui implémentera les events uniquement) ✅
 
-4. Tester l'implémentation et réussir à afficher un élément dans le dom
+4. Ajouter la gestion des enfants via la récursion (**À changer plus tard car il s'agit d'une mauvaise structuration**) ✅
+
+5. Ajouter un composant (juste une fonction qui retournera une structure pour le moment) ✅
