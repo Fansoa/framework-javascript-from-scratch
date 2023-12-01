@@ -10,7 +10,13 @@ const element = MiniReactInstance.createElement(
   'div',
   {
     'id': 'myDiv',
-    'className': 'w-[150px] h-[150px] bg-red-500'
+    'className': 'w-[150px] h-[150px] bg-red-500',
+    'event.click': function () {
+      alert('Coucou')
+    },
+    'event.mouseout': function () {
+      alert('mouseout')
+    }
   },
   [
     MiniReactInstance.createTextElement('Hello')

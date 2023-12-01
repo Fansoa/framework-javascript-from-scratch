@@ -12,8 +12,6 @@ export class MiniReact {
     }
 
     const rootDom = this.createDom(element);
-    console.log("🚀 ~ file: MiniReact.js:15 ~ MiniReact ~ render ~ treeRootDom:", rootDom)
-
     container.appendChild(rootDom)
   }
 
@@ -47,18 +45,26 @@ export class MiniReact {
       document.createElement(structure.type);
 
     this.setDomProps(dom, structure.props);
+    this.setDomEvents(dom, structure.props);
 
     return dom;
   }
 
   setDomProps(dom, props) {
-    console.log(props);
     Object.keys(props)
       .filter((propName) => !this.isEvent(propName))
       .forEach(propName => {
-        console.error(propName);
         dom[propName] = props[propName]
       });
+  }
+
+  setDomEvents(dom, props) {
+    Object.keys(props)
+    .filter((propName) => this.isEvent(propName))
+    .forEach(eventName => {
+      const eventType = eventName.split('.')[1]
+      dom.addEventListener(eventType, props[eventName]);
+    });
   }
 
   isEvent(propName) {
