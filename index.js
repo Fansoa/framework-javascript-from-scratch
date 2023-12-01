@@ -9,13 +9,12 @@ import { MiniReactInstance } from "./restart/core/MiniReact.js";
 const element = MiniReactInstance.createElement(
   'div',
   {
-    'id': 'myDiv'
+    'id': 'myDiv',
+    'className': 'w-[150px] h-[150px] bg-red-500'
   },
   [
     MiniReactInstance.createTextElement('Hello')
   ]
 );
-
-console.log(element)
 const root = document.getElementById("root");
 MiniReactInstance.render(element, root);
