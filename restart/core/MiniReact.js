@@ -1,21 +1,23 @@
 export class MiniReact {
   treeRoot = null;
+  currentTree = null;
+
 
   render(element, container) {
-    window.addEventListener('reRender', (event) => {
-      console.log(event.detail);
-    })
-    this.treeRoot = {
-      dom: container,
-      props: {
-      },
+    this.currentTree = {
+      containerDom: container,
       children: [
         element
       ],
     }
 
-    const rootDom = this.createDom(element);
-    container.appendChild(rootDom)
+    this.renderActivation(element, container);
+  }
+
+  /** @todo find more accurate name */
+  renderActivation(element, container) {
+    const elementDom = this.createDom(element);
+    container.appendChild(elementDom);
   }
 
   createElement(type, props, children) {
@@ -85,13 +87,6 @@ export class MiniReact {
 
     const setState = callback => {
       state = callback(state);
-      const event = new CustomEvent('reRender', {
-        detail: {
-          state
-        }
-      });
-
-      window.dispatchEvent(event);
     }
     return [state, setState];
   }
