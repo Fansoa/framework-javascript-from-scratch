@@ -35,10 +35,10 @@ function render(element, container) {
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
     document.createTextNode(structure.props.content) :
-    document.createElement(structure.type);
-
+    document.createElement(structure.type);    
+  
   updateDom(dom, {}, structure);
-
+  
   return dom;
 }
 
@@ -78,8 +78,6 @@ function isEvent(propName) {
 }
 
 function workQueue(reqIdleCall) {
-  console.log('Miaou')
-
   while (nextTask) {
     executeTask(nextTask);
   }
@@ -89,10 +87,21 @@ function workQueue(reqIdleCall) {
 
 function executeTask(task) {
   // Pour le moment on va juste gérer le create, par la suite en fonction du type d'action on fera un update, un delete etc.
+  console.log(task)
   if (task.type === "create") {
     const elementDom = createDom(task.content);
-    task.parent.appendChild(elementDom)
-    nextTask = null;
+    task.parent.appendChild(elementDom);
+
+    const child = task.content.children[0];
+
+    const nextFiber = {
+      parent: elementDom,
+      type: 'create',
+      content: child,
+    }
+    task.child = nextFiber;
+
+    nextTask = task.child.length ? task.child : null;
   }
 }
 

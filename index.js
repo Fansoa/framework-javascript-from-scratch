@@ -58,16 +58,21 @@ function Test() {
     {
       'id': 'myDiv',
       'className': 'w-[150px] h-[150px] bg-red-500',
-      'event.click': () => alert('Test'),
     },
-    ['This is a test component']
+    [
+      MiniReact.createElement(
+        'div',
+        {
+          'className': 'bg-blue-500',
+          'event.click': () => alert('Test'),
+        },
+        ['Sub text']
+      )
+    ]
   )
 }
 
 const root = document.getElementById("root");
-
-// const elementTest = MiniReact.createDom(Test());
-// root.appendChild(elementTest);
 
 const element = Test();
 MiniReact.render(element, root)
