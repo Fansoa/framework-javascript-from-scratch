@@ -53,18 +53,18 @@ MiniReactInstance.render(page(), root);
 import { MiniReact } from "./restart_new/core/MiniReact.js";
 
 function Test() {
-  return Didact.createElement(
+  return MiniReact.createElement(
     'div',
     {
       'id': 'myDiv',
       'className': 'w-[150px] h-[150px] bg-red-500',
-      onClick: () => alert('Test'),
+      'event.click': () => alert('Test'),
     },
-    'This is a test component'
+    ['This is a test component']
   )
 }
 
-const elementTest = MiniReact.createElement(Test, null, []);
-console.log(elementTest)
+const elementTest = MiniReact.createDom(Test());
 const root = document.getElementById("root");
-MiniReact.render(elementTest, root);
+
+root.appendChild(elementTest);
