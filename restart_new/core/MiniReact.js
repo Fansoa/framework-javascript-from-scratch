@@ -102,6 +102,42 @@ function executeTask(task) {
     task.child = nextFiber;
 
     nextTask = task.child ?? null;
+
+    /**
+     * Return la new task task.child si c'est pas vide
+     *    Sinon
+     *        while nextTask
+     *            si nextFiber.sibling
+     *              return nextFiber.sibling
+     *            Sinon
+     *              return nextFiber.parent
+     * 
+     * Comme ça si il y a un enfant il va les traiter avant de toucher le sibling grace au return.
+     * Et si il a des sibling il va les traiter grace au return puis seulement lorsque tous les sibling ont été fait (il n'en reste plus)
+     * il va return le parent, et ainsi de suite jusqu'à ce qu'il recroise des siblings etc
+     * 
+     * Normalement cela traitera TOUS les cas de figure, enfant multiple, parent, sibling etc
+     */
+
+    /**
+     * @todo Gestion des sibling.
+     * 
+     * Actuellement on gère uniquement le cas d'un child.
+     * Si l'élément à un enfant
+     *    on créer une fiber à partir de celui ci
+     *    on set le child de notre task actuel avec la fiber créer
+     *    on set nextTask = à notre fiber créer
+     * 
+     * Maintenant, on doit :
+     * 
+     * Garder le check de l'enfant.
+     * Si pas d'enfant
+     *    Check si il y a un sibling
+     *      reproduire le comportement du child :
+     *          création du fiber
+     *          set du sibling
+     *          set de nextTask
+     */
   }
 }
 
