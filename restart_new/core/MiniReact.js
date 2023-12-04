@@ -87,7 +87,6 @@ function workQueue(reqIdleCall) {
 
 function executeTask(task) {
   // Pour le moment on va juste gérer le create, par la suite en fonction du type d'action on fera un update, un delete etc.
-  console.log(task)
   if (task.type === "create") {
     const elementDom = createDom(task.content);
     task.parent.appendChild(elementDom);
@@ -102,16 +101,18 @@ function executeTask(task) {
       content: child,
     } : null;
 
-    const siblingFiber = sibling ? {
-      parent: elementDom,
-      parentFiber: task,
-      type: 'create',
-      content: sibling,
-      previousSibling: nextFiber,
-    } : null;
+    let previousSibling = null;
+    for (let index = 1; index < task.content.children.length; index++) {
+      const sibling = task.content.children[index];
+      const siblingFiber = sibling ? {
+        parent: elementDom,
+        parentFiber: task,
+        type: 'create',
+        content: sibling,
+      } : null;
 
-    if (nextFiber) {
       nextFiber.sibling = siblingFiber;
+      previousSibling = siblingFiber;
     }
 
     task.child = nextFiber;
