@@ -1,9 +1,4 @@
-// import MiniReactDom from "./core/MiniReactDom.js";
-// import routes from "./routes.js";
-
-// MiniReactDom.render(document.getElementById("root"), routes);
-
-
+/*
 import { MiniReactInstance } from "./restart/core/MiniReact.js";
 
 function buttonComponent() {
@@ -53,3 +48,23 @@ function page() {
 }
 const root = document.getElementById("root");
 MiniReactInstance.render(page(), root);
+*/
+
+import { MiniReact } from "./restart_new/core/MiniReact.js";
+
+function Test() {
+  return Didact.createElement(
+    'div',
+    {
+      'id': 'myDiv',
+      'className': 'w-[150px] h-[150px] bg-red-500',
+      onClick: () => alert('Test'),
+    },
+    'This is a test component'
+  )
+}
+
+const elementTest = MiniReact.createElement(Test, null, []);
+console.log(elementTest)
+const root = document.getElementById("root");
+MiniReact.render(elementTest, root);
