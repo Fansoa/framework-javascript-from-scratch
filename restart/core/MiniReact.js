@@ -1,10 +1,11 @@
 export class MiniReact {
   treeRoot = null;
-  currentTree = null;
-
+  newTreeRoot = null;
+  nextUnitOfWork = null;
+  nextTree = null;
 
   render(element, container) {
-    this.currentTree = {
+    this.nextUnitOfWork = {
       containerDom: container,
       children: [
         element
@@ -102,6 +103,75 @@ export class MiniReact {
     }
     return [state, setState];
   }
+
+  // Workloop
+  workLoop(deadline) {
+    let shouldYield = false
+    while (nextUnitOfWork && !shouldYield) {
+      nextUnitOfWork = performUnitOfWork(
+        nextUnitOfWork
+      )
+      shouldYield = deadline.timeRemaining() < 1
+    }
+    requestIdleCallback(workLoop)
+  }
+
+  // requestIdleCallback(workLoop)
+
+  performUnitOfWork(fiber) {
+    // Si l'élément n'a pas encore de dom (create, pas update) on lui en créer un
+    if (!fiber.dom) {
+      fiber.dom = createDom(fiber)
+    }
+
+    const children = fiber.children
+    let index = 0
+    let prevSibling = null
+
+    while (index < children.length) {
+      const element = children[index];
+
+      const newFiber = {
+        type: element.type,
+        props: element.props,
+        parent: fiber,
+        dom: null,
+      };
+
+      if (index === 0) {
+        fiber.child = newFiber;
+      } else {
+        prevSibling.sibling = newFiber;
+      }
+
+      prevSibling = newFiber;
+      index++;
+    }
+
+    if (fiber.child) {
+      return fiber.child
+    }
+    let nextFiber = fiber;
+
+    while (nextFiber) {
+      if (nextFiber.sibling) {
+        return nextFiber.sibling
+      }
+      nextFiber = nextFiber.parent
+    }
+  }
+
+  /**
+   * Ajouter une méthode commitWork
+   *    Dedans tu définis tes types d'actions (replace, update etc)
+   * 
+   * Avoir une méthode render() qui relance le return ?
+   * 
+   * beginWrok = vas plus bas vers enfant
+   * complete = va plus haut vers parent
+   * 
+   * Utilise des while, pas de recurstive
+   */
 }
 
 export const MiniReactInstance = new MiniReact();

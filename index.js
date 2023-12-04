@@ -18,7 +18,7 @@ function buttonComponent() {
       },
     },
     [
-      'Button component'
+      `Button component ${state}`
     ]
   );
 }
