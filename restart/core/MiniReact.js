@@ -1,16 +1,27 @@
 export class MiniReact {
+  /**
+   * = la root de notre render actuel
+   * 
+   * commitRoot ne sera lancé que si il n'y a plus de nextUnitOfWork
+   */
+  wipRoot = null;
   treeRoot = null;
-  newTreeRoot = null;
+  currentRoot = null;
   nextUnitOfWork = null;
-  nextTree = null;
+  deletions = null;
+  wipFiber = null;
+  hookIndex = null;
 
   render(element, container) {
-    this.nextUnitOfWork = {
-      containerDom: container,
-      children: [
-        element
-      ],
+    this.wipRoot = {
+      dom: container,
+      props: {
+        children: [element],
+      },
+      alternate: this.currentRoot,
     }
+    this.deletions = []
+    this.nextUnitOfWork = this.wipRoot
 
     this.renderActivation(element, container);
   }
@@ -19,6 +30,9 @@ export class MiniReact {
   renderActivation(element, container) {
     const elementDom = this.createDom(element);
     container.appendChild(elementDom);
+
+    this.treeRoot = element;
+    console.log(this.treeRoot);
   }
 
   createElement(type, props, children) {
@@ -50,16 +64,25 @@ export class MiniReact {
       document.createTextNode(structure.props.content) :
       document.createElement(structure.type);
 
-    this.setDomParameters(dom, structure);
-    this.setDomChildren(dom, structure);
+    this.updateDom(dom, {}, structure);
 
     return dom;
   }
 
+  updateDom(dom, prevStructure, newStructure) {
+    if (Object.keys(prevStructure).length) {
+      this.setDomParameters(dom, newStructure, true);
+      this.setDomChildren(dom, newStructure, true);
+    }
+
+    this.setDomParameters(dom, newStructure);
+    this.setDomChildren(dom, newStructure);
+  }
+
   // PROPS
-  setDomParameters(dom, structure) {
-    this.setDomProps(dom, structure.props);
-    this.setDomEvents(dom, structure.props);
+  setDomParameters(dom, structure, mustReset = false) {
+    this.setDomProps(dom, structure.props, mustReset);
+    this.setDomEvents(dom, structure.props, mustReset);
   }
 
   // Si mustReset = true dans ce cas cela veut dire qu'on veut reset nos props (dans le cas de l'update du dom par exemple)
@@ -99,60 +122,48 @@ export class MiniReact {
     let state = initialState;
 
     const setState = callback => {
+      console.error(this)
       state = callback(state);
     }
     return [state, setState];
   }
 
-  // Workloop
+  /**
+   * workloop sera lancé dés le départ, il agira en background grace à la webAPI requestIdleCallback qui lui indiquera quand il peut se relancer
+   * Lorsqu'il se relancera, il checkera si nextUnitOfWork est présent et si il dois se rerender.
+   *    Si c'est le cas, il vas perform le unit of work
+   *      UnitOfWork qui va appeler les enfants à s'executer en les settant comme des unitOfWork à leurs tours
+   *    Puis à la fin, on aura plus de nextUnitOfWork donc on pourra finalement commitRoot
+   */
   workLoop(deadline) {
     let shouldYield = false
-    while (nextUnitOfWork && !shouldYield) {
-      nextUnitOfWork = performUnitOfWork(
-        nextUnitOfWork
+    while (this.nextUnitOfWork && !shouldYield) {
+      this.nextUnitOfWork = performUnitOfWork(
+        this.nextUnitOfWork
       )
       shouldYield = deadline.timeRemaining() < 1
     }
+  
+    if (!this.nextUnitOfWork && wipRoot) {
+      commitRoot()
+    }
+  
     requestIdleCallback(workLoop)
   }
 
-  // requestIdleCallback(workLoop)
 
   performUnitOfWork(fiber) {
-    // Si l'élément n'a pas encore de dom (create, pas update) on lui en créer un
-    if (!fiber.dom) {
-      fiber.dom = createDom(fiber)
+    const isFunctionComponent =
+      fiber.type instanceof Function
+    if (isFunctionComponent) {
+      updateFunctionComponent(fiber)
+    } else {
+      updateHostComponent(fiber)
     }
-
-    const children = fiber.children
-    let index = 0
-    let prevSibling = null
-
-    while (index < children.length) {
-      const element = children[index];
-
-      const newFiber = {
-        type: element.type,
-        props: element.props,
-        parent: fiber,
-        dom: null,
-      };
-
-      if (index === 0) {
-        fiber.child = newFiber;
-      } else {
-        prevSibling.sibling = newFiber;
-      }
-
-      prevSibling = newFiber;
-      index++;
-    }
-
     if (fiber.child) {
       return fiber.child
     }
-    let nextFiber = fiber;
-
+    let nextFiber = fiber
     while (nextFiber) {
       if (nextFiber.sibling) {
         return nextFiber.sibling
@@ -161,17 +172,20 @@ export class MiniReact {
     }
   }
 
-  /**
-   * Ajouter une méthode commitWork
-   *    Dedans tu définis tes types d'actions (replace, update etc)
-   * 
-   * Avoir une méthode render() qui relance le return ?
-   * 
-   * beginWrok = vas plus bas vers enfant
-   * complete = va plus haut vers parent
-   * 
-   * Utilise des while, pas de recurstive
-   */
+  updateFunctionComponent(fiber) {
+    this.wipFiber = fiber
+    this.hookIndex = 0
+    this.wipFiber.hooks = []
+    const children = [fiber.type(fiber.props)]
+    this.reconcileChildren(fiber, children)
+  }
+
+  updateHostComponent(fiber) {
+    if (!fiber.dom) {
+      fiber.dom = this.createDom(fiber)
+    }
+    this.reconcileChildren(fiber, fiber.props.children)
+  }
 }
 
 export const MiniReactInstance = new MiniReact();

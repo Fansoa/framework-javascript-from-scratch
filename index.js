@@ -23,33 +23,33 @@ function buttonComponent() {
   );
 }
 
-const element = MiniReactInstance.createElement(
-  'div',
-  {
-    'id': 'myDiv',
-    'className': 'w-[150px] h-[150px] bg-red-500',
-    'event.click': function () {
-      alert('Coucou')
+function page() {
+  const [state, setState] = MiniReactInstance.useState(9);
+  return MiniReactInstance.createElement(
+    'div',
+    {
+      'id': 'myDiv',
+      'className': 'w-[150px] h-[150px] bg-red-500',
     },
-  },
-  [
-    'Hello',
-    MiniReactInstance.createElement(
-      'button',
-      {
-        'id': 'myButton',
-        'className': 'w-full bg-blue-500',
-        'event.click': function (event) {
-          event.stopPropagation()
-          alert('button click')
+    [
+      `Hello ${state}`,
+      MiniReactInstance.createElement(
+        'button',
+        {
+          'id': 'myButton',
+          'className': 'w-full bg-blue-500',
+          'event.click': function (event) {
+            setState(state => state+1)
+            alert(`State equal = ${state}`)
+          },
         },
-      },
-      [
-        'Button'
-      ]
-    ),
-    buttonComponent()
-  ]
-);
+        [
+          'Button'
+        ]
+      ),
+      buttonComponent()
+    ]
+  );
+}
 const root = document.getElementById("root");
-MiniReactInstance.render(element, root);
+MiniReactInstance.render(page(), root);
