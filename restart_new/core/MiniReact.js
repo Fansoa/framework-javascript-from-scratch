@@ -94,14 +94,14 @@ function executeTask(task) {
 
     const child = task.content.children[0];
 
-    const nextFiber = {
+    const nextFiber = child ? {
       parent: elementDom,
       type: 'create',
       content: child,
-    }
+    } : null;
     task.child = nextFiber;
 
-    nextTask = task.child.length ? task.child : null;
+    nextTask = task.child ?? null;
   }
 }
 
