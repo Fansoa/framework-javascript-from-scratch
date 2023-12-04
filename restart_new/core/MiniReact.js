@@ -1,3 +1,5 @@
+let nextTask = null;
+
 function createElement(type, props, children) {
   return {
     type,
@@ -22,8 +24,15 @@ function createTextElement(content) {
   }
 }
 
+function render(element, container) {
+  nextTask = {
+    parent: container,
+    type: 'create',
+    content: element
+  }
+}
+
 function createDom(structure) {
-  console.warn(structure);
   const dom = structure.type === "TEXT_NODE" ?
     document.createTextNode(structure.props.content) :
     document.createElement(structure.type);
@@ -68,7 +77,29 @@ function isEvent(propName) {
   return propName.includes('event.');
 }
 
+function workQueue(reqIdleCall) {
+  console.log('Miaou')
+
+  while (nextTask) {
+    executeTask(nextTask);
+  }
+
+  requestIdleCallback(workQueue);
+}
+
+function executeTask(task) {
+  // Pour le moment on va juste gérer le create, par la suite en fonction du type d'action on fera un update, un delete etc.
+  if (task.type === "create") {
+    const elementDom = createDom(task.content);
+    task.parent.appendChild(elementDom)
+    nextTask = null;
+  }
+}
+
+requestIdleCallback(workQueue);
+
 export const MiniReact = {
   createElement,
-  createDom
+  createDom,
+  render
 }

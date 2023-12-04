@@ -64,7 +64,10 @@ function Test() {
   )
 }
 
-const elementTest = MiniReact.createDom(Test());
 const root = document.getElementById("root");
 
-root.appendChild(elementTest);
+// const elementTest = MiniReact.createDom(Test());
+// root.appendChild(elementTest);
+
+const element = Test();
+MiniReact.render(element, root)
