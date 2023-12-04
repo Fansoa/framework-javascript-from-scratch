@@ -14,7 +14,19 @@ function Test() {
           'className': 'bg-blue-500',
           'event.click': () => alert('Test'),
         },
-        ['Sub text']
+        [
+          MiniReact.createElement(
+            'button',
+            {
+              'className': 'bg-green-500',
+              'event.click': (event) => {
+                event.stopPropagation();
+                alert('MY BUTTON')
+              },
+            },
+            ['MY BUTTON']
+          )
+        ]
       ),
       'Hello'
     ]

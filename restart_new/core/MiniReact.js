@@ -79,7 +79,7 @@ function isEvent(propName) {
 
 function workQueue(reqIdleCall) {
   while (nextTask) {
-    executeTask(nextTask);
+    nextTask = executeTask(nextTask);
   }
 
   requestIdleCallback(workQueue);
@@ -93,15 +93,45 @@ function executeTask(task) {
     task.parent.appendChild(elementDom);
 
     const child = task.content.children[0];
+    const sibling = task.content.children[1];
 
     const nextFiber = child ? {
       parent: elementDom,
+      parentFiber: task,
       type: 'create',
       content: child,
     } : null;
+
+    const siblingFiber = sibling ? {
+      parent: elementDom,
+      parentFiber: task,
+      type: 'create',
+      content: sibling,
+      previousSibling: nextFiber,
+    } : null;
+
+    if (nextFiber) {
+      nextFiber.sibling = siblingFiber;
+    }
+
     task.child = nextFiber;
 
-    nextTask = task.child ?? null;
+    /**
+     * Si il y a un enfant on le renvoie afin d'être sûr de le traiter lui puis ces enfants etc.
+     * Les siblings ne seront géré qu'a la fin, lorsque l'on atteint le bout d'une branche
+     * Ensuite on remontera au parent, on executera son sibling et ainsi de suite
+     */ 
+    if (task.child) {
+      return task.child;
+    }
+
+    while (nextTask) {
+      if(nextTask && nextTask.sibling) {
+        return nextTask.sibling;
+      }
+      // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
+      nextTask = nextTask.parentFiber;
+    }
 
     /**
      * Return la new task task.child si c'est pas vide
