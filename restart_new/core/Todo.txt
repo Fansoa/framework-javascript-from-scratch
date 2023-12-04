@@ -1,0 +1,70 @@
+/**
+ * Gestion des states
+ * 
+ * Reprendre ce qui a été fait sur les précédentes branch pour le useState
+ * Maintenant on utilise un principe de workQueue, donc on doit utiliser ce même principe pour les states (?)
+ * 
+ * Dans tous les cas il faudra mettre en place un cache / alternate.
+ * Dans le cache on stockera notre précedente version de root (currentRoot)
+ * Est-ce qu'on stocke le alternate pour chaque fiber ou directement TOUS le root / currentRoot ?
+ * Si on stock le alternate par fiber on devrait avoir notre arborescence de cache dans l'arborescence root donc c'est bon (?)
+ * 
+ * Même si on stocke le alternate, comment on indique quel partie rerender ?
+ * Il faut repasser sur tout le root du début à la fin et comparer chaque élément avec leur alternate ?
+ * 
+ * --------------------------------------------------------------------------------------------------------------------------------------------
+ * 
+ OK - 1. currentRoot devient renderedRoot, moins confus car il s'agit du root déjà en place currentRoot est celui sur lesquel on travail
+ OK - 2. Créer des phases de commit (au moins pour le root pour gérer le renderedRoot etc) // cf: https://www.youtube.com/watch?v=0ympFIwQFJw
+ OK - 3. La partie utilisée dans le render sera notre currentRoot (celle en cours)
+ *    a. On créer le currentRoot
+ *    b. On set nextTask = currentRoot. 
+ *      Le but ici est de conserver le currentRoot pdt toute la durée de notre workQueue.
+ *      Lorsque l'on aura fini on la remettra a null, puis on la set de nouveau lorsque l'on rerender etc
+ *      nextTask = currentRoot permet de garder le fonctionnement actuel (parent->enfant->sibling etc)
+ * 
+ OK - 2.a Ici dans la partie commit notre workQueue est completé (pour cette partie) donc
+ *    on pourra reset le currentRoot
+ *    On va aussi set le renderedRoot
+ * 
+ OK - 4. récupérer le useState fait dans l'une des branch de restart (sans toucher au contenu, juste pour voir et écrire la logique à suivre pour après)
+ *
+ * 5. set le cache
+      Pour currentRoot le cache = renderedRoot comme c'est la précedente valeur
+      Pour nextTask
+        Soit on set le cache en même temps que la création, mais cela risque de poser des conflits après non ? Si on utilise le cache pour faire des vérif et qu'on le set lors de la création non ?
+        Ou on le set dans le cas d'un update.
+          Il faudrait créer dans ce cas une méthode pour l'update qui créer une fiber différente de ce qui est créer lors du executeTask
+            Le problème c'est qu'on aurai une structure différente, mais du coup comment faire pour 
+              1. garder tous dans le executeTask
+              2. faire le set du cache ?
+
+              1.a Il faut séparer, sinon on aura un énorme block de code.
+                Créer une fonction updateComponent qui gérera ça
+                  Problème étant que le updateComponent devra gérer TOUS le update, cela veut dire enchainer directement avec la réconciliation des enfant
+                  Si on test sans la réconciliation ça n'a aucune valeur vue qu'on ne test pas grand chose au final (?)
+              
+                reconciliation :
+                  On set le cache dans le update pour la partie nextTask.
+                  puis dans la fonction reconciliation on set le cache pour chaque enfant
+
+              3. executeTask doit changer. Il faut faire (???) comme dans le createDom.
+                  En fonction d'un paramètre ou d'un élément dans la fonction, faire en sorte de gérer ou non l'update, sinon on va en réalité faire un create (?)
+                  Du coup on doit dans le executeTask (???) définir quel est le type d'action (create, update)
+                    Pour ensuite pour voir dans notre fonction update effectuer les changements aproprié
+
+              Pour pouvoir faire une update il faut changer la nextTask afin de relancer notre workQueue.
+                Si on la modifie ça sera dans le cas d'un setState uniquement, donc dans notre setState on doit 
+                  modifier le state
+                  modifier le nextTask pour correspondre à notre task actuel 
+                    Pour créer notre nextTask on a besoin de paramètre
+
+              Auskour c'est dur :confused:
+
+ * ?. -- RENAMING
+     executeTask ne fait pas qu'executer la task il génère aussi les autres task enfant etc.
+      Il faut changer le nom en handleTask (?)
+ *
+ *
+ *
+ */
