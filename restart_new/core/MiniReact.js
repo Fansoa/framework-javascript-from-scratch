@@ -8,7 +8,8 @@ function render(element, container) {
   currentRoot = {
     parent: container,
     type: 'create',
-    content: element
+    content: element,
+    cache: renderedRoot,
   }
 
   // On utilise la workQueue donc on doit set le nextTask
@@ -44,7 +45,7 @@ function createTextElement(content) {
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
     document.createTextNode(structure.props.content) :
-    document.createElement(structure.type);    
+    document.createElement(structure.type);
   
   updateDom(dom, {}, structure);
   
@@ -107,53 +108,55 @@ function workQueue(reqIdleCall) {
 }
 
 function executeTask(task) {
-  if (task.type === "create") {
-    const elementDom = createDom(task.content);
-    task.parent.appendChild(elementDom);
+  const elementDom = createDom(task.content);
+  task.parent.appendChild(elementDom);
 
-    const child = task.content.children[0];
+  const child = task.content.children[0];
 
-    const nextFiber = child ? {
+  const nextFiber = child ? {
+    parent: elementDom,
+    parentFiber: task,
+    type: 'create',
+    content: child,
+  } : null;
+
+  let previousSibling = null;
+  // Permet de gérer les siblings, on récupère notre enfant et créer une liste chainée de sibling.
+  for (let index = 1; index < task.content.children.length; index++) {
+    const sibling = task.content.children[index];
+    const siblingFiber = sibling ? {
       parent: elementDom,
       parentFiber: task,
       type: 'create',
-      content: child,
+      content: sibling,
     } : null;
 
-    let previousSibling = null;
-    // Permet de gérer les siblings, on récupère notre enfant et créer une liste chainée de sibling.
-    for (let index = 1; index < task.content.children.length; index++) {
-      const sibling = task.content.children[index];
-      const siblingFiber = sibling ? {
-        parent: elementDom,
-        parentFiber: task,
-        type: 'create',
-        content: sibling,
-      } : null;
-
-      nextFiber.sibling = siblingFiber;
-      previousSibling = siblingFiber;
-    }
-
-    task.child = nextFiber;
-
-    /**
-     * Si il y a un enfant on le renvoie afin d'être sûr de le traiter lui puis ces enfants etc.
-     * Les siblings ne seront géré qu'a la fin, lorsque l'on atteint le bout d'une branche
-     * Ensuite on remontera au parent, on executera son sibling et ainsi de suite
-     */ 
-    if (task.child) {
-      return task.child;
-    }
-
-    while (nextTask) {
-      if(nextTask && nextTask.sibling) {
-        return nextTask.sibling;
-      }
-      // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
-      nextTask = nextTask.parentFiber;
-    }
+    nextFiber.sibling = siblingFiber;
+    previousSibling = siblingFiber;
   }
+
+  task.child = nextFiber;
+
+  /**
+   * Si il y a un enfant on le renvoie afin d'être sûr de le traiter lui puis ces enfants etc.
+   * Les siblings ne seront géré qu'a la fin, lorsque l'on atteint le bout d'une branche
+   * Ensuite on remontera au parent, on executera son sibling et ainsi de suite
+   */ 
+  if (task.child) {
+    return task.child;
+  }
+
+  while (nextTask) {
+    if(nextTask && nextTask.sibling) {
+      return nextTask.sibling;
+    }
+    // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
+    nextTask = nextTask.parentFiber;
+  }
+}
+
+function updateComponent(task) {
+  
 }
 
 // COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
@@ -168,6 +171,29 @@ function useState(initialState) {
 
   const setState = callback => {
     state = callback(state);
+    // currentRoot = {
+    //   parent: container,
+    //   type: 'create',
+    //   content: element,
+    //   cache: renderedRoot,
+    // }
+    // wipRoot = {
+    //   dom: container,
+    //   props: {
+    //     children: [element],
+    //   },
+    //   alternate: currentRoot,
+    // }
+
+    console.log(renderedRoot);
+    currentRoot = {
+      parent: renderedRoot.parent,
+      type: 'update',
+      content: renderedRoot.child.content,
+      cache: renderedRoot,
+    }
+
+    nextTask = currentRoot;
     console.log(state);
   }
   return [state, setState];
