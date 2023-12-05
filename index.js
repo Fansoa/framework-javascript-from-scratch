@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import example from "./src/components/example.js";
 import AVAILABLES_EVENTS_TYPE from "./core/constants.js";
 
@@ -41,23 +42,43 @@ console.log(
   createDom(example),
 );
 
+let nextUnitOfWork = null;
+
 function performUnitOfWork(element) {
-  let fiberRoot = null;
-  if (!example.dom) {
-    fiberRoot = {
-      type: example.type,
-      props: example.props,
-      dom: createDom(example),
+  let fiber = null;
+  if (!element.dom) {
+    fiber = {
+      type: element.type,
+      props: element.props,
+      dom: createDom(element),
       parent: null,
-      child: example.props.children[0] || null,
-      sibling: example.props.children[1] || null,
+      child: element.props.children[0] || null,
+      sibling: element.props.children[1] || null,
     };
 
-    return fiberRoot;
+    // Si il y a un enfant,
+    // la prochaine unité de travail sera l'enfant
+    // Sinon si il a un frere,
+    // ce sera son plus proche frere
+    if (element.props.children[0].length) {
+      nextUnitOfWork = element.props.children[0];
+    } else if (element.props.children[1]) {
+      nextUnitOfWork = element.props.children[1];
+    }
+
+    return fiber;
   }
 }
+
+// performUnitOfWork me return une fibre
+// maintenant je dois trouver un moyen pour que la function passe a travers
+// tout l'arbre d'element afin qu'il puisse me generer l'arborescence de mes fibres
+// creuser les notions tel que la workloop et le render qui permet d'initialiser
+// la les units of work
 
 console.log(
   "🚀 ~ file: index.js:60 ~ performUnitOfWork(example):",
   performUnitOfWork(example),
 );
+
+requestIdleCallback(() => console.log("toto"));
