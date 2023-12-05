@@ -33,12 +33,14 @@ const MiniReactDOM = {
             element.addEventListener(eventType, propValue);
           }
         }
-      });
-    }
 
-    if (structure.children.length) {
-      structure.children.forEach((child) => {
-        element.appendChild(this.renderStructure(child));
+        if (propName === "children") {
+          if (propValue.length) {
+            propValue.forEach((child) => {
+              element.appendChild(this.renderStructure(child));
+            });
+          }
+        }
       });
     }
 
