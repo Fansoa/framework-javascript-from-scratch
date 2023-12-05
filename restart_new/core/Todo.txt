@@ -30,7 +30,7 @@
  OK - 4. récupérer le useState fait dans l'une des branch de restart (sans toucher au contenu, juste pour voir et écrire la logique à suivre pour après)
  *
  * 5. set le cache
-      Pour currentRoot le cache = renderedRoot comme c'est la précedente valeur
+      OK - Pour currentRoot le cache = renderedRoot comme c'est la précedente valeur
       Pour nextTask
         Soit on set le cache en même temps que la création, mais cela risque de poser des conflits après non ? Si on utilise le cache pour faire des vérif et qu'on le set lors de la création non ?
         Ou on le set dans le cas d'un update.
@@ -59,12 +59,24 @@
                   modifier le nextTask pour correspondre à notre task actuel 
                     Pour créer notre nextTask on a besoin de paramètre
 
-              Auskour c'est dur :confused:
-
+ *
+ * /!\. PROBLÈME !!! Dans le cas d'un update on doit reconstruit tous etc.
+        Mais comme dans le cas d'un composant (index.js) on fait un NomComposant() pour obtenir la valeur de notre composant / sa structure.
+        On ne la rerender jamais.
+        Il faudra modifier le tous pour que l'on utilise le NomComposant et qu'ensuite si il s'agit d'une fonction on l'utiliser, comme ça on aura les changement visuel directement
+        pour cela il faut aussi un système de queue pour les states, sinon impossible de récupérer le previous state
+        /!\ Uniqument théorique, à voir en pratique
+ *
+ *
  * ?. -- RENAMING
      executeTask ne fait pas qu'executer la task il génère aussi les autres task enfant etc.
       Il faut changer le nom en handleTask (?)
  *
  *
- *
+ * Rajouter hooks aux fiber.
+    Comme ça lorsque on utilise le cache on peut récupérer les hooks, et par conséquent les valeurs associées
+
+
+  requestIdleCallback ne fonctionne pas sur safari.
+    Si a la fin on en a la possibilité on trouvera une alternative
  */

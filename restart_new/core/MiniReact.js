@@ -2,21 +2,38 @@ let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
 
+const isFunction = (element) => typeof element === "function";
+
 // RENDER - (render the element inside the container)
 function render(element, container) {
   // Permet de stocker l'arborescence qui est en cours
   currentRoot = {
     parent: container,
     type: 'create',
-    content: element
-  }
+    cache: renderedRoot,
+    page: element
+  };
 
   // On utilise la workQueue donc on doit set le nextTask
   nextTask = currentRoot;
+  const content = isFunction(element) ? element() : element;
+
+  /**
+   * Si on a un state qui est utilisé et que l'on créer notre composant directement dans currentRoot
+   *    Dans le useState comme le composant (et donc le useState sera créer avant / pendant la création du currentRoot)
+   */
+
+  currentRoot.content = content;
+  nextTask.content = content;
 }
 
 // CREATE ELELEMNT - (create element structure)
 function createElement(type, props, children) {
+  if (isFunction(type)) {
+    // If the type is a function, it's a component; instantiate and return it
+    return type({ ...props, children });
+  }
+
   return {
     type,
     props: {
@@ -44,7 +61,7 @@ function createTextElement(content) {
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
     document.createTextNode(structure.props.content) :
-    document.createElement(structure.type);    
+    document.createElement(structure.type);
   
   updateDom(dom, {}, structure);
   
@@ -107,70 +124,150 @@ function workQueue(reqIdleCall) {
 }
 
 function executeTask(task) {
-  if (task.type === "create") {
-    const elementDom = createDom(task.content);
-    task.parent.appendChild(elementDom);
+  const elementDom = createDom(task.content);
+  task.parent.appendChild(elementDom);
 
-    const child = task.content.children[0];
+  const child = task.content.children[0];
 
-    const nextFiber = child ? {
+  const nextFiber = child ? {
+    parent: elementDom,
+    parentFiber: task,
+    type: 'create',
+    content: child,
+  } : null;
+
+  let previousSibling = null;
+  // Permet de gérer les siblings, on récupère notre enfant et créer une liste chainée de sibling.
+  for (let index = 1; index < task.content.children.length; index++) {
+    const sibling = task.content.children[index];
+    const siblingFiber = sibling ? {
       parent: elementDom,
       parentFiber: task,
       type: 'create',
-      content: child,
+      content: sibling,
     } : null;
 
-    let previousSibling = null;
-    // Permet de gérer les siblings, on récupère notre enfant et créer une liste chainée de sibling.
-    for (let index = 1; index < task.content.children.length; index++) {
-      const sibling = task.content.children[index];
-      const siblingFiber = sibling ? {
-        parent: elementDom,
-        parentFiber: task,
-        type: 'create',
-        content: sibling,
-      } : null;
-
-      nextFiber.sibling = siblingFiber;
-      previousSibling = siblingFiber;
-    }
-
-    task.child = nextFiber;
-
-    /**
-     * Si il y a un enfant on le renvoie afin d'être sûr de le traiter lui puis ces enfants etc.
-     * Les siblings ne seront géré qu'a la fin, lorsque l'on atteint le bout d'une branche
-     * Ensuite on remontera au parent, on executera son sibling et ainsi de suite
-     */ 
-    if (task.child) {
-      return task.child;
-    }
-
-    while (nextTask) {
-      if(nextTask && nextTask.sibling) {
-        return nextTask.sibling;
-      }
-      // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
-      nextTask = nextTask.parentFiber;
-    }
+    nextFiber.sibling = siblingFiber;
+    previousSibling = siblingFiber;
   }
+
+  task.child = nextFiber;
+
+  /**
+   * Si il y a un enfant on le renvoie afin d'être sûr de le traiter lui puis ces enfants etc.
+   * Les siblings ne seront géré qu'a la fin, lorsque l'on atteint le bout d'une branche
+   * Ensuite on remontera au parent, on executera son sibling et ainsi de suite
+   */ 
+  if (task.child) {
+    return task.child;
+  }
+
+  while (nextTask) {
+    if(nextTask && nextTask.sibling) {
+      return nextTask.sibling;
+    }
+    // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
+    nextTask = nextTask.parentFiber;
+  }
+}
+
+
+function updateComponent(task) {
+  /**
+   * On imagine que l'on est dans une update d'un composant (sans savoir comment on arrive ici)
+   * 
+   * nextTask = task // pour indiquer qu'il s'agit de notre prochaine task
+   * /!\ il faut rerender l'élélemnt si c'est une fonction ! /!\
+   *    Car un composant (une fonction du coup) effectue le use state lorsqu'il est render, donc on ne peut pas juste récupérer la structure.
+   *      Il faut la rerender, ce qui va relancer son useState
+   *        Comme on relance le useState, on utilise l'ancien state du composant +
+   *            On execute les actions sauvegardé à l'interieur précedement
+   *        Donc on se retrouve avec un rerender qui s'effectue avec les states mis à jour.
+   * 
+   * Pour récupérer les anciens state, comme on se base sur task, on peut récupérer le hook via son cache (?)
+   * Du coup si on reprend l'ancien cache et qu'on fait les updates sur le nouveau etc
+   *    On va avoir un doublon (?) comme on prend la valeur de l'ancien cache, on lance les callback dans la queue du hook.
+   *      Le hook du task sera égal à quoi ici ?
+   */
+  nextTask = task;
+
+  // Si c'est une fonction / composant on relance la fonction
+  const children = isFunction(task.type) ? task.type(task.props) : task.children;
+}
+
+// Ici on va gérer la reconciliation des enfants. Bon courage.
+function reconciliation() {
+
 }
 
 // COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
 function commitRoot() {
+  currentRoot.parent.replaceChildren(currentRoot.child.parent);
+  console.log(currentRoot);
   renderedRoot = currentRoot;
   currentRoot = null;
 }
 
 // STATE - (our state handling hook)
 function useState(initialState) {
-  let state = initialState;
+  /**
+   * Lors du rerender, on vas récupérer le hook du render précedent.
+   *    Dans le setState on va push notre action dans la queue.
+   *    Donc lorsque l'on va récupérer le hook du render précedent, on aura push l'action sans l'executer, car l'éxecution se fait avant le setState.
+   *      Par conséquent, on indique que dans notre prochain render il faudra faire une action sur le state
+   *      puis on ammorce le nouveau render.
+   * 
+   * -----
+   * 
+   * Ici c'est quand on utilise le useState
+   * Techniquement, on instancie le useState lorsque l'on est sur notre composant
+   *    Autrement dit sur notre nextTask
+   *      Donc on peut set le hook du nextTask car il s'agira forcement de la task actuelle
+   * 
+   * @todo changer le nom callback
+   */
+  const cachedHook = nextTask?.cache?.hook;
+  const hook = {
+    state: cachedHook ? cachedHook.state : initialState,
+    queue: [],
+    hookId
+  };
+  hookId++;
+
+  nextTask.hook = hook;
+
+  /**
+   * Ici on utilisera donc la queue de l'ancier hook, mais on modifiera bien le hook.state, car il s'agit du hook actuel (de notre nouvelle etape de render)
+   * Puisqu'on est dans le next task on peut utiliser son cache
+   */
+  cachedHook?.queue.forEach(callback => {
+    hook.state = callback(hook.state)
+  });
 
   const setState = callback => {
-    state = callback(state);
-    console.log(state);
+    hook.queue.push(callback);
+
+    /**
+     * Ici on doit lancer notre rerender. Pour cela on doit donc "remettre à 0" notre nextTask en la rendant égal à notre renderedRoot, ce qui permettra de relancer tous le proccess.
+     * Il faudra donc gérer la reconciliation
+     */
+
+    // const root = document.getElementById('root');
+    currentRoot = {
+      parent: renderedRoot.parent,
+      type: 'create',
+      cache: renderedRoot,
+      page: renderedRoot.page
+    };
+  
+    nextTask = currentRoot;
+    const content = isFunction(renderedRoot.page) ? renderedRoot.page() : renderedRoot.page;
+  
+    currentRoot.content = content;
+    nextTask.content = content;
   }
-  return [state, setState];
+
+  return [hook.state, setState];
 }
 
 // REQUEST IDLE CALLBACK - (used to initiate the start of our work queue)
