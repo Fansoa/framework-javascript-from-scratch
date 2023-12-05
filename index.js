@@ -1,69 +1,42 @@
-/* eslint-disable prefer-destructuring */
-import MiniReact from "./core/MiniReact.js";
-import MiniReactDOM from "./core/MiniReactDOM.js";
 import example from "./src/components/example.js";
+import AVAILABLES_EVENTS_TYPE from "./core/constants.js";
 
-function createFiber() {}
+console.log("🚀 ~ file: index.js:4 ~ example:", example);
 
-// class VirtualDOM {
-//   constructor(){
-//     this.fiberThree
-//   }
-// }
+function createDom(structure) {
+  let element;
 
-const unitOfWork = null;
-
-function workLoop(reqIdleCall) {
-  while (newTask) {
-    createFiberTree();
+  if (typeof structure.type === "string") {
+    if (structure.type === "TEXT_NODE") {
+      return document.createTextNode(structure.props.text);
+    }
+    element = document.createElement(structure.type);
   }
+  if (structure.props) {
+    Object.entries(structure.props).forEach(([propName, propValue]) => {
+      if (propName === "className") {
+        element.className = propValue;
+      }
+
+      if (propName === "style") {
+        Object.entries(propValue).forEach(([CSSproperty, CSSvalue]) => {
+          element.style[CSSproperty] = CSSvalue;
+        });
+      }
+
+      if (propName.startsWith("on")) {
+        const eventType = propName.substring(2).toLowerCase();
+
+        if (AVAILABLES_EVENTS_TYPE.includes(eventType)) {
+          element.addEventListener(eventType, propValue);
+        }
+      }
+    });
+  }
+  return element;
 }
 
-function createFiberTree(fiber) {
-  // creation de la fiber avec son child, sibling, nextFiber
-  const elementDOM = MiniReact.createElement(fiber.virtualNode);
-
-  elementDOM.appendChild(fiber);
-
-  const child = fiber.virtualNode.children[0];
-  const sibling = fiber.virtualNode.children[1];
-
-  const nextFiber = {
-    parentFiber: fiber,
-    child,
-    sibling,
-  };
-
-  fiber.nextFiber;
-
-  const fiberQueue = {};
-
-  if (fiber.children.length) {
-    return fiber;
-  }
-
-  // eslint-disable-next-line prefer-destructuring
-  fiber.nextFiber = fiber.children[0];
-
-  fiber.children.forEach((child, i) => {
-    if (i !== 0) {
-      fiber.nextFiber = child;
-    }
-
-    if (this.child === 1) {
-      fiber.nextFiber.sibling = child;
-    }
-    fiber.child = child;
-
-    console.log(
-      "🚀 ~ file: index.js:23 ~ createFiberTree ~ child, i:",
-      child,
-      i,
-    );
-  });
-}
-
-console.log(createFiberTree(example));
-
-const root = document.getElementById("root");
-MiniReactDOM.render(root, MiniReactDOM.renderStructure(example));
+console.log(
+  "🚀 ~ file: index.js:39 ~ createDom(example);:",
+  createDom(example),
+);
