@@ -2,8 +2,7 @@ const MiniReact = {
   createElement(type, config, ...children) {
     return {
       type,
-      props: { ...config },
-      children,
+      props: { ...config, children },
     };
   },
 };
