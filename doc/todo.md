@@ -1,0 +1,12 @@
+# Liste des fonctions à implémentées
+- **createElement** : Cette fonction crée des éléments du Virtual DOM. Elle prend un type, des propriétés (props) et des enfants, puis retourne un objet représentant cet élément.
+- **createTextElement** : Crée un élément texte du Virtual DOM.
+- **createDom** : Crée un élément du DOM réel à partir d'un nœud Fiber.
+- **updateDom** : Met à jour un élément du DOM avec les nouvelles propriétés.
+- **commitRoot** : Valide les changements effectués dans l'arbre de Fiber et les applique au DOM réel.
+- **render** : Commence le processus de rendu en initialisant le travail avec l'élément racine et le conteneur.
+- **performUnitOfWork** : Effectue une unité de travail, mettant à jour les composants fonctionnels ou les composants DOM.
+- **useState** : Une fonction personnalisée simulant l'état local dans les composants fonctionnels. Elle renvoie un état et une fonction pour le mettre à jour.
+- **updateFunctionComponent** : Met à jour les composants fonctionnels en utilisant les hooks.
+- **updateHostComponent** : Met à jour les composants DOM.
+- **reconcileChildren** : Réconcilie les enfants du nœud actuel dans l'arbre de Fiber.
