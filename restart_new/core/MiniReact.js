@@ -165,6 +165,30 @@ function executeTask(task) {
 
 
 function updateComponent(task) {
+  /**
+   * On imagine que l'on est dans une update d'un composant (sans savoir comment on arrive ici)
+   * 
+   * nextTask = task // pour indiquer qu'il s'agit de notre prochaine task
+   * /!\ il faut rerender l'élélemnt si c'est une fonction ! /!\
+   *    Car un composant (une fonction du coup) effectue le use state lorsqu'il est render, donc on ne peut pas juste récupérer la structure.
+   *      Il faut la rerender, ce qui va relancer son useState
+   *        Comme on relance le useState, on utilise l'ancien state du composant +
+   *            On execute les actions sauvegardé à l'interieur précedement
+   *        Donc on se retrouve avec un rerender qui s'effectue avec les states mis à jour.
+   * 
+   * Pour récupérer les anciens state, comme on se base sur task, on peut récupérer le hook via son cache (?)
+   * Du coup si on reprend l'ancien cache et qu'on fait les updates sur le nouveau etc
+   *    On va avoir un doublon (?) comme on prend la valeur de l'ancien cache, on lance les callback dans la queue du hook.
+   *      Le hook du task sera égal à quoi ici ?
+   */
+  nextTask = task;
+
+  // Si c'est une fonction / composant on relance la fonction
+  const children = isFunction(task.type) ? task.type(task.props) : task.children;
+}
+
+// Ici on va gérer la reconciliation des enfants. Bon courage.
+function reconciliation() {
 
 }
 
@@ -218,7 +242,7 @@ function useState(initialState) {
       cache: renderedRoot,
     };
 
-    nextTask = currentRoot
+    nextTask = currentRoot;
   }
 
   return [state, setState];
