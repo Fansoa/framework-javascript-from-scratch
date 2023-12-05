@@ -1,6 +1,16 @@
 import { MiniReact } from "./restart_new/core/MiniReact.js";
 
-function Test() {
+function RandomComponent() {
+  return MiniReact.createElement(
+    'div',
+    {
+      'className': 'bg-orange-500',
+    },
+    ['IM BLUE DADOUDI DADOUDA DADOU DI DADOU DAAAAA']
+  );
+}
+
+function TestPage() {
   const [state, setState] = MiniReact.useState(0);
 
   return MiniReact.createElement(
@@ -62,13 +72,7 @@ function Test() {
                 },
                 [`test set State = ${state}`]
               ),
-              MiniReact.createElement(
-                'div',
-                {
-                  'className': 'bg-orange-500',
-                },
-                ['IM BLUE DADOUDI DADOUDA DADOU DI DADOU DAAAAA']
-              )
+              MiniReact.createElement(RandomComponent, {})
             ]
           )
         ]
@@ -79,5 +83,4 @@ function Test() {
 
 const root = document.getElementById("root");
 
-const element = Test();
-MiniReact.render(element, root)
+MiniReact.render(TestPage, root)

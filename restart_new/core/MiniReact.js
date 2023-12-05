@@ -2,15 +2,18 @@ let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
 
+const isFunction = (element) => typeof element === "function";
+
 // RENDER - (render the element inside the container)
 function render(element, container) {
   // Permet de stocker l'arborescence qui est en cours
   currentRoot = {
     parent: container,
     type: 'create',
-    content: element,
+    content: isFunction(element) ? element() : element,
     cache: renderedRoot,
-  }
+  };
+
 
   // On utilise la workQueue donc on doit set le nextTask
   nextTask = currentRoot;
@@ -18,6 +21,11 @@ function render(element, container) {
 
 // CREATE ELELEMNT - (create element structure)
 function createElement(type, props, children) {
+  if (isFunction(type)) {
+    // If the type is a function, it's a component; instantiate and return it
+    return type({ ...props, children });
+  }
+
   return {
     type,
     props: {
