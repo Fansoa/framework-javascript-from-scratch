@@ -40,3 +40,24 @@ console.log(
   "🚀 ~ file: index.js:39 ~ createDom(example);:",
   createDom(example),
 );
+
+function performUnitOfWork(element) {
+  let fiberRoot = null;
+  if (!example.dom) {
+    fiberRoot = {
+      type: example.type,
+      props: example.props,
+      dom: createDom(example),
+      parent: null,
+      child: example.props.children[0] || null,
+      sibling: example.props.children[1] || null,
+    };
+
+    return fiberRoot;
+  }
+}
+
+console.log(
+  "🚀 ~ file: index.js:60 ~ performUnitOfWork(example):",
+  performUnitOfWork(example),
+);
