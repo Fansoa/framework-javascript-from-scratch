@@ -1,4 +1,6 @@
 let nextTask = null;
+let currentRoot = null;
+let vdomRoot = null;
 
 function createElement(type, props, children) {
   return {
@@ -30,6 +32,14 @@ function render(element, container) {
     type: 'create',
     content: element
   }
+
+  currentRoot = {
+    dom: container,
+    props: {},
+    children: [element],
+  };
+
+  console.log(currentRoot);
 }
 
 function createDom(structure) {
@@ -92,7 +102,6 @@ function executeTask(task) {
     task.parent.appendChild(elementDom);
 
     const child = task.content.children[0];
-    const sibling = task.content.children[1];
 
     const nextFiber = child ? {
       parent: elementDom,
@@ -102,6 +111,7 @@ function executeTask(task) {
     } : null;
 
     let previousSibling = null;
+    // Permet de gérer les siblings, on récupère notre enfant et créer une liste chainée de sibling.
     for (let index = 1; index < task.content.children.length; index++) {
       const sibling = task.content.children[index];
       const siblingFiber = sibling ? {
@@ -133,44 +143,9 @@ function executeTask(task) {
       // Si il n'y a plus d'enfant (et ici de sibling) on retourne au parent afin de prendre en compte les sibling du parent puis ces enfants etc
       nextTask = nextTask.parentFiber;
     }
-
-    /**
-     * Return la new task task.child si c'est pas vide
-     *    Sinon
-     *        while nextTask
-     *            si nextFiber.sibling
-     *              return nextFiber.sibling
-     *            Sinon
-     *              return nextFiber.parent
-     * 
-     * Comme ça si il y a un enfant il va les traiter avant de toucher le sibling grace au return.
-     * Et si il a des sibling il va les traiter grace au return puis seulement lorsque tous les sibling ont été fait (il n'en reste plus)
-     * il va return le parent, et ainsi de suite jusqu'à ce qu'il recroise des siblings etc
-     * 
-     * Normalement cela traitera TOUS les cas de figure, enfant multiple, parent, sibling etc
-     */
-
-    /**
-     * @todo Gestion des sibling.
-     * 
-     * Actuellement on gère uniquement le cas d'un child.
-     * Si l'élément à un enfant
-     *    on créer une fiber à partir de celui ci
-     *    on set le child de notre task actuel avec la fiber créer
-     *    on set nextTask = à notre fiber créer
-     * 
-     * Maintenant, on doit :
-     * 
-     * Garder le check de l'enfant.
-     * Si pas d'enfant
-     *    Check si il y a un sibling
-     *      reproduire le comportement du child :
-     *          création du fiber
-     *          set du sibling
-     *          set de nextTask
-     */
   }
 }
+
 
 requestIdleCallback(workQueue);
 
@@ -179,3 +154,34 @@ export const MiniReact = {
   createDom,
   render
 }
+
+/**
+ * Gestion des states
+ * 
+ * Reprendre ce qui a été fait sur les précédentes branch pour le useState
+ * Maintenant on utilise un principe de workQueue, donc on doit utiliser ce même principe pour les states (?)
+ * 
+ * Dans tous les cas il faudra mettre en place un cache / alternate.
+ * Dans le cache on stockera notre précedente version de root (currentRoot)
+ * Est-ce qu'on stocke le alternate pour chaque fiber ou directement TOUS le root / currentRoot ?
+ * Si on stock le alternate par fiber on devrait avoir notre arborescence de cache dans l'arborescence root donc c'est bon (?)
+ * 
+ * Même si on stocke le alternate, comment on indique quel partie rerender ?
+ * Il faut repasser sur tout le root du début à la fin et comparer chaque élément avec leur alternate ?
+ * 
+ * 
+ * 1. currentRoot devient renderedRoot, moins confus car il s'agit du root déjà en place currentRoot est celui sur lesquel on travail
+ * 2. Créer des phases de commit (au moins pour le root pour gérer le renderedRoot etc) // cf: https://www.youtube.com/watch?v=0ympFIwQFJw
+ * 3. La partie utilisée dans le render sera notre currentRoot (celle en cours)
+ *    a. On créer le currentRoot
+ *    b. On set nextTask = currentRoot. 
+ *      Le but ici est de conserver le currentRoot pdt toute la durée de notre workQueue.
+ *      Lorsque l'on aura fini on la remettra a null, puis on la set de nouveau lorsque l'on rerender etc
+ *      nextTask = currentRoot permet de garder le fonctionnement actuel (parent->enfant->sibling etc)
+ * 
+ * 2.a Ici dans la partie commit notre workQueue est completé (pour cette partie) donc
+ *    on pourra reset le currentRoot
+ *    On va aussi set le renderedRoot
+ * 
+ * 4. récupérer le useState fait dans l'une des branch de restart (sans toucher au contenu, juste pour voir et écrire la logique à suivre pour après)
+ */

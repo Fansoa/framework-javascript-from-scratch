@@ -33,7 +33,6 @@ function Test() {
         'div',
         {
           'className': 'bg-pink-500',
-          'event.click': () => alert('Test'),
         },
         [
           MiniReact.createElement(
@@ -65,7 +64,7 @@ function Test() {
                 {
                   'className': 'bg-orange-500',
                 },
-                ['arg']
+                ['IM BLUE DADOUDI DADOUDA DADOU DI DADOU DAAAAA']
               )
             ]
           )
