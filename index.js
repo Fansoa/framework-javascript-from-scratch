@@ -1,6 +1,8 @@
 import { MiniReact } from "./restart_new/core/MiniReact.js";
 
 function Test() {
+  const [state, setState] = MiniReact.useState(0);
+
   return MiniReact.createElement(
     'div',
     {
@@ -21,7 +23,7 @@ function Test() {
               'className': 'bg-green-500',
               'event.click': (event) => {
                 event.stopPropagation();
-                alert('MY BUTTON')
+                alert('First button')
               },
             },
             ['First button']
@@ -56,8 +58,9 @@ function Test() {
                 'div',
                 {
                   'className': 'bg-green-300',
+                  'event.click': () => setState(state => state+1)
                 },
-                ['test']
+                [`test set State = ${state}`]
               ),
               MiniReact.createElement(
                 'div',

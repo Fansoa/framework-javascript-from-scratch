@@ -2,6 +2,20 @@ let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
 
+// RENDER - (render the element inside the container)
+function render(element, container) {
+  // Permet de stocker l'arborescence qui est en cours
+  currentRoot = {
+    parent: container,
+    type: 'create',
+    content: element
+  }
+
+  // On utilise la workQueue donc on doit set le nextTask
+  nextTask = currentRoot;
+}
+
+// CREATE ELELEMNT - (create element structure)
 function createElement(type, props, children) {
   return {
     type,
@@ -26,18 +40,7 @@ function createTextElement(content) {
   }
 }
 
-function render(element, container) {
-  // Permet de stocker l'arborescence qui est en cours
-  currentRoot = {
-    parent: container,
-    type: 'create',
-    content: element
-  }
-
-  // On utilise la workQueue donc on doit set le nextTask
-  nextTask = currentRoot;
-}
-
+// CREATE DOM - (create the dom of ONE element. Not in charge of child dom creation, with unitOfWork tasks they are all handled independently)
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
     document.createTextNode(structure.props.content) :
@@ -48,6 +51,7 @@ function createDom(structure) {
   return dom;
 }
 
+// UPDATE DOM - (update the dom of an element, it's props event etc. On createDom it will only be adding, not updating)
 function updateDom(dom, prevStructure, newStructure) {
   if (Object.keys(prevStructure).length) {
     setDomParameters(dom, newStructure, true);
@@ -56,6 +60,7 @@ function updateDom(dom, prevStructure, newStructure) {
   setDomParameters(dom, newStructure);
 }
 
+// SET DOM PARAMETERS & SET DOM PROPS - (in charge of setting or resetting the dom parameters, props, events etc)
 function setDomParameters(dom, structure, mustReset = false) {
   setDomProps(dom, structure.props, mustReset);
   setDomEvents(dom, structure.props, mustReset);
@@ -83,6 +88,7 @@ function isEvent(propName) {
   return propName.includes('event.');
 }
 
+// WORK QUEUE - (The functions that will allow to handle our work queue)
 function workQueue(reqIdleCall) {
   while (nextTask) {
     nextTask = executeTask(nextTask);
@@ -101,7 +107,6 @@ function workQueue(reqIdleCall) {
 }
 
 function executeTask(task) {
-  // Pour le moment on va juste gérer le create, par la suite en fonction du type d'action on fera un update, un delete etc.
   if (task.type === "create") {
     const elementDom = createDom(task.content);
     task.parent.appendChild(elementDom);
@@ -151,18 +156,29 @@ function executeTask(task) {
   }
 }
 
+// COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
 function commitRoot() {
-  // Truc qui lance notre taff
-  // Une fois que c'est fini
   renderedRoot = currentRoot;
   currentRoot = null;
 }
 
+// STATE - (our state handling hook)
+function useState(initialState) {
+  let state = initialState;
 
+  const setState = callback => {
+    state = callback(state);
+    console.log(state);
+  }
+  return [state, setState];
+}
+
+// REQUEST IDLE CALLBACK - (used to initiate the start of our work queue)
 requestIdleCallback(workQueue);
 
 export const MiniReact = {
   createElement,
   createDom,
-  render
+  render,
+  useState
 }
