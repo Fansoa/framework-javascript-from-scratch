@@ -1,6 +1,6 @@
 let nextTask = null;
+let renderedRoot = null;
 let currentRoot = null;
-let vdomRoot = null;
 
 function createElement(type, props, children) {
   return {
@@ -27,19 +27,15 @@ function createTextElement(content) {
 }
 
 function render(element, container) {
-  nextTask = {
+  // Permet de stocker l'arborescence qui est en cours
+  currentRoot = {
     parent: container,
     type: 'create',
     content: element
   }
 
-  currentRoot = {
-    dom: container,
-    props: {},
-    children: [element],
-  };
-
-  console.log(currentRoot);
+  // On utilise la workQueue donc on doit set le nextTask
+  nextTask = currentRoot;
 }
 
 function createDom(structure) {
@@ -90,6 +86,15 @@ function isEvent(propName) {
 function workQueue(reqIdleCall) {
   while (nextTask) {
     nextTask = executeTask(nextTask);
+  }
+
+  /**
+   * Si plus de nextTask ça veut dire que notre render est complété
+   * Comme ça va tourner en background (et en boucle) on check si currentRoot est présent
+   *    pour pas lancer notre commitRoot en boucle (commitRoot set currentRoot à null)
+   */
+  if (!nextTask && currentRoot) {
+    commitRoot();
   }
 
   requestIdleCallback(workQueue);
@@ -146,6 +151,13 @@ function executeTask(task) {
   }
 }
 
+function commitRoot() {
+  // Truc qui lance notre taff
+  // Une fois que c'est fini
+  renderedRoot = currentRoot;
+  currentRoot = null;
+}
+
 
 requestIdleCallback(workQueue);
 
@@ -154,34 +166,3 @@ export const MiniReact = {
   createDom,
   render
 }
-
-/**
- * Gestion des states
- * 
- * Reprendre ce qui a été fait sur les précédentes branch pour le useState
- * Maintenant on utilise un principe de workQueue, donc on doit utiliser ce même principe pour les states (?)
- * 
- * Dans tous les cas il faudra mettre en place un cache / alternate.
- * Dans le cache on stockera notre précedente version de root (currentRoot)
- * Est-ce qu'on stocke le alternate pour chaque fiber ou directement TOUS le root / currentRoot ?
- * Si on stock le alternate par fiber on devrait avoir notre arborescence de cache dans l'arborescence root donc c'est bon (?)
- * 
- * Même si on stocke le alternate, comment on indique quel partie rerender ?
- * Il faut repasser sur tout le root du début à la fin et comparer chaque élément avec leur alternate ?
- * 
- * 
- * 1. currentRoot devient renderedRoot, moins confus car il s'agit du root déjà en place currentRoot est celui sur lesquel on travail
- * 2. Créer des phases de commit (au moins pour le root pour gérer le renderedRoot etc) // cf: https://www.youtube.com/watch?v=0ympFIwQFJw
- * 3. La partie utilisée dans le render sera notre currentRoot (celle en cours)
- *    a. On créer le currentRoot
- *    b. On set nextTask = currentRoot. 
- *      Le but ici est de conserver le currentRoot pdt toute la durée de notre workQueue.
- *      Lorsque l'on aura fini on la remettra a null, puis on la set de nouveau lorsque l'on rerender etc
- *      nextTask = currentRoot permet de garder le fonctionnement actuel (parent->enfant->sibling etc)
- * 
- * 2.a Ici dans la partie commit notre workQueue est completé (pour cette partie) donc
- *    on pourra reset le currentRoot
- *    On va aussi set le renderedRoot
- * 
- * 4. récupérer le useState fait dans l'une des branch de restart (sans toucher au contenu, juste pour voir et écrire la logique à suivre pour après)
- */
