@@ -73,5 +73,6 @@
       Il faut changer le nom en handleTask (?)
  *
  *
- *
+ * Rajouter hooks aux fiber.
+    Comme ça lorsque on utilise le cache on peut récupérer les hooks, et par conséquent les valeurs associées
  */

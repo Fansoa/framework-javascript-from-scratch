@@ -163,8 +163,9 @@ function executeTask(task) {
   }
 }
 
+
 function updateComponent(task) {
-  
+
 }
 
 // COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
@@ -177,33 +178,49 @@ function commitRoot() {
 function useState(initialState) {
   let state = initialState;
 
-  const setState = callback => {
-    state = callback(state);
-    // currentRoot = {
-    //   parent: container,
-    //   type: 'create',
-    //   content: element,
-    //   cache: renderedRoot,
-    // }
-    // wipRoot = {
-    //   dom: container,
-    //   props: {
-    //     children: [element],
-    //   },
-    //   alternate: currentRoot,
-    // }
+  /**
+   * Lors du rerender, on vas récupérer le hook du render précedent.
+   *    Dans le setState on va push notre action dans la queue.
+   *    Donc lorsque l'on va récupérer le hook du render précedent, on aura push l'action sans l'executer, car l'éxecution se fait avant le setState.
+   *      Par conséquent, on indique que dans notre prochain render il faudra faire une action sur le state
+   *      puis on ammorce le nouveau render.
+   * 
+   * @todo changer le nom callback
+   */
+  const hook = {
+    state: initialState,
+    queue: [],
+  }
 
-    console.log(renderedRoot);
+  // Ici on utilisera donc la queue de l'ancier hook, mais on modifiera bien le hook.state, car il s'agit du hook actuel (de notre nouvelle etape de render)
+  hook.queue.forEach(callback => {
+    hook.state = callback(hook.state)
+  })
+
+  const setState = callback => {
+    hook.queue.push(callback);
+    // currentRoot = {
+    //   parent: renderedRoot.parent,
+    //   props: renderedRoot.props,
+    //   children: renderedRoot.children,
+    //   cache: renderedRoot,
+    // };
+
+    /**
+     * Ici on doit lancer notre rerender. Pour cela on doit donc "remettre à 0" notre nextTask en la rendant égal à notre renderedRoot, ce qui permettra de relancer tous le proccess.
+     * Il faudra donc gérer la reconciliation
+     */
+    const currentRootStructure = renderedRoot.content;
     currentRoot = {
       parent: renderedRoot.parent,
-      type: 'update',
-      content: renderedRoot.child.content,
+      props: currentRootStructure.props,
+      children: currentRootStructure.children,
       cache: renderedRoot,
-    }
+    };
 
-    nextTask = currentRoot;
-    console.log(state);
+    nextTask = currentRoot
   }
+
   return [state, setState];
 }
 
