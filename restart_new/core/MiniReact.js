@@ -202,14 +202,14 @@ function reconciliation() {
 
 // COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
 function commitRoot() {
+  currentRoot.parent.replaceChildren(currentRoot.child.parent);
+  console.log(currentRoot);
   renderedRoot = currentRoot;
   currentRoot = null;
 }
 
 // STATE - (our state handling hook)
 function useState(initialState) {
-  let state = initialState;
-
   /**
    * Lors du rerender, on vas récupérer le hook du render précedent.
    *    Dans le setState on va push notre action dans la queue.
@@ -230,7 +230,9 @@ function useState(initialState) {
   const hook = {
     state: cachedHook ? cachedHook.state : initialState,
     queue: [],
+    hookId
   };
+  hookId++;
 
   nextTask.hook = hook;
 
@@ -240,7 +242,7 @@ function useState(initialState) {
    */
   cachedHook?.queue.forEach(callback => {
     hook.state = callback(hook.state)
-  })
+  });
 
   const setState = callback => {
     hook.queue.push(callback);
@@ -250,6 +252,7 @@ function useState(initialState) {
      * Il faudra donc gérer la reconciliation
      */
 
+    // const root = document.getElementById('root');
     currentRoot = {
       parent: renderedRoot.parent,
       type: 'create',
@@ -264,7 +267,7 @@ function useState(initialState) {
     nextTask.content = content;
   }
 
-  return [state, setState];
+  return [hook.state, setState];
 }
 
 // REQUEST IDLE CALLBACK - (used to initiate the start of our work queue)

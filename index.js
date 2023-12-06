@@ -1,10 +1,13 @@
 import { MiniReact } from "./restart_new/core/MiniReact.js";
 
 function RandomComponent() {
+  const [state, setState] = MiniReact.useState("Hello");
+
   return MiniReact.createElement(
     'div',
     {
       'className': 'bg-orange-500',
+      'event.click': () => setState(state => state+'S'),
     },
     ['IM BLUE DADOUDI DADOUDA DADOU DI DADOU DAAAAA']
   );
@@ -82,11 +85,11 @@ function TestPage() {
         'div',
         {
           'className': 'bg-green-300',
-          'event.click': () => setState(state => state+1)
+          'event.click': () => setState(state => state+1),
         },
         [`test set State = ${state}`]
       ),
-      // MiniReact.createElement(RandomComponent, {})
+      MiniReact.createElement(RandomComponent, {})
     ]
   )
 }
