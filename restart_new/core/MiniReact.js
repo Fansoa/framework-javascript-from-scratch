@@ -10,13 +10,20 @@ function render(element, container) {
   currentRoot = {
     parent: container,
     type: 'create',
-    content: isFunction(element) ? element() : element,
     cache: renderedRoot,
   };
 
-
   // On utilise la workQueue donc on doit set le nextTask
   nextTask = currentRoot;
+  const content = isFunction(element) ? element() : element;
+
+  /**
+   * Si on a un state qui est utilisé et que l'on créer notre composant directement dans currentRoot
+   *    Dans le useState comme le composant (et donc le useState sera créer avant / pendant la création du currentRoot)
+   */
+
+  currentRoot.content = content;
+  nextTask.content = content;
 }
 
 // CREATE ELELEMNT - (create element structure)
@@ -209,12 +216,21 @@ function useState(initialState) {
    *      Par conséquent, on indique que dans notre prochain render il faudra faire une action sur le state
    *      puis on ammorce le nouveau render.
    * 
+   * -----
+   * 
+   * Ici c'est quand on utilise le useState
+   * Techniquement, on instancie le useState lorsque l'on est sur notre composant
+   *    Autrement dit sur notre nextTask
+   *      Donc on peut set le hook du nextTask car il s'agira forcement de la task actuelle
+   * 
    * @todo changer le nom callback
    */
   const hook = {
     state: initialState,
     queue: [],
   }
+
+  nextTask.hook = hook;
 
   // Ici on utilisera donc la queue de l'ancier hook, mais on modifiera bien le hook.state, car il s'agit du hook actuel (de notre nouvelle etape de render)
   hook.queue.forEach(callback => {
