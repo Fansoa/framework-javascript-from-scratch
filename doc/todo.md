@@ -10,3 +10,4 @@
 - **updateFunctionComponent** : Met à jour les composants fonctionnels en utilisant les hooks.
 - **updateHostComponent** : Met à jour les composants DOM.
 - **reconcileChildren** : Réconcilie les enfants du nœud actuel dans l'arbre de Fiber.
+- **workLoop** : Exécute une boucle de travail tant qu'il y a une unité de travail en attente.
