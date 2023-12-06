@@ -1,8 +1,9 @@
 let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
-let hookId = -1;
+let hookId = 0;
 let hooks = [];
+let hooksLenght = 0;
 
 const isFunction = (element) => typeof element === "function";
 
@@ -28,6 +29,7 @@ function render(element, container) {
 
   currentRoot.content = content;
   nextTask.content = content;
+  hooksLenght = hooks.length;
 }
 
 // CREATE ELELEMNT - (create element structure)
@@ -211,6 +213,8 @@ function commitRoot() {
   console.log(currentRoot);
   renderedRoot = currentRoot;
   currentRoot = null;
+  // hookId = 0;
+  // rerenderCount++;
 }
 
 // STATE - (our state handling hook)
@@ -231,9 +235,13 @@ function useState(initialState) {
    * 
    * @todo changer le nom callback
    */
-  console.error('hooks.length : ' + hooks.length, 'hookId : ' + hookId, 'sum : ' + (hooks.length + hookId));
-  const cachedHook = nextTask?.cache?.hooks[hookId-1];
-  console.warn(nextTask?.cache?.hooks);
+  // console.error('hooks.length : ' + hooks.length, 'hookId : ' + hookId, 'sum : ' + (hooks.length + hookId), 'rerenderCount : ' + rerenderCount);
+
+  // const cachedHookIndex = Math.floor(hookId / rerenderCount);
+  // console.warn('cachedHookIndex : ' + cachedHookIndex);
+  const hookIndex = hooksLenght === 0 ? hookId : hookId - hooksLenght;
+  const cachedHook = nextTask?.cache?.hooks[hookIndex];
+  // console.warn(nextTask?.cache?.hooks);
   /**
    * On rajoute un hook id pour identifier notre hook. On ne peux pas juste avec son index dans hooks car on n'as pas de moyen de savoir à quel index on est
    *    Méthode js permettant d'indiquer le nombre de fois ou l'on call une fonction ?
@@ -261,7 +269,6 @@ function useState(initialState) {
      * Il faudra donc gérer la reconciliation
      */
 
-    // const root = document.getElementById('root');
     currentRoot = {
       parent: renderedRoot.parent,
       type: 'create',

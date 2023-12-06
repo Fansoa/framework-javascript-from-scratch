@@ -87,9 +87,12 @@ function TestPage() {
           'className': 'bg-green-300',
           'event.click': () => setState(state => state+1),
         },
-        [`test set State = ${state}`]
+        [
+          `test set State = ${state}`,
+            // MiniReact.createElement(RandomComponent, {})
+        ]
       ),
-      MiniReact.createElement(RandomComponent, {})
+      MiniReact.createElement(RandomComponent, {}),
     ]
   )
 }
