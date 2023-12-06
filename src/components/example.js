@@ -15,9 +15,10 @@ const example = MiniReact.createElement(
       style: {
         "background-color": "red",
       },
+      onClick: () => console.log("Button 1 is clicked"),
     },
     MiniReact.createElement("TEXT_NODE", {
-      text: "label",
+      text: "Button 1",
     }),
   ),
   MiniReact.createElement(
@@ -26,9 +27,10 @@ const example = MiniReact.createElement(
       style: {
         "background-color": "blue",
       },
+      onClick: () => console.log("Button 2 is clicked"),
     },
     MiniReact.createElement("TEXT_NODE", {
-      text: "label",
+      text: "Button 2",
     }),
   ),
 );
