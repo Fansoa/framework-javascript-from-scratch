@@ -1,6 +1,8 @@
 let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
+let hookId = -1;
+let hooks = [];
 
 const isFunction = (element) => typeof element === "function";
 
@@ -11,7 +13,8 @@ function render(element, container) {
     parent: container,
     type: 'create',
     cache: renderedRoot,
-    page: element
+    page: element,
+    hooks
   };
 
   // On utilise la workQueue donc on doit set le nextTask
@@ -134,6 +137,7 @@ function executeTask(task) {
     parentFiber: task,
     type: 'create',
     content: child,
+    hooks
   } : null;
 
   let previousSibling = null;
@@ -145,6 +149,7 @@ function executeTask(task) {
       parentFiber: task,
       type: 'create',
       content: sibling,
+      hooks
     } : null;
 
     nextFiber.sibling = siblingFiber;
@@ -226,13 +231,17 @@ function useState(initialState) {
    * 
    * @todo changer le nom callback
    */
-  const cachedHook = nextTask?.cache?.hook;
+  console.error('hooks.length : ' + hooks.length, 'hookId : ' + hookId, 'sum : ' + (hooks.length + hookId));
+  const cachedHook = nextTask?.cache?.hooks[hookId-1];
+  console.warn(nextTask?.cache?.hooks);
+  /**
+   * On rajoute un hook id pour identifier notre hook. On ne peux pas juste avec son index dans hooks car on n'as pas de moyen de savoir à quel index on est
+   *    Méthode js permettant d'indiquer le nombre de fois ou l'on call une fonction ?
+   */
   const hook = {
     state: cachedHook ? cachedHook.state : initialState,
-    queue: [],
-    hookId
+    queue: []
   };
-  hookId++;
 
   nextTask.hook = hook;
 
@@ -257,7 +266,8 @@ function useState(initialState) {
       parent: renderedRoot.parent,
       type: 'create',
       cache: renderedRoot,
-      page: renderedRoot.page
+      page: renderedRoot.page,
+      hooks
     };
   
     nextTask = currentRoot;
@@ -267,6 +277,8 @@ function useState(initialState) {
     nextTask.content = content;
   }
 
+  hookId++;
+  hooks.push(hook);
   return [hook.state, setState];
 }
 

@@ -9,7 +9,7 @@ function RandomComponent() {
       'className': 'bg-orange-500',
       'event.click': () => setState(state => state+'S'),
     },
-    ['IM BLUE DADOUDI DADOUDA DADOU DI DADOU DAAAAA']
+    [`State sibling RandomComponent = ${state}`]
   );
 }
 
