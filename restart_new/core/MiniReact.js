@@ -11,6 +11,7 @@ function render(element, container) {
     parent: container,
     type: 'create',
     cache: renderedRoot,
+    page: element
   };
 
   // On utilise la workQueue donc on doit set le nextTask
@@ -225,40 +226,42 @@ function useState(initialState) {
    * 
    * @todo changer le nom callback
    */
+  const cachedHook = nextTask?.cache?.hook;
   const hook = {
-    state: initialState,
+    state: cachedHook ? cachedHook.state : initialState,
     queue: [],
-  }
+  };
 
   nextTask.hook = hook;
 
-  // Ici on utilisera donc la queue de l'ancier hook, mais on modifiera bien le hook.state, car il s'agit du hook actuel (de notre nouvelle etape de render)
-  hook.queue.forEach(callback => {
+  /**
+   * Ici on utilisera donc la queue de l'ancier hook, mais on modifiera bien le hook.state, car il s'agit du hook actuel (de notre nouvelle etape de render)
+   * Puisqu'on est dans le next task on peut utiliser son cache
+   */
+  cachedHook?.queue.forEach(callback => {
     hook.state = callback(hook.state)
   })
 
   const setState = callback => {
     hook.queue.push(callback);
-    // currentRoot = {
-    //   parent: renderedRoot.parent,
-    //   props: renderedRoot.props,
-    //   children: renderedRoot.children,
-    //   cache: renderedRoot,
-    // };
 
     /**
      * Ici on doit lancer notre rerender. Pour cela on doit donc "remettre à 0" notre nextTask en la rendant égal à notre renderedRoot, ce qui permettra de relancer tous le proccess.
      * Il faudra donc gérer la reconciliation
      */
-    const currentRootStructure = renderedRoot.content;
+
     currentRoot = {
       parent: renderedRoot.parent,
-      props: currentRootStructure.props,
-      children: currentRootStructure.children,
+      type: 'create',
       cache: renderedRoot,
+      page: renderedRoot.page
     };
-
+  
     nextTask = currentRoot;
+    const content = isFunction(renderedRoot.page) ? renderedRoot.page() : renderedRoot.page;
+  
+    currentRoot.content = content;
+    nextTask.content = content;
   }
 
   return [state, setState];
