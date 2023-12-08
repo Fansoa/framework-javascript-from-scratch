@@ -1,24 +1,31 @@
 import { Component } from "../core/MiniReact.js";
-import BrowserLinkComponent from "../components/BrowserLink.js";
+import BrowserLinkComponent from "./BrowserLink.js";
 
 export default class Footer extends Component {
-  menuLinks={
+  menuLinks = {
     rightMenuLinks: [
-      {to: "/", content: "truc 1"},
-      {to: "/", content: "truc 1"},
-      {to: "/", content: "truc 1"},
+      { to: "/", content: "truc 1" },
+      { to: "/", content: "truc 1" },
+      { to: "/", content: "truc 1" },
     ],
     linkedinLinks: [
-      {to: "https://www.linkedin.com/in/christopher-debray/", name: "Christopher Debray"},
-      {to: "https://www.linkedin.com/in/francoisvrn/", name: "François Verin"},
-      {to: "https://www.linkedin.com/in/christopher-debray/", name: "Alexis Girard"},
+      {
+        to: "https://www.linkedin.com/in/christopher-debray/",
+        name: "Christopher Debray",
+      },
+      {
+        to: "https://www.linkedin.com/in/francoisvrn/",
+        name: "François Verin",
+      },
+      {
+        to: "https://www.linkedin.com/in/christopher-debray/",
+        name: "Alexis Girard",
+      },
     ],
-  }
+  };
 
   render() {
-    return super.render(
-      this.toString()
-    );
+    return super.render(this.toString());
   }
 
   toString() {
@@ -48,15 +55,17 @@ export default class Footer extends Component {
               >
                 Fondateurs
               </h1>
-              ${this.menuLinks.linkedinLinks.map(link => {
-                return `
+              ${this.menuLinks.linkedinLinks
+                .map((link) => {
+                  return `
                   <div
                     class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
                   >
                     <a href="${link.to}">${link.name}</a>
                   </div>
-                `
-              }).join('')}
+                `;
+                })
+                .join("")}
             </section>
             <section class="items-stretch flex grow basis-[0%] flex-col">
               <h1
@@ -64,23 +73,25 @@ export default class Footer extends Component {
               >
                 Je sais pas
               </h1>
-              ${this.menuLinks.rightMenuLinks.map(link => {
-                return `
+              ${this.menuLinks.rightMenuLinks
+                .map((link) => {
+                  return `
                   <div
                     class="text-white text-center text-xs leading-4 whitespace-nowrap mt-5"
                   >
                     ${new BrowserLinkComponent({
                       to: "/",
-                      content: "truc 1"
+                      content: "truc 1",
                     }).toString()}
                   </div>
-                `
-              }).join('')}
+                `;
+                })
+                .join("")}
             </section>
           </div>
         </div>
       </div>
     </div>
-  </footer>`
+  </footer>`;
   }
 }

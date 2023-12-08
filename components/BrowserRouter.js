@@ -2,29 +2,29 @@ import routes from "../routes.js";
 
 export const BrowserService = {
   getRoute() {
-    const path = location.pathname === '/index.html' ? '/' : location.pathname;
+    const path = location.pathname === "/index.html" ? "/" : location.pathname;
     return path;
   },
 
   getRouteStructure() {
     return routes[this.getRoute()];
   },
-}
+};
 
 export const BrowserRouter = function (routes, rootElement) {
   const getRoute = () => {
-    const path = location.pathname === '/index.html' ? '/' : location.pathname;
+    const path = location.pathname === "/index.html" ? "/" : location.pathname;
     return path;
-  }
+  };
 
   const generatePage = () => {
     const path = getRoute();
-    this.renderPage(rootElement, routes[path])
+    this.renderPage(rootElement, routes[path]);
 
     this.savedTree = routes[path];
     this.currentFiber = routes[path];
   };
-  
+
   generatePage();
   const oldPushState = history.pushState;
   history.pushState = function (state, title, url) {

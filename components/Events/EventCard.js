@@ -1,10 +1,8 @@
-import { Component } from "../../core/MiniReact.js"
+import { Component } from "../../core/MiniReact.js";
 
 export default class EventCard extends Component {
   render() {
-    return super.render(
-      this.toString()
-    );
+    return super.render(this.toString());
   }
 
   toString() {

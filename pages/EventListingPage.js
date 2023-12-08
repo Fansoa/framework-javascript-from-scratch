@@ -31,9 +31,7 @@ const testEvents = [
 
 class EventListingPage extends Component {
   render() {
-    return super.render(
-      this.toString()
-    );
+    return super.render(this.toString());
   }
 
   toString() {
@@ -45,13 +43,15 @@ class EventListingPage extends Component {
             class="content-start flex-wrap self-center w-[894px] max-w-full mt-10 px-5"
           >
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 flex max-md:flex-col max-md:items-stretch">
-              ${testEvents.map((sportEvent) => new EventCard({sportEvent: sportEvent}).toString()).join('')}
+              ${testEvents
+                .map((sportEvent) => new EventCard({ sportEvent }).toString())
+                .join("")}
             </div>
           </section>
           ${new SearchSection().toString()}
         </main>
         ${new Footer().toString()}
-      </div>`
+      </div>`;
   }
 }
 
