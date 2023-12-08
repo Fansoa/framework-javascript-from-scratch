@@ -1,4 +1,4 @@
-[
+export default [
     {
         "sport": "Athlétisme",
         "name": "Athlétisme",
