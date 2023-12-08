@@ -154,9 +154,15 @@ function executeTask(task) {
       hooks
     } : null;
 
-    nextFiber.sibling = siblingFiber;
+    if (previousSibling) {
+      previousSibling.sibling = siblingFiber;
+    } else {
+      nextFiber.sibling = siblingFiber;
+    }
     previousSibling = siblingFiber;
   }
+
+  
 
   task.child = nextFiber;
 
@@ -210,7 +216,6 @@ function reconciliation() {
 // COMMIT - (Will allow us to commit our work, setting the renderedRoot / currentRoot in order to have a sort of caching system used in case of updates)
 function commitRoot() {
   currentRoot.parent.replaceChildren(currentRoot.child.parent);
-  console.log(currentRoot);
   renderedRoot = currentRoot;
   currentRoot = null;
   // hookId = 0;

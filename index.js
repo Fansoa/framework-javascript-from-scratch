@@ -1,99 +1,68 @@
 import { MiniReact } from "./restart_new/core/MiniReact.js";
+import events from "./assets/data/events.js";
 
-function RandomComponent() {
-  const [state, setState] = MiniReact.useState("Hello");
+function EventListItem({event}) {
+  // const [state, setState] = MiniReact.useState(0);
 
   return MiniReact.createElement(
     'div',
     {
-      'className': 'bg-orange-500',
-      'event.click': () => setState(state => state+'S'),
+      'className': 'bg-pink-200',
+      // 'event.click': () => setState(state => state+1),
     },
-    [`State sibling RandomComponent = ${state}`]
+    [
+      MiniReact.createElement(
+        'img',
+        {
+          'src': event.img,
+          'className': 'w-[100px]'
+        },
+        []
+      ),
+      `SPORT : ${event.sport}`,
+      `PLACE : ${event.place}`,
+      `DATE : ${event.date}`,
+    ]
   );
 }
 
+function EventList(params) {
+  const list = [];
+  params.events.forEach(event => {
+    list.push(
+      MiniReact.createElement(EventListItem, {event})
+    );
+  });
+
+  return list;
+}
+
 function TestPage() {
-  const [state, setState] = MiniReact.useState(0);
+  // const [state, setState] = MiniReact.useState(0);
 
   return MiniReact.createElement(
     'div',
     {
       'id': 'myDiv',
-      'className': 'w-[150px] h-[150px] bg-red-500',
+      'className': 'bg-red-500',
     },
-    [
+    // [
       // MiniReact.createElement(
       //   'div',
       //   {
-      //     'className': 'bg-blue-500',
-      //     'event.click': () => alert('Test'),
+      //     'className': 'bg-green-300',
+      //     'event.click': () => setState(state => state+1),
       //   },
       //   [
-      //     MiniReact.createElement(
-      //       'button',
-      //       {
-      //         'className': 'bg-green-500',
-      //         'event.click': (event) => {
-      //           event.stopPropagation();
-      //           alert('First button')
-      //         },
-      //       },
-      //       ['First button']
-      //     )
+      //     `State TP = ${state}`,
+      //     MiniReact.createElement(RandomComponent, {}),
+      //     'State TP static string',
       //   ]
       // ),
-      // 'Hello',
-      // MiniReact.createElement(
-      //   'div',
-      //   {
-      //     'className': 'bg-pink-500',
-      //   },
-      //   [
-      //     MiniReact.createElement(
-      //       'button',
-      //       {
-      //         'className': 'bg-yellow-500',
-      //         'event.click': (event) => {
-      //           event.stopPropagation();
-      //           alert('MY BUTTON')
-      //         },
-      //       },
-      //       ['MY BUTTON']
-      //     ),
-      //     MiniReact.createElement(
-      //       'span',
-      //       {
-      //         'className': 'bg-orange-500',
-      //       },
-      //       [
-      //         MiniReact.createElement(
-      //           'div',
-      //           {
-      //             'className': 'bg-green-300',
-      //             'event.click': () => setState(state => state+1)
-      //           },
-      //           [`test set State = ${state}`]
-      //         ),
-      //         MiniReact.createElement(RandomComponent, {})
-      //       ]
-      //     )
-      //   ]
-      // )
-
-      MiniReact.createElement(
-        'div',
-        {
-          'className': 'bg-green-300',
-          'event.click': () => setState(state => state+1),
-        },
-        [
-          `test set State = ${state}`,
-            // MiniReact.createElement(RandomComponent, {})
-        ]
-      ),
-      MiniReact.createElement(RandomComponent, {}),
-    ]
+      // "helloooo",
+      // "heya"
+    // ]
+    MiniReact.createElement(EventList, {events})
   )
 }
 
