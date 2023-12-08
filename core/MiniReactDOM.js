@@ -3,6 +3,16 @@ import AVAILABLES_EVENTS_TYPE from "./constants.js";
 const MiniReactDOM = {
   render: function render(rootElement, element) {
     rootElement.appendChild(element);
+
+    window.addEventListener("reRender", (e) => {
+      const oldChild = e.detail.node;
+      const { parentNode } = e.detail.node;
+      const newChild = this.renderStructure(e.detail.render());
+
+      if (e.detail.node.childNodes.length) {
+        parentNode.replaceChild(newChild, oldChild);
+      }
+    });
   },
 
   renderStructure: function generateDom(structure) {
@@ -44,8 +54,10 @@ const MiniReactDOM = {
       });
     }
 
-    // eslint-disable-next-line no-param-reassign
-    if (structure.component) structure.component.node = element;
+    if (structure.component) {
+      // eslint-disable-next-line no-param-reassign
+      structure.component.node = element;
+    }
 
     return element;
   },
