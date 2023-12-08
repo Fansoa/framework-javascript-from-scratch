@@ -26,30 +26,24 @@ const MiniReactDOM = {
     }
     if (structure.props) {
       Object.entries(structure.props).forEach(([propName, propValue]) => {
-        if (propName === "className") {
-          element.className = propValue;
-        }
-
         if (propName === "style") {
           Object.entries(propValue).forEach(([CSSproperty, CSSvalue]) => {
             element.style[CSSproperty] = CSSvalue;
           });
-        }
-
-        if (propName.startsWith("on")) {
+        } else if (propName.startsWith("on")) {
           const eventType = propName.substring(2).toLowerCase();
 
           if (AVAILABLES_EVENTS_TYPE.includes(eventType)) {
             element.addEventListener(eventType, propValue);
           }
-        }
-
-        if (propName === "children") {
+        } else if (propName === "children") {
           if (propValue.length) {
             propValue.forEach((child) => {
               element.appendChild(this.renderStructure(child));
             });
           }
+        } else {
+          element.setAttribute(propName, propValue);
         }
       });
     }
