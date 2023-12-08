@@ -1,18 +1,32 @@
 import MiniReact from "../core/MiniReact.js";
 import IncrementButton from "../components/IncrementButton.js";
+import Button from "../components/Button.js";
 
 class HomePage extends MiniReact.Component {
   constructor(props) {
     super(props);
-    this.state = { title: "test" };
+    this.state = { counter: 0 };
   }
 
   render() {
     return this.createElement(
       "div",
       null,
-      new IncrementButton({ buttonLabel: "1. bouton" }).render(),
-      new IncrementButton({ buttonLabel: "2. bouton" }).render(),
+      this.createElement(IncrementButton, { buttonLabel: "1. bouton" }),
+      this.createElement(IncrementButton, { buttonLabel: "2. bouton" }),
+      this.createElement(
+        "div",
+        null,
+        this.createElement(Button, {
+          onClick: () =>
+            this.setState((prev) => ({
+              ...prev,
+              counter: this.state.counter + 1,
+            })),
+          label: "button",
+        }),
+      ),
+      this.createElement("TEXT_NODE", { text: this.state.counter }),
     );
   }
 }
