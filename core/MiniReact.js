@@ -6,6 +6,9 @@ const MiniReact = {
     }
 
     createElement(type, config, ...children) {
+      if (typeof type === "function") {
+        return new type(config).render();
+      }
       return {
         type,
         props: { ...config, children },
