@@ -1,4 +1,4 @@
-import { MiniReact } from "./restart_new/core/MiniReact.js";
+import { MiniReact } from "./core/MiniReact.js";
 import events from "./assets/data/events.js";
 
 function EventListItem({event}) {
