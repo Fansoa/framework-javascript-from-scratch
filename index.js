@@ -43,11 +43,18 @@ function createDom(structure) {
 }
 
 /**
- * Represents the next unit of work.
+ * Represente la prochaine unité de travail
  * @type {Object|null}
  */
 
 let nextUnitOfWork = null;
+
+/**
+ * Noeud Fiber en cours de travail pour le rendu.
+ * Sa valeur est Initialisé après le premier appel de la fonction render
+ */
+
+let wipRoot = null;
 
 /**
  * Effectue une unité de travail pour la réconciliation de la fibre dans la construction de l'arbre virtuel.
@@ -134,6 +141,22 @@ function workLoop() {
   }
 }
 
+function commitRoot() {
+  commitWork(wipRoot.child)
+  currentRoot = wipRoot
+  wipRoot = null
+}
+​
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+  const domParent = fiber.parent.dom
+  domParent.appendChild(fiber.dom)
+  commitWork(fiber.child)
+  commitWork(fiber.sibling)
+}
+
 /**
  * Return un élément dans le container, initialise l'unité de travail suivante.
  * @function render
@@ -143,12 +166,13 @@ function workLoop() {
  */
 
 function render(element, container) {
-  nextUnitOfWork = {
+  wipRoot = {
     dom: container,
     props: {
       children: [element],
     },
   };
+  nextUnitOfWork = wipRoot;
 }
 
 render(example, document.getElementById("root"));
