@@ -2,14 +2,14 @@ import { Component } from "../../core/MiniReact.js";
 
 export default class SeeMoreSection extends Component {
   render() {
-    super.render(
-      this.toString()
-    );
+    super.render(this.toString());
   }
 
   toString() {
     return `<section
-      class="items-center bg-blue-50 self-stretch flex w-full flex-col mt-16 py-20 px-5 max-md:max-w-full${this.props?.class?.container ? ' ' + this.props.class.container : ''}"
+      class="items-center bg-blue-50 self-stretch flex w-full flex-col mt-16 py-20 px-5 max-md:max-w-full${
+        this.props?.class?.container ? ` ${this.props.class.container}` : ""
+      }"
     >
       <article class="flex max-w-full flex-col items-center">
         <h1 class="text-black text-center text-xl font-bold leading-6">
@@ -21,6 +21,6 @@ export default class SeeMoreSection extends Component {
           class="aspect-square object-contain object-center w-9 overflow-hidden self-center max-w-full mt-10"
         />
       </article>
-    </section>`
+    </section>`;
   }
 }

@@ -2,9 +2,7 @@
 import IncrementButton from "./components/IncrementButton/index.js";
 
 export default {
-  "/": new IncrementButton(
-    { label: 'bouton'}
-  ).render(),
+  "/": new IncrementButton({ label: "bouton" }).render(),
   // "/": page1,
   // "/page1": page1,
 };

@@ -3,9 +3,7 @@ import BaseInput from "../Form/BaseInput.js";
 
 export default class SearchSection extends Component {
   render() {
-    super.render(
-      this.toString()
-    );
+    super.render(this.toString());
   }
 
   toString() {
@@ -18,8 +16,8 @@ export default class SearchSection extends Component {
         >
           Cherchez votre épreuve ou je sais pas quoi
         </h1>
-        ${new BaseInput({placeholder: 'Entrez votre recherche'}).toString()}
+        ${new BaseInput({ placeholder: "Entrez votre recherche" }).toString()}
       </article>
-    </section>`
+    </section>`;
   }
 }

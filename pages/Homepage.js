@@ -6,9 +6,7 @@ import SeeMoreSection from "../components/Sections/SeeMoreSection.js";
 
 class Homepage extends Component {
   render() {
-    return super.render(
-      this.toString()
-    );
+    return super.render(this.toString());
   }
 
   toString() {
@@ -36,7 +34,7 @@ class Homepage extends Component {
           ${new SearchSection().toString()}
         </main>
         ${new Footer().toString()}
-      </div>`
+      </div>`;
   }
 }
 
