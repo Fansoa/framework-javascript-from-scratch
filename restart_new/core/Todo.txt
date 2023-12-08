@@ -79,4 +79,12 @@
 
   requestIdleCallback ne fonctionne pas sur safari.
     Si a la fin on en a la possibilité on trouvera une alternative
+
+-------
+- Test update state -- ok
+    - parent
+    - child
+    - subchild
+
+- 
  */
