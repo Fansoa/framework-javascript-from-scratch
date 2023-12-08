@@ -240,13 +240,9 @@ function useState(initialState) {
    * 
    * @todo changer le nom callback
    */
-  // console.error('hooks.length : ' + hooks.length, 'hookId : ' + hookId, 'sum : ' + (hooks.length + hookId), 'rerenderCount : ' + rerenderCount);
 
-  // const cachedHookIndex = Math.floor(hookId / rerenderCount);
-  // console.warn('cachedHookIndex : ' + cachedHookIndex);
   const hookIndex = hooksLenght === 0 ? hookId : hookId - hooksLenght;
   const cachedHook = nextTask?.cache?.hooks[hookIndex];
-  // console.warn(nextTask?.cache?.hooks);
   /**
    * On rajoute un hook id pour identifier notre hook. On ne peux pas juste avec son index dans hooks car on n'as pas de moyen de savoir à quel index on est
    *    Méthode js permettant d'indiquer le nombre de fois ou l'on call une fonction ?
