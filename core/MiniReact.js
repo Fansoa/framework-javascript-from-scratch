@@ -1,11 +1,11 @@
+import { createElement, isFunction } from "./ElementStructureUtils.js";
+
 let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
 let hookId = 0;
 let hooks = [];
 let hooksLenght = 0;
-
-const isFunction = (element) => typeof element === "function";
 
 // RENDER - (render the element inside the container)
 function render(element, container) {
@@ -32,44 +32,14 @@ function render(element, container) {
   hooksLenght = hooks.length;
 }
 
-// CREATE ELELEMNT - (create element structure)
-function createElement(type, props, children) {
-  if (isFunction(type)) {
-    // If the type is a function, it's a component; instantiate and return it
-    return type({ ...props, children });
-  }
-
-  return {
-    type,
-    props: {
-      ...props,
-    },
-    children: children.map(child =>
-      typeof child === "object"
-        ? child
-        : createTextElement(child)
-    ),
-  }
-}
-
-function createTextElement(content) {
-  return {
-    type: "TEXT_NODE",
-    props: {
-      content,
-    },
-    children: [],
-  }
-}
-
 // CREATE DOM - (create the dom of ONE element. Not in charge of child dom creation, with unitOfWork tasks they are all handled independently)
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
-    document.createTextNode(structure.props.content) :
-    document.createElement(structure.type);
-  
+  document.createTextNode(structure.props.content) :
+  document.createElement(structure.type); 
+
   updateDom(dom, {}, structure);
-  
+
   return dom;
 }
 
@@ -102,6 +72,10 @@ function setDomEvents(dom, props, mustReset = false) {
   .forEach(eventName => {
     const eventType = eventName.split('.')[1]
     const eventAction = mustReset ? 'removeEventListener' : 'addEventListener';
+    const eventFunction = typeof props[eventName] === 'string' ?
+      new Function(props[eventName]) :
+      props[eventName];
+
     dom[eventAction](eventType, props[eventName]);
   });
 }
