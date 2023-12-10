@@ -9,7 +9,7 @@ function isEvent(propName) {
 }
 
 /**
- * @const
+ * @function isFunction
  * @description Returns `true` if the element is a function, `false` otherwise.
  * @param {any} element The element to test.
  * @returns {boolean}
