@@ -1,14 +1,12 @@
 import { MiniReact } from "./core/MiniReact.js";
 import events from "./assets/data/events.js";
+import { parseHTML, parseFunction, parseEvents } from "./core/HtmlParser.js";
 
 function EventListItem({ event }) {
-  // const [state, setState] = MiniReact.useState(0);
-
   return MiniReact.createElement(
     "div",
     {
       className: "bg-pink-200",
-      // 'event.click': () => setState(state => state+1),
     },
     [
       MiniReact.createElement(
@@ -26,40 +24,48 @@ function EventListItem({ event }) {
   );
 }
 
+/**
+ * @function EventListItemNEW
+ * @description Creates an event list item component.
+ * @param {object} event The event object to display.
+ * @returns {React.Element} The React element for the event list item.
+ */
+function EventListItemNEW({ event }) {
+  const [state, setState] = MiniReact.useState(0);
+  function test(test) {
+    setState((state) => state + 1);
+  }
+
+  const functions = {
+    test,
+  };
+
+  const content = parseHTML(`<div className="bg-pink-200">
+    <img src="${event.img}" className="w-[100px]" event.click="test('${event.sport}')}">
+    SPORT : ${event.sport}
+    PLACE : ${event.place}
+    DATE : ${event.date}
+    STATE : ${state}
+  </div>`);
+  parseEvents(content, functions);
+
+  return MiniReact.createElement(...content);
+}
+
 function EventList(params) {
   const list = [];
   params.events.forEach((event) => {
-    list.push(MiniReact.createElement(EventListItem, { event }));
+    list.push(MiniReact.createElement(EventListItemNEW, { event }));
   });
 
   return list;
 }
 
 function TestPage() {
-  // const [state, setState] = MiniReact.useState(0);
-
   return MiniReact.createElement(
     "div",
-    {
-      id: "myDiv",
-      className: "bg-red-500",
-    },
-    // [
-    // MiniReact.createElement(
-    //   'div',
-    //   {
-    //     'className': 'bg-green-300',
-    //     'event.click': () => setState(state => state+1),
-    //   },
-    //   [
-    //     `State TP = ${state}`,
-    //     MiniReact.createElement(RandomComponent, {}),
-    //     'State TP static string',
-    //   ]
-    // ),
-    // "helloooo",
-    // "heya"
-    // ]
+    {},
+
     MiniReact.createElement(EventList, { events }),
   );
 }
