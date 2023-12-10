@@ -1,11 +1,11 @@
+import { createElement, isFunction } from "./ElementStructureUtils.js";
+
 let nextTask = null;
 let renderedRoot = null;
 let currentRoot = null;
 let hookId = 0;
 const hooks = [];
 let hooksLenght = 0;
-
-const isFunction = (element) => typeof element === "function";
 
 // RENDER - (render the element inside the container)
 function render(element, container) {
@@ -30,34 +30,6 @@ function render(element, container) {
   currentRoot.content = content;
   nextTask.content = content;
   hooksLenght = hooks.length;
-}
-
-// CREATE ELELEMNT - (create element structure)
-function createElement(type, props, children) {
-  if (isFunction(type)) {
-    // If the type is a function, it's a component; instantiate and return it
-    return type({ ...props, children });
-  }
-
-  return {
-    type,
-    props: {
-      ...props,
-    },
-    children: children.map((child) =>
-      typeof child === "object" ? child : createTextElement(child),
-    ),
-  };
-}
-
-function createTextElement(content) {
-  return {
-    type: "TEXT_NODE",
-    props: {
-      content,
-    },
-    children: [],
-  };
 }
 
 // CREATE DOM - (create the dom of ONE element. Not in charge of child dom creation, with unitOfWork tasks they are all handled independently)
@@ -103,6 +75,11 @@ function setDomEvents(dom, props, mustReset = false) {
       const eventAction = mustReset
         ? "removeEventListener"
         : "addEventListener";
+      const eventFunction =
+        typeof props[eventName] === "string"
+          ? new Function(props[eventName])
+          : props[eventName];
+
       dom[eventAction](eventType, props[eventName]);
     });
 }
