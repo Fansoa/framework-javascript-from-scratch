@@ -1,8 +1,4 @@
-import { createElement } from "./ElementStructureUtils.js";
-
-function isEvent(propName) {
-    return propName.includes('event.');
-}
+import { createElement, isEvent } from "./ElementStructureUtils.js";
 
 function isEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -11,6 +7,10 @@ function isEmpty(obj) {
 function parseHTML(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
+    // console.group('DOC')
+    // console.log(htmlString);
+    // console.log(doc)
+    // console.groupEnd('DOC')
 
     function parseNode(node) {
         /**
@@ -54,7 +54,7 @@ function parseHTML(htmlString) {
                      *      J'ai retiré, si un élément n'a pas de child tous casse, donc on mettre un espace à chaque fois
                      *      Comme ça il y aura toujours un child (un string vide donc osef ça impacte pas le visuel)
                      */
-                } else if (child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()) {
+                } else if (child.nodeType === Node.TEXT_NODE) {
                     children.push(child.nodeValue.trim());
                 }
             });
@@ -122,8 +122,46 @@ function parseEvents(content, functions) {
     return { content, eventCallbacks };
 }
 
+function getComponentData(component) {
+    if (Array.isArray(component)) {
+        return component.reduce(
+            (accumulator, currentItem) => {
+                Object.assign(accumulator.functions, currentItem.functions);
+                accumulator.content.push(currentItem.content);
+                return accumulator;
+            },
+            { functions: {}, content: [] }
+        );
+    }
+
+    return component;
+}
+
+function getComponentsData(components) {
+    const data = {
+        content: {},
+        functions: {}
+    };
+
+    for (let componentName in components) {
+        const component = components[componentName];
+        const componentData = getComponentData(component);
+
+        if (Array.isArray(componentData.content)) {
+            data.content[componentName] = componentData.content.join();
+        } else {
+            data.content[componentName] = componentData.content;
+        }
+        Object.assign(data.functions, componentData.functions);
+    }
+
+    return data;
+}
+
 export {
     parseFunction,
     parseHTML,
-    parseEvents
+    parseEvents,
+    getComponentData,
+    getComponentsData
 };

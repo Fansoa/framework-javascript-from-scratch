@@ -35,11 +35,11 @@ function render(element, container) {
 // CREATE DOM - (create the dom of ONE element. Not in charge of child dom creation, with unitOfWork tasks they are all handled independently)
 function createDom(structure) {
   const dom = structure.type === "TEXT_NODE" ?
-  document.createTextNode(structure.props.content) :
-  document.createElement(structure.type); 
-
+    document.createTextNode(structure.props.content) :
+    document.createElement(structure.type);
+  
   updateDom(dom, {}, structure);
-
+  
   return dom;
 }
 
@@ -135,8 +135,6 @@ function executeTask(task) {
     }
     previousSibling = siblingFiber;
   }
-
-  
 
   task.child = nextFiber;
 

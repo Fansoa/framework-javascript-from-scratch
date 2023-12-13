@@ -20,9 +20,6 @@ export const BrowserRouter = function (routes, rootElement) {
   const generatePage = () => {
     const path = getRoute();
     this.renderPage(rootElement, routes[path])
-
-    this.savedTree = routes[path];
-    this.currentFiber = routes[path];
   };
   
   generatePage();

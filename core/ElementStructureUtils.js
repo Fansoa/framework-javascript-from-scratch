@@ -1,3 +1,7 @@
+function isEvent(propName) {
+  return propName.includes('event.');
+}
+
 const isFunction = (element) => typeof element === "function";
 
 // CREATE ELELEMNT - (create element structure)
@@ -30,8 +34,15 @@ function createTextElement(content) {
   }
 }
 
+function generateRandomKey() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from({ length: 10 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+}
+
 export {
   isFunction,
   createElement,
   createTextElement,
+  isEvent,
+  generateRandomKey
 }
