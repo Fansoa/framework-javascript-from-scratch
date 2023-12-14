@@ -54,8 +54,30 @@ import events from "../assets/data/events.js";
  * Car on doit renvoyer un objet / structure pour le renderer
  */
 
+function RandomChild(props) {
+  const componentKey = generateRandomKey();
+  function RCTest(name) {
+    alert(`RandomChild ${name}`);
+  }
+  const element = {
+    content: null,
+    functions: {},
+  }
+  element.functions[`RCTest_${componentKey}`] = RCTest;
+
+  element.content = `<div event.click="RCTest_${componentKey}('${props.name}')">
+    RandomChild ${props.name}
+  </div>`;
+
+  return element;
+}
 
 function RandomWithoutFunction() {
+  const randomThing = new RandomChild({name: 'Poney'});
+  const components = getComponentsData({
+    randomThing,
+  });
+
   const element = {
     content: null,
     functions: {},
@@ -67,7 +89,10 @@ function RandomWithoutFunction() {
       <span className="bg-pink-200">Eau</span>
     </div>
     <span className="bg-slate-700 text-white">La</span>
+    ${components.content.randomThing}
   </footer>`
+
+  Object.assign(element.functions, components.functions);
 
   return element;
 }
