@@ -1,6 +1,7 @@
 import { parseHTML, parseEvents, getComponentsData } from "../core/HtmlParser.js";
 import { generateRandomKey } from "../core/ElementStructureUtils.js";
 import { MiniReact } from "../core/MiniReact.js";
+import BrowserLinkNEW from "../components/BrowserLinkNEW.js";
 import events from "../assets/data/events.js";
 
 /**
@@ -73,7 +74,7 @@ function RandomChild(props) {
 }
 
 function RandomWithoutFunction() {
-  const randomThing = new RandomChild({name: 'Poney'});
+  const randomThing = RandomChild({name: 'Poney'});
   const components = getComponentsData({
     randomThing,
   });
@@ -172,19 +173,26 @@ function EventList(params) {
 }
 
 function TestPage() {
-  const eventList = new EventList({events});
-  // const secondEventList = new EventList({events});
-  const randomThing = new RandomThing();
-  const randomWithoutFunction = new RandomWithoutFunction();
+  const element = {
+    content: null,
+    functions: {},
+  }
+
+  const eventList = EventList({events});
+  // const secondEventList = EventList({events});
+  const randomThing = RandomThing();
+  const randomWithoutFunction = RandomWithoutFunction();
+  const browserLink = BrowserLinkNEW({to: '/testpagetwo', content: 'Test page two'});
 
   const components = getComponentsData({
     eventList,
     // secondEventList
     randomThing,
-    randomWithoutFunction
+    randomWithoutFunction,
+    browserLink
   });
 
-  const content = parseHTML(`<section>
+  element.content = parseHTML(`<section>
     <div className="bg-red-500">
       ${components.content.eventList}
     </div>
@@ -192,13 +200,16 @@ function TestPage() {
       ${components.content.randomThing}
     </div>
     ${components.content.randomWithoutFunction}
+    <div>
+      ${components.content.browserLink}
+    </div>
   </section>`);
 
 
-  const functionList = components.functions;
-  parseEvents(content,functionList);
+  element.functions = components.functions;
+  parseEvents(element.content,element.functions);
 
-  return MiniReact.createElement(...content);
+  return MiniReact.createElement(...element.content);
 }
 
 export default TestPage;

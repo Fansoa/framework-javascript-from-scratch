@@ -1,6 +1,6 @@
-import { MiniReact } from "./core/MiniReact.js";
-//import routes from "./routes.js";
-import TestPage from "./pages/TestPage.js";
+import routes from "./routes.js";
+import BrowserRouter from "./core/BrowserRouter.js";
 
-// routes
-MiniReact.render(TestPage, document.getElementById("root"));
+BrowserRouter(routes, document.getElementById("root"));
+
+// MiniReact.render(TestPage, document.getElementById("root"));
