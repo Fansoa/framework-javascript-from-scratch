@@ -3,6 +3,58 @@ import { generateRandomKey } from "../core/ElementStructureUtils.js";
 import { MiniReact } from "../core/MiniReact.js";
 import events from "../assets/data/events.js";
 
+/**
+ * Pour chaque COMPOSANT (pas page)
+ *  créer l'objet element qui contiendra :
+ *      content = le contenu / le ou les string
+ *      functions = les fonctions du commposant
+ *          Dans element.functions on vas insérer chacune des fonctions de notre composant.
+ *            Pour cela in nous faudra une clé unique, générée soit avec generateRandomKey ou en utilisant l'index si on est dans une boucle
+ *      Dans content, toute les fonctions présentes devront être des strings équivalentes au nom de fonction ajoutés dans element.functions.
+ *          J'ai dans mon composant la fonction test
+ *            Je génère l'id avec generateRandomKey que je stocke dans componentKey
+ *              J'ajoute a element.functions test_componentKey = test
+ *            Dans content, si je veux utiliser la fonction, je met en string test_componentKey
+ * 
+ *  Les fonctions doivent êtres stockées pour pouvoir les renvoyer au parent du parent etc
+ *      Elle seront traitées à la fin par la page, via la fonction parseEvents
+ *          1. la structure des objets sera créer via le string
+ *          2. On récupère getComponentsData
+ *              Prend en paramètre un objet, chaque valeur = l'instance d'un composant
+ *              Renvoie un objet sous la forme suivante :
+ *              {
+ *                "content" : {
+ *                    "nom_du_composant": string/html du composant,
+ *                    ...
+ *                }
+ *                "functions": {
+ *                  TOUTES les fonctions de tous les composants (enfants etc)
+ *                }
+ *              }
+ *              functions sera ensuite utilisé pour parseEvents
+ *              content contiendra le html de chaque composant avec sa clé en guise d'identifiant (clé = nom de la variable ou est stocké l'instance), permettant d'indiquer ou s'affiche tel ou tel composant
+ *              
+ * Pour les PAGES
+      const randomWithoutFunction = new RandomWithoutFunction();
+
+      // Ici on envoie tous nos composants, puis on récupère du coup les string + functions
+      const components = getComponentsData({
+        randomWithoutFunction
+      });
+
+      content = parseHTML avec le string de la page.
+          ParseHTML du coup vas prendre TOUT le string, comprenant le contenu des enfants qui retourneront un string, pas un objet.
+ *    parseEvents vas récupérer TOUTES les fonctions des composants (enfants d'enfants etc) via components.functions
+ *              a. Il prend les clés qui sont les noms des fonctions + la clé identifiant le composant
+ *              b. Avec ça il remplace le callback dans le html qui est un string avec la function matchant le string présent
+ * 
+ *  Puis à la fin on return :
+ *    MiniReact.createElement(...content);
+ * 
+ * Car on doit renvoyer un objet / structure pour le renderer
+ */
+
+
 function RandomWithoutFunction() {
   const element = {
     content: null,
@@ -94,10 +146,6 @@ function EventList(params) {
   return list;
 }
 
-/**
- * @todo générer une clé par composant.
- * Si on utlilse l'index et qu'on utilse 2 foit des noms de fonctions similaire marche pas car ça écrase.
- */
 function TestPage() {
   const eventList = new EventList({events});
   // const secondEventList = new EventList({events});
