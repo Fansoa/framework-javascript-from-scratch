@@ -12,7 +12,7 @@ class TestPage extends MiniReact.Component {
   }
 
   render() {
-    const testingComponent = new Testing({test: 'EAULA'}).render();
+    const testingComponent = new Testing({test: 'EAULA'}).renderComponent();
 
     const components = this.getComponentsData({
       testingComponent
@@ -25,8 +25,7 @@ class TestPage extends MiniReact.Component {
     this.data.functions = components.functions;
     this.parseEvents(this.data.content, this.data.functions);
 
-    console.warn(this.data)
-    return this.createElement(...this.data.content);
+    return this.createElementNew(...this.data.content);
   }
 }
 

@@ -5,13 +5,22 @@ const MiniReactDOM = {
     rootElement.appendChild(element);
 
     window.addEventListener("reRender", (e) => {
-      const oldChild = e.detail.node;
-      const { parentNode } = e.detail.node;
+      /**
+       * @todo fix le caca
+       */
+      const oldChild = e.explicitOriginalTarget;
+      const newChild = this.renderStructure(e.detail.render());
+      // const oldChild = e.detail.node;
+      //const { parentNode } = e.detail.node;
+
+      oldChild.replaceWith(newChild)
+      /*
       const newChild = this.renderStructure(e.detail.render());
 
       if (e.detail.node.childNodes.length) {
         parentNode.replaceChild(newChild, oldChild);
       }
+      */
     });
   },
 
@@ -36,15 +45,15 @@ const MiniReactDOM = {
           if (AVAILABLES_EVENTS_TYPE.includes(eventType)) {
             element.addEventListener(eventType, propValue);
           }
-        } else if (propName === "children") {
-          if (propValue.length) {
-            propValue.forEach((child) => {
-              element.appendChild(this.renderStructure(child));
-            });
-          }
         } else {
           element.setAttribute(propName, propValue);
         }
+      });
+    }
+
+    if (structure.children) {
+      structure.children.forEach((child) => {
+        element.appendChild(this.renderStructure(child));
       });
     }
 

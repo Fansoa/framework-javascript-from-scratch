@@ -25,7 +25,7 @@ const MiniReact = {
             return {
                 type: "TEXT_NODE",
                 props: {
-                    content,
+                    text: content,
                     children: []
                 },
             }
@@ -72,7 +72,7 @@ const MiniReact = {
         // --------
 
         isEvent(propName) {
-            return propName.includes('event.');
+            return propName.includes('on');
         }
 
         generateRandomKey() {
@@ -124,7 +124,6 @@ const MiniReact = {
                     node.childNodes.forEach(child => {
                         if (child.nodeType === Node.ELEMENT_NODE) {
                             const parsedElement = parseNode(child);
-                            console.log(parsedElement);
                             children.push(this.createElementNew(...parsedElement));
                             /**
                              * De base il y a  && child.nodeValue.trim() !== ''
@@ -174,7 +173,7 @@ const MiniReact = {
                     node.forEach(item => traverse(item));
                 } else if (node && typeof node === 'object') {
                     Object.keys(node).forEach(key => {
-                        if (key.startsWith('event.') && typeof node[key] === 'string') {
+                        if (key.startsWith('on') && typeof node[key] === 'string') {
                             const eventValue = node[key];
                             const match = eventValue.match(/(\w+)(?:\(([^)]*)\))?/);
 
