@@ -40,7 +40,7 @@ const MiniReact = {
         
         parseNode(node) {
             if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-                return this.createElement('TEXT_NODE', {content: node.textContent.trim()});
+                return this.createElement('TEXT_NODE', {text: node.textContent.trim()});
             }
 
             const data = {
@@ -60,11 +60,13 @@ const MiniReact = {
                         if(attribute.nodeName === 'events'){
                             attrs[attribute.name] = JSON.parse(this.decodeURIComponent(attribute.value));
                             let objTmp = {}
-                            for (const [event, functionList] of Object.entries(attrs[attribute.name])) {
-                                objTmp[event] = functionList.map(func => eval(`(${func})`));
+                            for (const [event, callback] of Object.entries(attrs[attribute.name])) {
+                                console.log(event, callback)
+                                objTmp[event] = eval(`(${callback})`);
                             }
+                            console.error(objTmp)
     
-                            // return { ...attrs, events : objTmp};
+                            return { ...attrs, ...objTmp};
                         }
     
                         attrs[attribute.name] = attribute.value;

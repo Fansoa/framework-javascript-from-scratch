@@ -8,8 +8,12 @@ class HomePage extends MiniReact.Component {
     this.state = { counter: 0 };
   }
 
+  handleClick() {
+    alert('handleClick')
+  }
+
   render() {
-    const test = `<div className="Prout"><span>Hello</span><span>World</span></div>`
+    const test = `<div className="Prout" events={"onClick":${this.encodeMethod(this.handleClick)}}><p>Hello</p><p>World</p></div>`
     const testJson = this.htmlToJson(test);
     console.log(testJson);
 
@@ -31,6 +35,7 @@ class HomePage extends MiniReact.Component {
         }),
       ),
       this.createElement("TEXT_NODE", { text: this.state.counter }),
+      testJson
     );
   }
 }
