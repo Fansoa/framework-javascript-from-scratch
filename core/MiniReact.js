@@ -3,6 +3,11 @@ const MiniReact = {
         constructor(props) {
             this.props = { ...props };
             this.state = {};
+            this.key = this.generateRandomKey();
+            this.data = {
+                content: null,
+                functions: {}
+            }
         }
 
         createElement(type, config, ...children) {
@@ -14,6 +19,35 @@ const MiniReact = {
                 props: { ...config, children },
                 component: this,
             };
+        }
+
+        createTextElement(content) {
+            return {
+                type: "TEXT_NODE",
+                props: {
+                    content,
+                    children: []
+                },
+            }
+        }
+
+        createElementNew(type, props, children) {
+            if (this.isFunction(type)) {
+                // If the type is a function, it's a component; instantiate and return it
+                return type({ ...props, children });
+            }
+
+            return {
+                type,
+                props: {
+                    ...props,
+                },
+                children: children?.map(child =>
+                    typeof child === "object"
+                        ? child
+                        : this.createTextElement(child)
+                ),
+            }
         }
 
         setState(newValue) {
@@ -31,85 +65,174 @@ const MiniReact = {
             return Object.keys(obj).length === 0;
         }
 
-        htmlToJson(htmlString) {
-            const domParser = new DOMParser();
-            const doc = domParser.parseFromString(htmlString, 'text/html');
-    
-            return this.parseNode(doc.body.firstChild);
+        isFunction(element) {
+            return typeof element === "function";
         }
-        
-        parseNode(node) {
-            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-                return this.createElement('TEXT_NODE', {text: node.textContent.trim()});
-            }
 
-            const data = {
-                children: []
-            };
+        // --------
 
-            if (node.nodeType === Node.ELEMENT_NODE) {
-                data.type = node.tagName.toLowerCase();
-    
+        isEvent(propName) {
+            return propName.includes('event.');
+        }
+
+        generateRandomKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            return Array.from({ length: 10 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+        }
+
+        isEmpty(obj) {
+            return Object.keys(obj).length === 0;
+        }
+
+        parseHTML(htmlString) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlString, 'text/html');
+
+            const parseNode = (node) => {
+                /**
+                 * structure will be the structure that is used in a createElement
+                 * 
+                 * First structure element is the type
+                 */
+                const structure = [
+                    node.nodeName.toLowerCase(),
+                ];
+
                 if (node.hasAttributes()) {
-                    data.props = Array.from(node.attributes).reduce((attrs, attribute) => {
-                        if(attribute.nodeName === 'style'){
+                    // Second structure element is the props
+                    structure[1] = Array.from(node.attributes).reduce((attrs, attribute) => {
+                        if (attribute.nodeName === 'style') {
                             attrs[attribute.name] = JSON.parse(attribute.value);
                             return attrs;
+                        } else if (this.isEvent(attribute.nodeName)) {
+                            const eventValue = attribute.nodeValue;
+                            attrs[attribute.nodeName] = eventValue
+                            // attrs[attribute.nodeName] = eval(`(${eventValue})`);
+                        } else {
+                            const attributeName = attribute.name == 'classname' ? 'className' : attribute.name;
+                            attrs[attributeName] = attribute.value;
                         }
-    
-                        if(attribute.nodeName === 'events'){
-                            attrs[attribute.name] = JSON.parse(this.decodeURIComponent(attribute.value));
-                            let objTmp = {}
-                            for (const [event, callback] of Object.entries(attrs[attribute.name])) {
-                                console.log(event, callback)
-                                objTmp[event] = eval(`(${callback})`);
-                            }
-                            console.error(objTmp)
-    
-                            return { ...attrs, ...objTmp};
-                        }
-    
-                        attrs[attribute.name] = attribute.value;
+
                         return attrs;
                     }, {});
+                } else {
+                    structure[1] = {};
                 }
-                
-                
-                if (node.hasChildNodes()) {
-                    // data.children = Array.from(node.childNodes).map(child => {
-                    //     this.parseNode(child)
-                    // });
 
-                    for (const childNode of node.childNodes) {
-                        if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.trim() === '') {
-                            continue;
+                const children = [];
+                if (node.childNodes.length > 0) {
+                    node.childNodes.forEach(child => {
+                        if (child.nodeType === Node.ELEMENT_NODE) {
+                            const parsedElement = parseNode(child);
+                            console.log(parsedElement);
+                            children.push(this.createElementNew(...parsedElement));
+                            /**
+                             * De base il y a  && child.nodeValue.trim() !== ''
+                             *      J'ai retiré, si un élément n'a pas de child tous casse, donc on mettre un espace à chaque fois
+                             *      Comme ça il y aura toujours un child (un string vide donc osef ça impacte pas le visuel)
+                             */
+                        } else if (child.nodeType === Node.TEXT_NODE) {
+                            children.push(child.nodeValue.trim());
                         }
-                        data.children.push(this.parseNode(childNode));
-                    }
+                    });
+                }
+
+                // Last structure element is the children
+                structure[2] = children;
+
+                return structure;
+            }
+
+            return parseNode(doc.body.firstChild);
+        }
+
+        parseFunction(func, ...args) {
+            const params = args.map(arg => `'${arg}'`).join(', ');
+            const functionString = `(${func.toString()})(${params})`;
+
+            return new Function(functionString);
+        }
+
+        parseEvents(content, functions) {
+            const eventCallbacks = {};
+
+            const executeCallback = (eventKey) => {
+                const { func, params } = eventCallbacks[eventKey];
+                if (typeof func === 'function') {
+                    func(...params);
                 }
             }
 
-            return this.isEmpty(data) ? null : this.createElement(data.type, {...data.props}, ...data.children);
-        }
-    
-        encodeMethod(method) {
-            let encodeStringMethod = `"${encodeURIComponent(method)}"`.replace(/\w+(\(\))/, 'function()');
-
-            for (const prop in this.props) {
-                const regex = new RegExp(`this\\.props\\.${prop}`, 'g');
-                const propValue = typeof this.props[prop] === 'string' ? `'${this.props[prop]}'` : this.props[prop]
-                encodeStringMethod = encodeStringMethod.replace(regex, propValue);
+            const createCallbackFunction = (eventKey) => {
+                return function () {
+                    executeCallback(eventKey);
+                };
             }
-            
-            return encodeStringMethod;
+
+            const traverse = (node) => {
+                if (Array.isArray(node)) {
+                    node.forEach(item => traverse(item));
+                } else if (node && typeof node === 'object') {
+                    Object.keys(node).forEach(key => {
+                        if (key.startsWith('event.') && typeof node[key] === 'string') {
+                            const eventValue = node[key];
+                            const match = eventValue.match(/(\w+)(?:\(([^)]*)\))?/);
+
+                            if (match) {
+                                const functionName = match[1];
+                                const parameters = match[2] ? match[2].split(',').map(param => param.trim().replace(/['"]/g, '')) : [];
+                                const func = functions[functionName];
+                                const eventKey = `${functionName}_${Object.keys(eventCallbacks).length}`;
+                                eventCallbacks[eventKey] = { func, params: parameters ?? {} };
+                                const callbackFunction = parameters.length > 0 ? createCallbackFunction(eventKey) : func;
+                                node[key] = callbackFunction;
+                            }
+                        } else {
+                            traverse(node[key]);
+                        }
+                    });
+                }
+            }
+
+            traverse(content);
+
+            return { content, eventCallbacks };
         }
-    
-        decodeURIComponent(uriComponent) {
-            return decodeURIComponent(uriComponent).replace(/(\t|\n|\r)/g, ' ');
+
+        getComponentData(component) {
+            if (Array.isArray(component)) {
+                return component.reduce(
+                    (accumulator, currentItem) => {
+                        Object.assign(accumulator.functions, currentItem.functions);
+                        accumulator.content.push(currentItem.content);
+                        return accumulator;
+                    },
+                    { functions: {}, content: [] }
+                );
+            }
+
+            return component;
         }
-    
-        render(element){
-            return this.htmlToJson(element);
+
+        getComponentsData(components) {
+            const data = {
+                content: {},
+                functions: {}
+            };
+
+            for (let componentName in components) {
+                const component = components[componentName];
+                const componentData = this.getComponentData(component);
+
+                if (Array.isArray(componentData.content)) {
+                    data.content[componentName] = componentData.content.join();
+                } else {
+                    data.content[componentName] = componentData.content;
+                }
+                Object.assign(data.functions, componentData.functions);
+            }
+
+            return data;
         }
     },
 };
