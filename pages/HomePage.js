@@ -9,6 +9,10 @@ class HomePage extends MiniReact.Component {
   }
 
   render() {
+    const test = `<div className="Prout"><span>Hello</span><span>World</span></div>`
+    const testJson = this.htmlToJson(test);
+    console.log(testJson);
+
     return this.createElement(
       "div",
       null,
