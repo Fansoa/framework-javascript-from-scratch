@@ -90,7 +90,7 @@ const MiniReact = {
                 // attrs[attribute.nodeName] = eval(`(${eventValue})`);
               } else {
                 const attributeName =
-                  attribute.name == "classname" ? "className" : attribute.name;
+                  attribute.name === "classname" ? "className" : attribute.name;
                 attrs[attributeName] = attribute.value;
               }
 
@@ -139,7 +139,7 @@ const MiniReact = {
       };
 
       const createCallbackFunction = (eventKey) => {
-        return function () {
+        return () => {
           executeCallback(eventKey);
         };
       };
@@ -217,6 +217,14 @@ const MiniReact = {
       }
 
       return data;
+    }
+
+    render() {
+      const component = this.renderComponent();
+      const parsedContent = this.parseHTML(component.content);
+      this.parseEvents(parsedContent, this.data.functions);
+
+      return this.createElement(...parsedContent);
     }
   },
 };

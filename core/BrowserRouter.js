@@ -1,6 +1,6 @@
 import MiniReactDOM from "./MiniReactDOM.js";
 
-export const BrowserRouter = function (routes, rootElement) {
+export default (routes, rootElement) => {
   const getRoute = () => {
     const path = location.pathname === "/index.html" ? "/" : location.pathname;
     return path;
@@ -15,7 +15,7 @@ export const BrowserRouter = function (routes, rootElement) {
 
   generatePage();
   const oldPushState = history.pushState;
-  history.pushState = function (state, title, url) {
+  history.pushState = (state, title, url) => {
     oldPushState.call(history, state, title, url);
     window.dispatchEvent(new Event("popstate"));
   };
