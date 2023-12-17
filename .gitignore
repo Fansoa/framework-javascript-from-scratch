@@ -1,3 +1,4 @@
 node_modules
-noCommit
 package-lock.json
+.vscode
+noCommit
