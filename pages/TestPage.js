@@ -1,5 +1,5 @@
 import MiniReact from "../core/MiniReact.js";
-import Testing from "../components/Testing.js";
+import BrowserLink from "../components/BrowserLink.js";
 import events from "../assets/data/events.js";
 
 /*
@@ -203,14 +203,14 @@ class TestPage extends MiniReact.Component {
     // const secondEventList = EventList({events});
     const randomThing = new RandomThing().renderComponent();
     const randomWithoutFunction = new RandomWithoutFunction().renderComponent();
-    // const browserLink = BrowserLinkNEW({to: '/testpagetwo', content: 'Test page two'});
+    const browserLink = new BrowserLink({to: '/testpagetwo', content: 'Test page two'}).renderComponent();
   
     const components = this.getComponentsData({
       eventList,
       // secondEventList
       randomThing,
       randomWithoutFunction,
-      // browserLink
+      browserLink
     });
   
     this.data.content = this.parseHTML(`<section>
@@ -222,6 +222,7 @@ class TestPage extends MiniReact.Component {
       </div>
       ${components.content.randomWithoutFunction}
       <div>
+        ${components.content.browserLink}
       </div>
     </section>`);
   
