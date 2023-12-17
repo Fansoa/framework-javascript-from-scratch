@@ -57,6 +57,7 @@ const MiniReact = {
             const Event = new CustomEvent("reRender", {
                 detail: this,
             });
+            console.log(this);
 
             dispatchEvent(Event);
         }

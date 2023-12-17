@@ -147,7 +147,7 @@ class EventListItem extends MiniReact.Component
      *    Comme t'as renvoyé un string litterals qui est déjà remplis (il utilise bien les props et states quoi)
      *      Bah pif paf pouet t'est good to go
      */
-    this.data.content = `<div>
+    this.data.content = `<div data-component-key="${this.key}">
       <img src="${this.props.event.img}" class="w-[100px]" onclick="test_${this.props.index}('${this.props.event.sport}')}">
       SPORT : ${this.props.event.sport}
       PLACE : ${this.props.event.place}

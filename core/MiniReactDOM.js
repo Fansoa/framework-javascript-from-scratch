@@ -5,15 +5,14 @@ const MiniReactDOM = {
     rootElement.appendChild(element);
 
     window.addEventListener("reRender", (e) => {
-      /**
-       * @todo fix le caca
-       */
       const oldChild = e.explicitOriginalTarget;
       const newChild = this.renderStructure(e.detail.render());
       // const oldChild = e.detail.node;
       //const { parentNode } = e.detail.node;
-
-      oldChild.replaceWith(newChild)
+      const oldElem = document.querySelector(`[data-component-key="${e.detail.key}"]`);
+      console.warn(oldElem);
+      console.error(e.detail);
+      oldElem.replaceWith(newChild)
       /*
       const newChild = this.renderStructure(e.detail.render());
 
