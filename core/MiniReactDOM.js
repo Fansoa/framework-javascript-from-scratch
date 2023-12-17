@@ -2,24 +2,19 @@ import AVAILABLES_EVENTS_TYPE from "./constants.js";
 
 const MiniReactDOM = {
   render: function render(rootElement, element) {
-    rootElement.appendChild(element);
+    if (rootElement.hasChildNodes()) {
+      rootElement.firstChild.replaceWith(element);
+    } else {
+      rootElement.appendChild(element);
+    }
 
     window.addEventListener("reRender", (e) => {
-      const oldChild = e.explicitOriginalTarget;
-      const newChild = this.renderStructure(e.detail.render());
-      // const oldChild = e.detail.node;
-      //const { parentNode } = e.detail.node;
-      const oldElem = document.querySelector(`[data-component-key="${e.detail.key}"]`);
-      console.warn(oldElem);
-      console.error(e.detail);
-      oldElem.replaceWith(newChild)
-      /*
+      const oldChild = document.querySelector(
+        `[data-component-key="${e.detail.key}"]`,
+      );
       const newChild = this.renderStructure(e.detail.render());
 
-      if (e.detail.node.childNodes.length) {
-        parentNode.replaceChild(newChild, oldChild);
-      }
-      */
+      oldChild.replaceWith(newChild);
     });
   },
 

@@ -1,45 +1,8 @@
-import MiniReact from "../core/MiniReact.js";
+import MiniReact from "../../core/MiniReact.js";
 import BrowserLink from "../components/BrowserLink.js";
-import events from "../assets/data/events.js";
-
-/*
-class TestPage extends MiniReact.Component {
-  constructor(props) {
-    super(props);
-    this.state = { counter: 0 };
-  }
-
-  handleClick() {
-    alert('handleClick')
-  }
-
-  render() {
-    const testingComponent = new Testing({test: 'EAULA'}).renderComponent();
-
-    const components = this.getComponentsData({
-      testingComponent
-    });
-
-    this.data.content = this.parseHTML(`<section>
-      ${components.content.testingComponent}
-    </section>`);
-
-    this.data.functions = components.functions;
-    this.parseEvents(this.data.content, this.data.functions);
-
-    return this.createElementNew(...this.data.content);
-  }
-}
-
-export default TestPage;
-*/
-
+import events from "../../assets/data/events.js";
 
 class RandomChild extends MiniReact.Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderComponent() {
     const RCTest = (name) => {
       alert(`RandomChild ${name}`);
@@ -58,7 +21,7 @@ class RandomChild extends MiniReact.Component {
     const parsedContent = this.parseHTML(component.content);
     this.parseEvents(parsedContent, this.data.functions);
     
-    return this.createElementNew(...parsedContent);
+    return this.createElement(...parsedContent);
   }
 }
 
@@ -88,7 +51,7 @@ class RandomWithoutFunction extends MiniReact.Component {
     const parsedContent = this.parseHTML(component.content);
     this.parseEvents(parsedContent, this.data.functions);
     
-    return this.createElementNew(...parsedContent);
+    return this.createElement(...parsedContent);
   }
 }
 
@@ -120,7 +83,7 @@ class RandomThing extends MiniReact.Component {
     const parsedContent = this.parseHTML(component.content);
     this.parseEvents(parsedContent, this.data.functions);
     
-    return this.createElementNew(...parsedContent);
+    return this.createElement(...parsedContent);
   }
 }
 
@@ -132,13 +95,13 @@ class EventListItem extends MiniReact.Component
   }
 
   renderComponent() {
-    const test = (test) => {
+    const incrementState = () => {
       this.setState((prev) => ({
         ...prev,
         counter: this.state.counter + 1,
       }))
     }
-    this.data.functions[`test_${this.props.index}`] = test;
+    this.data.functions[`incrementState_${this.props.index}`] = incrementState;
   
     /**
      * Tu renvoie juste le string
@@ -148,7 +111,7 @@ class EventListItem extends MiniReact.Component
      *      Bah pif paf pouet t'est good to go
      */
     this.data.content = `<div data-component-key="${this.key}">
-      <img src="${this.props.event.img}" class="w-[100px]" onclick="test_${this.props.index}('${this.props.event.sport}')}">
+      <img src="${this.props.event.img}" class="w-[100px]" onclick="incrementState_${this.props.index}}">
       SPORT : ${this.props.event.sport}
       PLACE : ${this.props.event.place}
       DATE : ${this.props.event.date}
@@ -163,15 +126,11 @@ class EventListItem extends MiniReact.Component
     const parsedContent = this.parseHTML(component.content);
     this.parseEvents(parsedContent, this.data.functions);
     
-    return this.createElementNew(...parsedContent);
+    return this.createElement(...parsedContent);
   }
 }
 
 class EventList extends MiniReact.Component {
-  constructor(props) {
-    super(props)
-  }
-
   renderComponent() {
     const list = [];
     this.props.events.forEach((event, index) => {
@@ -189,15 +148,11 @@ class EventList extends MiniReact.Component {
     const parsedContent = this.parseHTML(component.content);
     this.parseEvents(parsedContent, this.data.functions);
     
-    return this.createElementNew(...parsedContent);
+    return this.createElement(...parsedContent);
   }
 }
 
 class TestPage extends MiniReact.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const eventList = new EventList({events}).renderComponent();
     // const secondEventList = EventList({events});
@@ -230,7 +185,7 @@ class TestPage extends MiniReact.Component {
     this.data.functions = components.functions;
     this.parseEvents(this.data.content,this.data.functions);
   
-    return this.createElementNew(...this.data.content);
+    return this.createElement(...this.data.content);
   }
 }
 
