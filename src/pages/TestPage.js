@@ -78,13 +78,6 @@ class EventListItem extends MiniReact.Component {
     };
     this.data.functions[`incrementState_${this.props.index}`] = incrementState;
 
-    /**
-     * Tu renvoie juste le string
-     * + la liste des fonctions.
-     * Du coup tu fais le parseEvents à la fin dans ta page, et tu récupères toutes tes fonctions de tout tes enfants.
-     *    Comme t'as renvoyé un string litterals qui est déjà remplis (il utilise bien les props et states quoi)
-     *      Bah pif paf pouet t'est good to go
-     */
     this.data.content = `<div data-component-key="{{ key }}">
       <img src="{{ props.event.img }}" class="w-[100px]" onclick="incrementState_{{ props.index }}}">
       SPORT : {{ props.event.sport }}
