@@ -50,7 +50,7 @@ export default class InteractiveMapLocation extends MiniReact.Component {
             }
 
             const content = `
-              <section>
+              <section class="p-5">
                 <h1><b>${marker.getTitle()}</b></h1>
                 <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
               </section>
@@ -85,7 +85,7 @@ export default class InteractiveMapLocation extends MiniReact.Component {
     this.delayedInitMap();
 
     this.data.content =
-      `<div id="map" style='{"width": "100%", "height": "100%"}'></div>`.interpolate(
+      `<div id="map" class="w-full sm:h-full h-[400px]"></div>`.interpolate(
         this,
       );
 

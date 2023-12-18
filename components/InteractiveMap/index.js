@@ -21,19 +21,19 @@ export default class InteractiveMap extends MiniReact.Component {
     this.data.functions[selectSportString] = selectSport;
 
     const fetchSports = () => {
-      const firstFetch = fetch("../../assets/data/sports.json").then(
+      const sportPromise = fetch("../../assets/data/sports.json").then(
         (response) => {
           return response.json();
         },
       );
 
-      const secondFetch = fetch("../../assets/data/locations.json").then(
+      const locationsPromise = fetch("../../assets/data/locations.json").then(
         (response) => {
           return response.json();
         },
       );
 
-      Promise.all([firstFetch, secondFetch])
+      Promise.all([sportPromise, locationsPromise])
         .then((results) => {
           const [sports, eventLocations] = results;
 
@@ -72,11 +72,11 @@ export default class InteractiveMap extends MiniReact.Component {
     });
 
     this.data.content =
-      `<section data-component-key="{{ key }}" class="bg-slate-100 grid grid-cols-3 max-h-[600px]">
-        <div class="p-3 overflow-y-scroll max-h-[inherit] col-span-1">
+      `<section data-component-key="{{ key }}" class="bg-slate-100 grid sm:grid-cols-3 grid-cols-1 sm:h-[600px] py-2">
+        <div class="p-3 overflow-y-scroll sm:max-h-[inherit] max-h-[200px] col-span-1 sm:my-0 my-4">
           ${components.content.interactiveMapList}
         </div>
-        <div class="bg-cyan-500 col-span-2">
+        <div class="bg-cyan-500 sm:col-span-2 col-span-1">
           ${components.content.interactiveMapLocation}
         </div>
     </section>`.interpolate(this);
