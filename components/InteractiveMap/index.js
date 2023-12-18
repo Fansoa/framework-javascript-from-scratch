@@ -21,7 +21,7 @@ export default class InteractiveMap extends MiniReact.Component {
     this.data.functions[selectSportString] = selectSport;
 
     const fetchSports = () => {
-      const firstFetch = fetch("../../assets/data/events.json").then(
+      const firstFetch = fetch("../../assets/data/sports.json").then(
         (response) => {
           return response.json();
         },

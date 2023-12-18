@@ -17,43 +17,64 @@ export default class InteractiveMapLocation extends MiniReact.Component {
 
       const infoWindow = new google.maps.InfoWindow();
       // Récupère les sites olympiques liés au sport séléctioné
-      const olympicSites = this.props.eventLocations.filter((eventLocation) =>
-        eventLocation[3].includes(this.props.selectedSport),
+      const olympicSites = this.props.eventLocations.filter(
+        (eventLocation) =>
+          eventLocation[4].includes(this.props.selectedSport) ||
+          this.props.selectedSport.includes(eventLocation[4]),
       );
 
-      olympicSites.forEach(([position, title], index) => {
+      const displayedPlaces = [];
+      olympicSites.forEach(([position, title, slug]) => {
         const image = {
           url: "../../../assets/images/icons/mark_sport.svg",
           scaledSize: new google.maps.Size(30, 30), // Adjust as needed
         };
 
-        const marker = new google.maps.Marker({
-          position,
-          map,
-          icon: image,
-          title: `${index + 1}. ${title}`,
-          optimized: false,
-        });
+        const generateMark = () => {
+          if (displayedPlaces.includes(title)) {
+            return;
+          }
 
-        marker.addListener("click", () => {
-          const content = `
-            <section>
-              <h1>${marker.getTitle()}</h1>
-              <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
-            </section>
-          `;
-
-          const fragment = document
-            .createRange()
-            .createContextualFragment(content);
-
-          fragment.querySelector("button").addEventListener("click", () => {
-            history.pushState(null, null, "/testpage");
+          const marker = new google.maps.Marker({
+            position,
+            map,
+            icon: image,
+            title,
+            optimized: false,
           });
 
-          infoWindow.setContent(fragment);
-          infoWindow.open(map, marker);
-        });
+          marker.addListener("click", () => {
+            // Fix a bug rendering an empty infoWindow
+            if (infoWindow) {
+              infoWindow.close();
+            }
+
+            const content = `
+              <section>
+                <h1><b>${marker.getTitle()}</b></h1>
+                <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
+              </section>
+            `;
+
+            // fragment allow us to bind an event to the element
+            const fragment = document
+              .createRange()
+              .createContextualFragment(content);
+
+            const route = `/lieu?place=${slug}`;
+
+            fragment.querySelector("button").addEventListener("click", () => {
+              history.pushState(null, null, route);
+            });
+
+            infoWindow.setContent(fragment);
+            infoWindow.open(map, marker);
+          });
+
+          displayedPlaces.push(title);
+        };
+
+        generateMark();
       });
     };
 
