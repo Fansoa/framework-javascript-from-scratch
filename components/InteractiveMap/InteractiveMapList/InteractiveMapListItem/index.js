@@ -7,7 +7,7 @@ export default class InteractiveMapListItem extends MiniReact.Component {
     this.data.content =
       `<div onclick="{{ props.selectSport }}('{{ props.sport.name }}')" class="${
         this.isActive && "active"
-      } text-indigo-400 shadow-md my-2 p-2.5 hover:text-indigo-600 cursor-pointer transition-all rounded-sm duration-150 bg-white mapListLink active:bg-blue-500">
+      } text-indigo-400 shadow-md my-2 p-2.5 hover:text-indigo-600 cursor-pointer transition-all rounded-sm duration-150 bg-white mapListLink">
       {{ props.sport.name }}
     </div>`.interpolate(this);
 
