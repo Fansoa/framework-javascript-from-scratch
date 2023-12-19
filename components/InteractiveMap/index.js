@@ -10,6 +10,34 @@ export default class InteractiveMap extends MiniReact.Component {
     this.eventLocations = null;
   }
 
+  fetchSports() {
+    const sportPromise = fetch("../../assets/data/sports.json").then(
+      (response) => {
+        return response.json();
+      },
+    );
+
+    const locationsPromise = fetch("../../assets/data/locations.json").then(
+      (response) => {
+        return response.json();
+      },
+    );
+
+    Promise.all([sportPromise, locationsPromise])
+      .then((results) => {
+        const [sports, eventLocations] = results;
+
+        this.setState({
+          sports,
+          sport: sports[0].name,
+          eventLocations,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   renderComponent() {
     const selectSport = (selectedSport) => {
       this.setState((prev) => ({
@@ -20,37 +48,9 @@ export default class InteractiveMap extends MiniReact.Component {
     const selectSportString = `selectSport_${this.key}`;
     this.data.functions[selectSportString] = selectSport;
 
-    const fetchSports = () => {
-      const sportPromise = fetch("../../assets/data/sports.json").then(
-        (response) => {
-          return response.json();
-        },
-      );
-
-      const locationsPromise = fetch("../../assets/data/locations.json").then(
-        (response) => {
-          return response.json();
-        },
-      );
-
-      Promise.all([sportPromise, locationsPromise])
-        .then((results) => {
-          const [sports, eventLocations] = results;
-
-          this.setState({
-            sports,
-            sport: sports[0].name,
-            eventLocations,
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-
     // Prevent infinite loop
     if (!this.state.sports) {
-      fetchSports();
+      this.fetchSports();
     }
 
     const sports = this.state.sports ?? [];
