@@ -5,7 +5,7 @@ import InteractiveMapLocation from "./InteractiveMapLocation/index.js";
 export default class InteractiveMap extends MiniReact.Component {
   constructor(props) {
     super(props);
-    this.state = { sport: "baseball" };
+    this.state = { sport: "Athlétisme" };
     this.sports = null;
     this.eventLocations = null;
   }
