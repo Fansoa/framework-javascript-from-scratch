@@ -1,5 +1,5 @@
 class GoogleMapService {
-  constructor(mapId = null, centerLat = 48.856858, centerLng = 2.351415) {
+  constructor(mapId, centerLat = 48.856858, centerLng = 2.351415) {
     this.defaultMapCenter = {
       lat: centerLat,
       lng: centerLng,
@@ -9,11 +9,9 @@ class GoogleMapService {
       spot: "../../../assets/images/icons/mark_spot.svg",
     };
     this.defaultMarkerSize = 30;
-    this.mapContainer = mapId && document.getElementById(mapId);
-    this.map =
-      mapId && new google.maps.Map(this.mapContainer, this.getMapOptions());
+    this.mapContainer = document.getElementById(mapId);
+    this.map = new google.maps.Map(this.mapContainer, this.getMapOptions());
     this.infoWindow = new google.maps.InfoWindow();
-    this.apiKey = "AIzaSyCz6KtXcjWODSfRePd8v-NDobL35z-4D28";
   }
 
   setMapContainer() {
@@ -58,20 +56,6 @@ class GoogleMapService {
     markers.forEach((marker) => {
       marker.setMap(null);
     });
-  }
-
-  getStaticImagePromise(
-    lat,
-    lng,
-    width,
-    height,
-    zoom = 10,
-    mapType = "roadmap",
-  ) {
-    const url = `https://maps.googleapis.com/maps/api/staticmap?key=${this.apiKey}&center=${lat},${lng}&zoom=${zoom}&size=${width}x${height}&maptype=${mapType}&markers=color:818CF8%7C${lat},${lng}`;
-    const request = new Request(url);
-
-    return fetch(request).then((response) => response.url);
   }
 }
 

@@ -54,7 +54,13 @@ export default class InteractiveMap extends MiniReact.Component {
     }
 
     const sports = this.state.sports ?? [];
-    const eventLocations = this.state.eventLocations ?? [];
+    const eventLocations = this.state.eventLocations
+      ? this.state.eventLocations.filter(
+          (eventLocation) =>
+            eventLocation[4].includes(this.state.sport) ||
+            this.state.sport.includes(eventLocation[4]),
+        )
+      : [];
 
     const interactiveMapList = new InteractiveMapList({
       sports,
@@ -62,8 +68,7 @@ export default class InteractiveMap extends MiniReact.Component {
       selectedSport: this.state.sport,
     }).renderComponent();
     const interactiveMapLocation = new InteractiveMapLocation({
-      eventLocations,
-      selectedSport: this.state.sport,
+      locations: eventLocations,
     }).renderComponent();
 
     const components = this.getComponentsData({
@@ -76,7 +81,7 @@ export default class InteractiveMap extends MiniReact.Component {
         <div class="p-3 overflow-y-scroll sm:max-h-[inherit] max-h-[200px] col-span-1 sm:my-0 my-4">
           ${components.content.interactiveMapList}
         </div>
-        <div class="bg-cyan-500 sm:col-span-2 col-span-1">
+        <div class="sm:col-span-2 col-span-1">
           ${components.content.interactiveMapLocation}
         </div>
     </section>`.interpolate(this);

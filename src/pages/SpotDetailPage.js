@@ -1,11 +1,10 @@
+import InteractiveMapLocation from "../../components/InteractiveMap/InteractiveMapLocation/index.js";
 import MiniReact from "../../core/MiniReact.js";
-import GoogleMapService from "../services/googleMapService.js";
 
 export default class SpotDetailPage extends MiniReact.Component {
   constructor(props) {
     super(props);
-    this.state = { slug: null, spot: {}, spotMapUrl: null };
-    this.googleMapService = null;
+    this.state = { slug: null, spot: null, spotMapUrl: null };
   }
 
   fetchSpotData() {
@@ -17,30 +16,34 @@ export default class SpotDetailPage extends MiniReact.Component {
         const locationSlug = params.get("place");
         const pageSpot = spots.find((spot) => spot.slug === locationSlug);
 
-        this.googleMapService
-          .getStaticImagePromise(...Object.values(pageSpot.location), 500, 500)
-          .then((staticMapSrc) => {
-            this.setState((prev) => ({
-              ...prev,
-              slug: locationSlug,
-              spot: pageSpot,
-              spotMapUrl: staticMapSrc,
-            }));
-          });
+        this.setState((prev) => ({
+          ...prev,
+          slug: locationSlug,
+          spot: pageSpot,
+        }));
       });
   }
 
   render() {
-    this.googleMapService = new GoogleMapService();
-
-    if (!this.state.slug) {
+    if (!this.state.spot) {
       this.fetchSpotData();
     }
 
+    const interactiveMapLocation = new InteractiveMapLocation({
+      locations: this.state.spot,
+    }).renderComponent();
+
+    const components = this.getComponentsData({
+      interactiveMapLocation,
+    });
+
     this.data.content = this.parseHTML(
-      `<main data-component-key="{{ key }}" class="bg-slate-100 grid grid-cols-3 max-h-[600px]">
-      <img src="{{ state.spotMapUrl }}" alt="{{ state.spot.name }}">
-    </main>`.interpolate(this),
+      `<main data-component-key="{{ key }}" class="bg-slate-100 grid grid-cols-3 min-h-[600px]">
+        <div class="h-[400px] w-full">
+          ${components.content.interactiveMapLocation}
+        </div>
+        zkmleezmkljeaz
+      </main>`.interpolate(this),
     );
 
     return this.createElement(...this.data.content);

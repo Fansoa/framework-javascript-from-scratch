@@ -8,71 +8,85 @@ export default class InteractiveMapLocation extends MiniReact.Component {
     this.googleMapService = null;
   }
 
+  createPlaceChildMarker(marker, slug) {
+    const content = `
+      <section class="p-5">
+        <h1><b>${marker.getTitle()}</b></h1>
+        <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
+      </section>
+    `;
+
+    // fragment allows us to bind an event to the element
+    const fragment = document.createRange().createContextualFragment(content);
+
+    const route = `/lieu?place=${slug}`;
+
+    fragment.querySelector("button").addEventListener("click", () => {
+      history.pushState(null, null, route);
+    });
+
+    return fragment;
+  }
+
+  createInteractiveSpots() {
+    const displayedPlaces = [];
+
+    this.props.locations.forEach(
+      ([position, title, slug, placeType, sports, spotLocations]) => {
+        const generateMark = () => {
+          if (displayedPlaces.includes(title)) {
+            return;
+          }
+
+          const marker = this.googleMapService.generateMarker({
+            position,
+            title,
+          });
+
+          marker.addListener("click", () => {
+            this.googleMapService.removeMarkers(this.displayedSpots);
+
+            // Otherwise the infoWindow stay open, prevent a bug rendering an empty infoWindow
+            if (this.googleMapService.infoWindow) {
+              this.googleMapService.infoWindow.close();
+            }
+            const fragment = this.createPlaceChildMarker(marker, slug);
+
+            this.googleMapService.infoWindow.setContent(fragment);
+            this.googleMapService.infoWindow.open(this.map, marker);
+
+            this.generateSpotsMark(spotLocations);
+          });
+
+          displayedPlaces.push(title);
+        };
+
+        generateMark();
+      },
+    );
+  }
+
+  createStaticSpot() {
+    this.googleMapService.generateMarker({
+      position: this.props.locations.location,
+    });
+  }
+
   delayedInitMap() {
     const initMap = () => {
-      this.googleMapService = new GoogleMapService("map");
-
-      // Get the olympicSites associated with the selected sport
-      const olympicSites = this.props.eventLocations.filter(
-        (eventLocation) =>
-          eventLocation[4].includes(this.props.selectedSport) ||
-          this.props.selectedSport.includes(eventLocation[4]),
-      );
-
-      const displayedPlaces = [];
-
-      olympicSites.forEach(
-        ([position, title, slug, placeType, sports, spotLocations]) => {
-          const generateMark = () => {
-            if (displayedPlaces.includes(title)) {
-              return;
-            }
-
-            const marker = this.googleMapService.generateMarker({
-              position,
-              title,
-            });
-
-            marker.addListener("click", () => {
-              this.googleMapService.removeMarkers(this.displayedSpots);
-
-              // Otherwise the infoWindow stay open, prevent a bug rendering an empty infoWindow
-              if (this.googleMapService.infoWindow) {
-                this.googleMapService.infoWindow.close();
-              }
-
-              const content = `
-                <section class="p-5">
-                  <h1><b>${marker.getTitle()}</b></h1>
-                  <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
-                </section>
-              `;
-
-              // fragment allows us to bind an event to the element
-              const fragment = document
-                .createRange()
-                .createContextualFragment(content);
-
-              const route = `/lieu?place=${slug}`;
-
-              fragment.querySelector("button").addEventListener("click", () => {
-                history.pushState(null, null, route);
-              });
-
-              this.googleMapService.infoWindow.setContent(fragment);
-              this.googleMapService.infoWindow.open(this.map, marker);
-
-              this.generateSpotsMark(spotLocations);
-            });
-
-            displayedPlaces.push(title);
-          };
-
-          generateMark();
-        },
-      );
+      if (Array.isArray(this.props.locations)) {
+        this.googleMapService = new GoogleMapService("map");
+        this.createInteractiveSpots();
+      } else if (this.props?.locations?.location) {
+        this.googleMapService = new GoogleMapService(
+          "map",
+          ...Object.values(this.props?.locations?.location),
+        );
+        this.createStaticSpot();
+      }
     };
 
+    // This allow to use initMap when all other important tasked are completed, including first rendering (mandatory since googleMap uses a displayed element as it's base)
     window.requestIdleCallback(initMap);
   }
 
