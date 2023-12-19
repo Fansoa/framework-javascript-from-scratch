@@ -27,6 +27,14 @@ export default class SpotDetailPage extends MiniReact.Component {
   render() {
     if (!this.state.spot) {
       this.fetchSpotData();
+    } else {
+      const locationSlug = new URLSearchParams(document.location.search).get(
+        "place",
+      );
+
+      if (locationSlug !== this.state.slug) {
+        this.fetchSpotData();
+      }
     }
 
     const interactiveMapLocation = new InteractiveMapLocation({

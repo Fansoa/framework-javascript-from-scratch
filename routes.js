@@ -5,9 +5,9 @@ import LocationDetailPage from "./src/pages/LocationDetailPage.js";
 import SpotDetailPage from "./src/pages/SpotDetailPage.js";
 
 export default {
-  // "/": new Homepage(),
-  // "/testpage": new TestPage(),
-  // "/testpagetwo": new TestPageTwo(),
-  // "/lieu": new LocationDetailPage(),
-  "/": new SpotDetailPage(),
+  "/": new Homepage(),
+  "/testpage": new TestPage(),
+  "/testpagetwo": new TestPageTwo(),
+  "/lieu": new LocationDetailPage(),
+  "/lieu/spot": new SpotDetailPage(),
 };
