@@ -39,7 +39,7 @@ export default class SpotDetailPage extends MiniReact.Component {
 
     this.data.content = this.parseHTML(
       `<main data-component-key="{{ key }}" class="bg-slate-100 grid grid-cols-3 min-h-[600px]">
-        <div class="h-[400px] w-full">
+        <div class="h-[300px] w-[100vw]">
           ${components.content.interactiveMapLocation}
         </div>
         zkmleezmkljeaz

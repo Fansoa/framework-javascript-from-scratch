@@ -81,6 +81,7 @@ export default class InteractiveMapLocation extends MiniReact.Component {
         this.googleMapService = new GoogleMapService(
           "map",
           ...Object.values(this.props?.locations?.location),
+          15,
         );
         this.createStaticSpot();
       }

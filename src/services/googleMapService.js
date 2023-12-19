@@ -1,5 +1,10 @@
 class GoogleMapService {
-  constructor(mapId, centerLat = 48.856858, centerLng = 2.351415) {
+  constructor(
+    mapId,
+    centerLat = 48.856858,
+    centerLng = 2.351415,
+    mapZoom = 10,
+  ) {
     this.defaultMapCenter = {
       lat: centerLat,
       lng: centerLng,
@@ -9,6 +14,7 @@ class GoogleMapService {
       spot: "../../../assets/images/icons/mark_spot.svg",
     };
     this.defaultMarkerSize = 30;
+    this.mapZoom = mapZoom;
     this.mapContainer = document.getElementById(mapId);
     this.map = new google.maps.Map(this.mapContainer, this.getMapOptions());
     this.infoWindow = new google.maps.InfoWindow();
@@ -24,7 +30,7 @@ class GoogleMapService {
   ) {
     const mapCenter = new google.maps.LatLng(lat, lng);
     return {
-      zoom: 10,
+      zoom: this.mapZoom,
       center: mapCenter,
       mapTypeIds: [google.maps.MapTypeId.RoadMap],
       streetViewControl: true,
