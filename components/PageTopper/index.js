@@ -26,7 +26,7 @@ class PageTopper extends MiniReact.Component {
     });
 
     this.data.content = `<section>
-      <div class="my-2 ml-6 sm:ml-12">
+      <div class="py-2 pl-6 sm:pl-12">
         ${components.content.breadcrumb}
       </div>
       <div class="h-[9.375rem] sm:h-[18.75rem]">
