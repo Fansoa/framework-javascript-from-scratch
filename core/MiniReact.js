@@ -209,7 +209,7 @@ const MiniReact = {
         const componentData = this.getComponentData(component);
 
         if (Array.isArray(componentData.content)) {
-          data.content[componentName] = componentData.content.join();
+          data.content[componentName] = componentData.content.join("");
         } else {
           data.content[componentName] = componentData.content;
         }
