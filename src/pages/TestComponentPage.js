@@ -5,6 +5,7 @@ import SpotList from "../../components/SpotList/index.js";
 import Footer from "../../components/Footer/index.js";
 import EventList from "../../components/EventList/index.js";
 import Navbar from "../../components/Navbar/index.js";
+import NavbarMobile from "../../components/NavbarMobile/index.js";
 
 class TestComponentPage extends MiniReact.Component {
   render() {
@@ -68,12 +69,15 @@ class TestComponentPage extends MiniReact.Component {
 
     const navbar = new Navbar().renderComponent();
 
+    const navbarMobile = new NavbarMobile().renderComponent();
+
     const components = this.getComponentsData({
       pageTopper,
       spotList,
       footer,
       eventList,
       navbar,
+      navbarMobile,
     });
 
     this.data.content = this.parseHTML(`<section>
@@ -84,6 +88,7 @@ class TestComponentPage extends MiniReact.Component {
       ${components.content.eventList}
       </div>
       ${components.content.footer}
+      ${components.content.navbarMobile}
     </section>`);
 
     this.data.functions = components.functions;
