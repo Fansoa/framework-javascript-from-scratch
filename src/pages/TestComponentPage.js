@@ -2,9 +2,11 @@ import MiniReact from "../../core/MiniReact.js";
 
 import PageTopper from "../../components/PageTopper/index.js";
 import SpotList from "../../components/SpotList/index.js";
+import Footer from "../../components/Footer/index.js";
 
 class TestComponentPage extends MiniReact.Component {
   render() {
+    const footer = new Footer({}).renderComponent();
     const pageTopper = new PageTopper({
       title: "Quai de Seine",
       src: "https://cdn.paris.fr/paris/2020/04/08/huge-40b319345ead743d298859b404c93733.jpg",
@@ -35,6 +37,7 @@ class TestComponentPage extends MiniReact.Component {
     const components = this.getComponentsData({
       pageTopper,
       spotList,
+      footer,
     });
 
     this.data.content = this.parseHTML(`<section>
@@ -42,6 +45,7 @@ class TestComponentPage extends MiniReact.Component {
       ${components.content.pageTopper}
       ${components.content.spotList}
       </div>
+      ${components.content.footer}
     </section>`);
 
     this.data.functions = components.functions;

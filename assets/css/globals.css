@@ -9,6 +9,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+.footer_corner_rounded {
+  border-radius: 60% / 300%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .font-nova-square {
   font-family: 'Nova Square', sans-serif;
 }
