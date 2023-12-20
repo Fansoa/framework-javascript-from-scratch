@@ -2,14 +2,13 @@ import MiniReact from "../../core/MiniReact.js";
 
 export default class BrowserLink extends MiniReact.Component {
   renderComponent() {
-    const handleClick = (event) => {
+    const redirectTo = (event) => {
       event.preventDefault();
       history.pushState(null, null, this.props.to);
     };
 
-    this.data.functions[`handleClick_{{key}}`.interpolate(this)] = handleClick;
-    this.data.content =
-      `<a href="" to="{{props.to}}" onclick="handleClick_{{key}}">
+    this.data.functions[`redirectTo_{{key}}`.interpolate(this)] = redirectTo;
+    this.data.content = `<a href="" onclick="redirectTo_{{key}}">
       {{props.content}}
     </a>`.interpolate(this);
 

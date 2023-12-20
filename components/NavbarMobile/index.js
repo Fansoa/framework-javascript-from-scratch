@@ -13,15 +13,17 @@ class NavbarMobile extends MiniReact.Component {
   </div>`,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       browserLink,
     });
 
     this.data.content = `
-    <div class='bg-white flex h-20 sm:hidden justify-center sticky bottom-0 items-center px-5 shadow-md'>
-      ${components.content.browserLink}
-    </div>
-    `;
+    <nav class='z-50 shadow-inner fixed bottom-0 bg-white flex h-20 sm:hidden justify-center items-center px-5 w-full'>
+      {{components.content.browserLink}}
+    </nav>
+    `.interpolate(this);
+
+    this.data.functions = this.components.functions;
 
     return this.data;
   }
