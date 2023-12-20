@@ -19,7 +19,7 @@ class Navbar extends MiniReact.Component {
     });
 
     this.data.content = `
-    <div class='h-20 flex justify-between items-center px-5 shadow-md'>
+    <div class='hidden h-20 sm:flex justify-between items-center px-5 shadow-md'>
       <img src="../../assets/images/navbarlogo.svg">
 
       ${components.content.browserLink}
