@@ -8,7 +8,8 @@
     [{ "lat": 48.893, "lng": 2.226 },
     { "lat": 48.861, "lng": 2.637 },
     { "lat": 48.895, "lng": 2.228 },
-    { "lat": 48.894, "lng": 2.227 }]
+    { "lat": 48.894, "lng": 2.227 }],
+    "../images/events/defense-arena.png"
   ],
   [
     { "lat": 48.862229, "lng": 2.636374 },
@@ -16,7 +17,8 @@
     "stade-nautique",
     "Site olympique;Site paralympique",
     "Canoë, Para canoë, Aviron, Para aviron",
-    [{ "lat": 48.861, "lng": 2.637 }]
+    [{ "lat": 48.861, "lng": 2.637 }],
+    "../images/events/centre-aquatique-defense-arena.png"
   ],
   [
     { "lat": 48.751095, "lng": 2.0759 },
@@ -24,7 +26,8 @@
     "golf-national",
     "Site olympique",
     "Golf",
-    [{ "lat": 48.752, "lng": 2.076 }, { "lat": 48.76, "lng": 2.077 }]
+    [{ "lat": 48.752, "lng": 2.076 }, { "lat": 48.76, "lng": 2.077 }],
+    "../images/events/golf-national.png"
   ],
   [
     { "lat": 48.788046, "lng": 2.034987 },
@@ -32,7 +35,8 @@
     "velodrome-national-de-saint-quentin-en-yvelines",
     "Site olympique;Site paralympique",
     "Cyclisme sur piste, Para cyclisme sur piste",
-    [{ "lat": 48.791, "lng": 2.036 }, { "lat": 48.79, "lng": 2.035 }]
+    [{ "lat": 48.791, "lng": 2.036 }, { "lat": 48.79, "lng": 2.035 }],
+    "../images/events/stade-bmx-de-saint-quentin-en-yvelines.png"
   ],
   [
     { "lat": 48.84732, "lng": 2.245501 },
@@ -42,7 +46,8 @@
     "Tennis, Tennis fauteuil, Boxe",
     [{ "lat": 48.845, "lng": 2.246 },{ "lat": 48.844, "lng": 2.248 },
     { "lat": 48.847, "lng": 2.245 },
-    { "lat": 48.848, "lng": 2.244 }]
+    { "lat": 48.848, "lng": 2.244 }],
+    "../images/events/stade-roland-garros.png"
   ],
   [
     { "lat": 48.911184, "lng": 2.546395 },
@@ -50,7 +55,8 @@
     "clichy-sous-bois",
     "Site paralympique",
     "Para cyclisme sur route",
-    [{ "lat": 48.91, "lng": 2.546 }]
+    [{ "lat": 48.91, "lng": 2.546 }],
+    "../images/events/stade-roland-garros.png"
   ],
   [
     { "lat": 48.832068, "lng": 2.284126 },
@@ -61,7 +67,8 @@
     [
       { "lat": 48.911184, "lng": 2.546395 },
       { "lat": 43.296482, "lng": 5.369780 }
-    ]
+    ],
+    "../images/events/arena-paris-sud-1.png"
   ],
   [
     { "lat": 48.841319, "lng": 2.253076 },
@@ -72,7 +79,8 @@
     [
       { "lat": 48.841389, "lng": 2.253056 },
       { "lat": 48.838889, "lng": 2.254444 }
-    ]
+    ],
+    "../images/events/parc-des-princes.png"
   ],
   [
     { "lat": 48.924388, "lng": 2.359871 },
@@ -82,7 +90,8 @@
     "Athlétisme, Para athlétisme, Rugby",
     [
       { "lat": 48.924722, "lng": 2.360833 }
-    ]
+    ],
+    "../images/events/stade-de-france.png"
   ],
   [
     { "lat": 48.830231, "lng": 2.289126 },
@@ -93,7 +102,8 @@
     [
       { "lat": 48.830278, "lng": 2.2875 },
       { "lat": 48.8325, "lng": 2.289722 }
-    ]
+    ],
+    "../images/events/arena-paris-sud-4.png"
   ],
   [
     { "lat": 48.856858, "lng": 2.351415 },
@@ -103,7 +113,8 @@
     "Athlétisme",
     [
       { "lat": 48.856389, "lng": 2.352778 }
-    ]
+    ],
+    "../images/events/arena-paris-sud-4.png"
   ],
   [
     { "lat": 48.92467, "lng": 2.332428 },
@@ -113,7 +124,8 @@
     "",
     [
       { "lat": 48.832778, "lng": 2.393889 }
-    ]
+    ],
+    "../images/events/arena-paris-sud-4.png"
   ],
   [
     { "lat": 48.815115, "lng": 2.08208 },
@@ -123,7 +135,8 @@
     "Sports équestres, Para équitation, Pentathlon moderne",
     [
       { "lat": 48.804722, "lng": 2.123333 }
-    ]
+    ],
+    "../images/events/chateau-de-versailles.png"
   ],
   [
     { "lat": 48.944207, "lng": 2.424716 },
@@ -133,7 +146,8 @@
     "",
     [
       { "lat": 48.936944, "lng": 2.291944 }
-    ]
+    ],
+    "../images/events/chateau-de-versailles.png"
   ],
   [
     { "lat": 48.944643, "lng": 2.408258 },
@@ -143,7 +157,8 @@
     "Para athlétisme",
     [
       { "lat": 48.92045, "lng": 2.391211 }
-    ]
+    ],
+    "../images/events/concorde.png"
   ],
   [
     { "lat": 48.856262, "lng": 2.2914 },
@@ -153,7 +168,8 @@
     "Cyclisme sur route, Athlétisme",
     [
       { "lat": 48.862778, "lng": 2.289722 }
-    ]
+    ],
+    "../images/events/pont-alexendre-iii.png"
   ],
   [
     { "lat": 48.838649, "lng": 2.378496 },
@@ -163,7 +179,8 @@
     "Basketball, Basket fauteuil, Gymnastique artistique, trampoline",
     [
       { "lat": 48.838611, "lng": 2.388333 }
-    ]
+    ],
+    "../images/events/arena-bercy.png"
   ],
   [
     { "lat": 48.971314, "lng": 2.519183 },
@@ -173,7 +190,8 @@
     "Boxe, Escrime, Pentathlon moderne, Volley-ball assis",
     [
       { "lat": 48.894083, "lng": 2.240444 }
-    ]
+    ],
+    "../images/events/arena-paris-nord.png"
   ],
   [
     { "lat": 48.829624, "lng": 2.290777 },
@@ -184,7 +202,8 @@
     [
       { "lat": 48.830278, "lng": 2.2875 },
       { "lat": 48.8325, "lng": 2.289722 }
-    ]
+    ],
+    "../images/events/arena-paris-sud-6.png"
   ],
   [
     { "lat": 48.865589, "lng": 2.321205 },
@@ -194,7 +213,8 @@
     "Basketball 3x3, BMX freestyle, Breaking, Skateboard",
     [
       { "lat": 48.863611, "lng": 2.318333 }
-    ]
+    ],
+    "../images/events/concorde.png"
   ],
   [
     { "lat": 48.788162, "lng": 1.967776 },
@@ -204,7 +224,8 @@
     "VTT",
     [
       { "lat": 48.767, "lng": 1.964 }
-    ]
+    ],
+    "../images/events/colline-elancourt.png"
   ],
   [
     { "lat": 48.866041, "lng": 2.312406 },
@@ -214,7 +235,8 @@
     "Escrime, Escrime fauteuil, Taekwondo, Para taekwondo",
     [
       { "lat": 48.866111, "lng": 2.312778 }
-    ]
+    ],
+    "../images/events/grand-palais.png"
   ],
   [
     { "lat": 48.862286, "lng": 2.313222 },
@@ -224,7 +246,8 @@
     "Tir à l'arc, Para tir à l'arc, Athlétisme, Cyclisme sur route",
     [
       { "lat": 48.8567, "lng": 2.3167 }
-    ]
+    ],
+    "../images/events/invalides.png"
   ],
   [
     { "lat": 48.937188, "lng": 2.420467 },
@@ -234,7 +257,8 @@
     "Escalade sportive",
     [
       { "lat": 48.9358, "lng": 2.4172 }
-    ]
+    ],
+    "../images/events/la-defense-arena.png"
   ],
   [
     { "lat": 48.930873, "lng": 2.249836 },
@@ -244,7 +268,8 @@
     "Hockey",
     [
       { "lat": 48.9225, "lng": 2.2047 }
-    ]
+    ],
+    "../images/events/stade-yves-du-manoir.png"
   ],
   [
     { "lat": 48.854536, "lng": 2.300413 },
@@ -254,7 +279,8 @@
     "Judo, Para judo, Lutte, Rugby fauteuil",
     [
       { "lat": 48.8566, "lng": 2.2986 }
-    ]
+    ],
+    "../images/events/arena-champ-de-mars.png"
   ],
   [
     { "lat": 48.857232, "lng": 2.296084 },
@@ -264,7 +290,8 @@
     "Volleyball de plage, Cécifoot",
     [
       { "lat": 48.8566, "lng": 2.2881 }
-    ]
+    ],
+    "../images/events/stade-tour-eiffel.png"
   ],
   [
     { "lat": 48.787261, "lng": 2.034736 },
@@ -274,7 +301,8 @@
     "BMX race",
     [
       { "lat": 48.7867, "lng": 2.0256 }
-    ]
+    ],
+    "../images/events/stade-bmx-de-saint-quentin-en-yvelines.png"
   ],
   [
     { "lat": 48.899483, "lng": 2.361803 },
@@ -284,7 +312,8 @@
     "Badminton, Para Badminton, Gymnastique rythmique, Para powerlifting",
     [
       { "lat": 48.8947, "lng": 2.3592 }
-    ]
+    ],
+    "../images/events/arena-la-chapelle.png"
   ],
   [
     { "lat": 48.835157, "lng": 2.257363 },
@@ -294,7 +323,8 @@
     "Goalball",
     [
       { "lat": 48.8369, "lng": 2.2586 }
-    ]
+    ],
+    "../images/events/stade-de-lyon.png"
   ],
   [
     { "lat": 48.923457, "lng": 2.355527 },
@@ -304,6 +334,7 @@
     "Natation artistique, Plongeon, Water-polo",
     [
       { "lat": 48.8655, "lng": 2.3997 }
-    ]
+    ],
+    "../images/events/centre-aquatique.png"
   ]
 ]
