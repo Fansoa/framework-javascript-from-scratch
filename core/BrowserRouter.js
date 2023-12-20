@@ -8,7 +8,7 @@ export default (routes, rootElement) => {
 
   const generatePage = () => {
     const path = getRoute();
-    const page = MiniReactDOM.renderStructure(routes[path]);
+    const page = MiniReactDOM.renderStructure(routes[path].render());
 
     MiniReactDOM.render(rootElement, page);
   };
