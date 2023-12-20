@@ -1,6 +1,6 @@
 [
   {
-    "parentSlug": "La Défense Arena",
+    "parentSlug": "la-defense-arena",
     "name": "Tournoi de Basket-Ball",
     "img": "../images/events/Basketball.jpeg",
     "startDate": "15-07-2024",
@@ -8,7 +8,7 @@
     "description": "Un tournoi mondial mettant en compétition les meilleures équipes de basket-ball du monde dans ce stade emblématique."
   },
   {
-    "parentSlug": "La Défense Arena",
+    "parentSlug": "la-defense-arena",
     "name": "Concert de Clôture",
     "startDate": "10-08-2024",
     "endDate": "12-08-2024",
@@ -16,7 +16,7 @@
     "description": "Un concert épique réunissant des artistes internationaux pour célébrer la fin des Jeux Olympiques."
   },
   {
-    "parentSlug": "Stade nautique",
+    "parentSlug": "stade-nautique",
     "name": "Natation synchronisée",
     "startDate": "20-07-2024",
     "endDate": "25-07-2024",
@@ -24,7 +24,7 @@
     "description": "Les meilleurs athlètes de natation synchronisée rivaliseront pour la médaille d'or dans cet événement spectaculaire."
   },
   {
-    "parentSlug": "Golf national",
+    "parentSlug": "golf-national",
     "name": "Tournoi de Golf",
     "startDate": "30-07-2024",
     "endDate": "05-08-2024",
@@ -32,7 +32,7 @@
     "description": "Les golfeurs de renommée mondiale s'affronteront pour la gloire olympique sur les parcours exigeants de ce prestigieux site de golf."
   },
   {
-    "parentSlug": "Vélodrome National de Saint-Quentin-en-Yvelines",
+    "parentSlug": "velodrome-national-de-saint-quentin-en-yvelines",
     "name": "Cyclisme sur Piste",
     "startDate": "25-07-2024",
     "endDate": "02-08-2024",
