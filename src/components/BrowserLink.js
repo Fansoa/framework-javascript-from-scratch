@@ -7,10 +7,11 @@ export default class BrowserLink extends MiniReact.Component {
       history.pushState(null, null, this.props.to);
     };
 
-    this.data.functions[`handleClick_${this.key}`] = handleClick;
-    this.data.content = `<a href="" to="${this.props.to}" onclick="handleClick_${this.key}">
-      ${this.props.content}
-    </a>`;
+    this.data.functions[`handleClick_{{key}}`.interpolate(this)] = handleClick;
+    this.data.content =
+      `<a href="" to="{{props.to}}" onclick="handleClick_{{key}}">
+      {{props.content}}
+    </a>`.interpolate(this);
 
     return this.data;
   }

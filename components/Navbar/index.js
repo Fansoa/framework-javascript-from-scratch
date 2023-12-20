@@ -14,7 +14,7 @@ class Navbar extends MiniReact.Component {
   </div>`,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       browserLink,
     });
 
@@ -22,9 +22,9 @@ class Navbar extends MiniReact.Component {
     <div class='hidden h-20 sm:flex justify-between items-center px-5 shadow-md'>
       <img src="../../assets/images/navbarlogo.svg">
 
-      ${components.content.browserLink}
+      {{components.content.browserLink}}
     </div>
-    `;
+    `.interpolate(this);
 
     return this.data;
   }

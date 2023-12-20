@@ -45,7 +45,7 @@ export default class InteractiveMap extends MiniReact.Component {
         sport: selectedSport,
       }));
     };
-    const selectSportString = `selectSport_${this.key}`;
+    const selectSportString = `selectSport_{{key}}`.interpolate(this);
     this.data.functions[selectSportString] = selectSport;
 
     // Prevent infinite loop
@@ -71,7 +71,7 @@ export default class InteractiveMap extends MiniReact.Component {
       locations: eventLocations,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       interactiveMapList,
       interactiveMapLocation,
     });
@@ -79,10 +79,10 @@ export default class InteractiveMap extends MiniReact.Component {
     this.data.content =
       `<section data-component-key="{{ key }}" class="bg-slate-100 grid sm:grid-cols-3 grid-cols-1 sm:h-[600px] py-2">
         <div class="p-3 overflow-y-scroll sm:max-h-[inherit] max-h-[200px] col-span-1 sm:my-0 my-4">
-          ${components.content.interactiveMapList}
+          {{components.content.interactiveMapList}}
         </div>
         <div class="sm:col-span-2 col-span-1">
-          ${components.content.interactiveMapLocation}
+          {{components.content.interactiveMapLocation}}
         </div>
     </section>`.interpolate(this);
 

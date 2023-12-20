@@ -20,19 +20,19 @@ class PageTopper extends MiniReact.Component {
       alt: this.props.alt,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       breadcrumb,
       image,
     });
 
     this.data.content = `<section>
       <div class="py-2 pl-6 sm:pl-12">
-        ${components.content.breadcrumb}
+        {{components.content.breadcrumb}}
       </div>
       <div class="h-[9.375rem] sm:h-[18.75rem]">
-        ${components.content.image}
+        {{components.content.image}}
       </div>
-    </section>`;
+    </section>`.interpolate(this);
 
     return this.data;
   }

@@ -18,14 +18,14 @@ class EventCard extends MiniReact.Component {
       alt: this.props.alt,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       image,
     });
 
     this.data.content =
-      `<section class="flex flex-col sm:flex-row shadow hover:shadow-md">
+      `<section class="flex flex-col sm:flex-row shadow-md bg-slate-100">
     <div class="w-full sm:w-[21.875rem] h-[12.5rem]">
-    ${components.content.image}
+    {{components.content.image}}
     </div>
         <div class="px-7 py-3">
           <h1 class="text-2xl text-zinc-800">{{ props.title }}</h1>

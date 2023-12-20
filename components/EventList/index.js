@@ -25,7 +25,7 @@ class EventList extends MiniReact.Component {
       }).renderComponent(),
     );
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       sectionTitle,
       eventList,
     });
@@ -36,7 +36,7 @@ class EventList extends MiniReact.Component {
           <h1 class="text-2xl md:text-4xl uppercase text-zinc-800">{{ props.title }}</h1>
         </div>
         <div class="flex flex-col gap-10">
-          ${components.content.eventList}
+          {{components.content.eventList}}
         </div>
       </div>
     `.interpolate(this);
