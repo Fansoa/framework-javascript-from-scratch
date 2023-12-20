@@ -64,7 +64,7 @@ export default class SpotDetailPage extends MiniReact.Component {
         <div class="py-8 pl-10">
           {{components.content.mapSectionTitle}}
         </div>
-        <div class="h-[300px] w-[100vw] px-10">
+        <div class="sm:h-[300px] w-[100vw] px-10">
           {{components.content.interactiveMapLocation}}
         </div>
         <div class="pb-3 pt-8 pl-10">
