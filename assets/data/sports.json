@@ -7,7 +7,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Aviron",
@@ -17,7 +17,7 @@
     "endDate": "03-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 31 juillet, 1er, 2 et 3 août.",
-    "img": "assets/images/events/Aviron.jpeg"
+    "img": "../../assets/images/events/Aviron.jpeg"
   },
   {
     "sport": "Badminton",
@@ -27,7 +27,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 2, 3, 4 et 5 août.",
-    "img": "assets/images/events/Badminton.jpeg"
+    "img": "../../assets/images/events/Badminton.jpeg"
   },
   {
     "sport": "Basketball",
@@ -37,7 +37,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 10 et 11 août.",
-    "img": "/assets/images/events/Basketball.jpeg"
+    "img": "../../assets/images/events/Basketball.jpeg"
   },
   {
     "sport": "Basketball 3x3",
@@ -47,7 +47,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues dans la session du 5 août.",
-    "img": "/assets/images/events/Basketball.jpeg"
+    "img": "../../assets/images/events/Basketball.jpeg"
   },
   {
     "sport": "BMX freestyle",
@@ -57,7 +57,7 @@
     "endDate": "31-07-2024",
     "description":
       "Des remises de médailles sont prévues dans la session du 31 juillet.",
-    "img": "assets/images/events/BMX.jpeg"
+    "img": "../../assets/images/events/BMX.jpeg"
   },
   {
     "sport": "BMX race",
@@ -67,7 +67,7 @@
     "endDate": "02-08-2024",
     "description":
       "Des remises de médailles sont prévues dans la session du 2 août.",
-    "img": "assets/images/events/BMX.jpeg"
+    "img": "../../assets/images/events/BMX.jpeg"
   },
   {
     "sport": "Boxe",
@@ -77,7 +77,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 6, 7, 8, 9 et 10 août.",
-    "img": "/assets/images/events/Combat.jpeg"
+    "img": "../../assets/images/events/Combat.jpeg"
   },
   {
     "sport": "Breaking",
@@ -87,7 +87,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Gym.jpeg"
+    "img": "../../assets/images/events/Gym.jpeg"
   },
   {
     "sport": "Canoë slalom",
@@ -97,7 +97,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 28, 29 et 31 juillet et du 1er et 5 août.",
-    "img": "assets/images/events/Aviron.jpeg"
+    "img": "../../assets/images/events/Aviron.jpeg"
   },
   {
     "sport": "Football",
@@ -107,7 +107,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 8, 9 et 10 août.",
-    "img": "/assets/images/events/Basketball.jpeg"
+    "img": "../../assets/images/events/Basketball.jpeg"
   },
   {
     "sport": "Golf",
@@ -117,7 +117,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 4 et 10 août.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Gymnastique artistique",
@@ -127,7 +127,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 29, 30 et 31 juillet et du 1er, 3, 4 et 5 août.",
-    "img": "/assets/images/events/Gym.jpeg"
+    "img": "../../assets/images/events/Gym.jpeg"
   },
   {
     "sport": "Gymnastique rythmique",
@@ -137,7 +137,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 9 et 10 août.",
-    "img": "/assets/images/events/Gym.jpeg"
+    "img": "../../assets/images/events/Gym.jpeg"
   },
   {
     "sport": "Haltérophilie",
@@ -147,7 +147,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Gym.jpeg"
+    "img": "../../assets/images/events/Gym.jpeg"
   },
   {
     "sport": "Handball",
@@ -157,7 +157,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 10 et 11 août.",
-    "img": "/assets/images/events/Basketball.jpeg"
+    "img": "../../assets/images/events/Basketball.jpeg"
   },
   {
     "sport": "Hockey",
@@ -167,7 +167,7 @@
     "endDate": "09-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 8 et 9 août.",
-    "img": "/assets/images/events/Combat.jpeg"
+    "img": "../../assets/images/events/Combat.jpeg"
   },
   {
     "sport": "Judo",
@@ -177,7 +177,7 @@
     "endDate": "03-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Combat.jpeg"
+    "img": "../../assets/images/events/Combat.jpeg"
   },
   {
     "sport": "Lutte",
@@ -187,7 +187,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 6, 7, 8, 9, 10 et 11 août.",
-    "img": "/assets/images/events/Combat.jpeg"
+    "img": "../../assets/images/events/Combat.jpeg"
   },
   {
     "sport": "Natation",
@@ -197,7 +197,7 @@
     "endDate": "04-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   },
   {
     "sport": "Natation artistique",
@@ -207,7 +207,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 7 et 10 août.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   },
   {
     "sport": "Natation marathon",
@@ -217,7 +217,7 @@
     "endDate": "09-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   },
   {
     "sport": "Pentathlon moderne",
@@ -227,7 +227,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 10 et 11 août.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Plongeon",
@@ -237,7 +237,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 27, 29 et 31 juillet et du 2, 6, 8, 9 et 10 août.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   },
   {
     "sport": "Rugby",
@@ -247,7 +247,7 @@
     "endDate": "30-07-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 27 et 30 juillet.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Skateboard",
@@ -257,7 +257,7 @@
     "endDate": "07-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "assets/images/events/BMX.jpeg"
+    "img": "../../assets/images/events/BMX.jpeg"
   },
   {
     "sport": "Sports Equestres",
@@ -267,7 +267,7 @@
     "endDate": "06-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 29 juillet et du 2, 3, 4 et 6 août.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Surf",
@@ -277,7 +277,7 @@
     "endDate": "30-07-2024",
     "description":
       "Des remises de médailles sont prévues dans la session du 30 juillet.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   },
   {
     "sport": "Taekwondo",
@@ -287,7 +287,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Combat.jpeg"
+    "img": "../../assets/images/events/Combat.jpeg"
   },
   {
     "sport": "Tennis",
@@ -297,7 +297,7 @@
     "endDate": "04-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 2, 3 et 4 août.",
-    "img": "assets/images/events/Badminton.jpeg"
+    "img": "../../assets/images/events/Badminton.jpeg"
   },
   {
     "sport": "Tennis de table",
@@ -307,7 +307,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 30 juillet et du 3, 4, 9 et 10 août.",
-    "img": "assets/images/events/Badminton.jpeg"
+    "img": "../../assets/images/events/Badminton.jpeg"
   },
   {
     "sport": "Tir",
@@ -317,7 +317,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "/assets/images/events/Tir.jpeg"
+    "img": "../../assets/images/events/Tir.jpeg"
   },
   {
     "sport": "Tir à l’arc",
@@ -327,7 +327,7 @@
     "endDate": "04-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 28 et 29 juillet et du 2, 3 et 4 août.",
-    "img": "/assets/images/events/Tir.jpeg"
+    "img": "../../assets/images/events/Tir.jpeg"
   },
   {
     "sport": "Trampoline",
@@ -336,7 +336,7 @@
     "date": "02-08-2024",
     "endDate": "02-08-2024",
     "description": "Des remises de médailles sont prévues lors de cette session.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Triathlon",
@@ -346,7 +346,7 @@
     "endDate": "05-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "assets/images/events/BMX.jpeg"
+    "img": "../../assets/images/events/BMX.jpeg"
   },
   {
     "sport": "Voile",
@@ -356,7 +356,7 @@
     "endDate": "08-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 1, 2, 6, 7 et 8 août.",
-    "img": "assets/images/events/Aviron.jpeg"
+    "img": "../../assets/images/events/Aviron.jpeg"
   },
   {
     "sport": "Volleyball",
@@ -366,7 +366,7 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 9, 10 et 11 août.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "Volleyball de plage",
@@ -376,7 +376,7 @@
     "endDate": "10-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 9 et 10 août.",
-    "img": "/assets/images/events/Athlétisme.jpeg"
+    "img": "../../assets/images/events/Athlétisme.jpeg"
   },
   {
     "sport": "VTT",
@@ -386,7 +386,7 @@
     "endDate": "29-08-2024",
     "description":
       "Des remises de médailles sont prévues lors de toutes les sessions.",
-    "img": "assets/images/events/BMX.jpeg"
+    "img": "../../assets/images/events/BMX.jpeg"
   },
   {
     "sport": "Waterpolo",
@@ -396,6 +396,6 @@
     "endDate": "11-08-2024",
     "description":
       "Des remises de médailles sont prévues dans les sessions du 10 et 11 août.",
-    "img": "assets/images/events/Natation.jpeg"
+    "img": "../../assets/images/events/Natation.jpeg"
   }
 ]

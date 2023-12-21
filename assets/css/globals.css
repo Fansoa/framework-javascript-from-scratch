@@ -5,6 +5,10 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
+main {
+  position: relative;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Condensed', sans-serif;
 }
@@ -13,6 +17,10 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 60% / 300%;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.spotCard img {
+  border-radius: 8px 8px 0px 0px;
 }
 
 .font-nova-square {

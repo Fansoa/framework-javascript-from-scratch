@@ -1,8 +1,10 @@
 import MiniReact from "../../core/MiniReact.js";
 import BrowserLink from "../../src/components/BrowserLink.js";
+import NavbarMobile from "../NavbarMobile/index.js";
 
 class Navbar extends MiniReact.Component {
   renderComponent() {
+    const navbarMobile = new NavbarMobile({}).renderComponent();
     const browserLink = new BrowserLink({
       to: "/",
       content: `<div class='group h-full w-fit flex flex-col'>
@@ -14,18 +16,23 @@ class Navbar extends MiniReact.Component {
   </div>`,
     }).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       browserLink,
+      navbarMobile,
     });
 
     this.data.content = `
-    <div class='hidden h-20 sm:flex justify-between items-center px-5 shadow-md'>
-      <img src="../../assets/images/navbarlogo.svg">
+    <div>
+      <nav class='hidden h-20 sm:flex justify-between items-center px-5 shadow-md'>
+        <img src="../../assets/images/navbarlogo.svg">
 
-      ${components.content.browserLink}
+        {{components.content.browserLink}}
+      </nav>
+      {{components.content.navbarMobile}}
     </div>
-    `;
+    `.interpolate(this);
 
+    this.data.functions = this.components.functions;
     return this.data;
   }
 }

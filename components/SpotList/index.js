@@ -20,10 +20,11 @@ class SpotList extends MiniReact.Component {
         title: spot.title,
         src: spot.src,
         alt: spot.alt,
+        slug: spot.slug,
       }).renderComponent(),
     );
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       sectionTitle,
       cardList,
     });
@@ -31,13 +32,14 @@ class SpotList extends MiniReact.Component {
     this.data.content = `
       <section>
         <div class="my-4 ml-11">
-          ${components.content.sectionTitle}
+          {{components.content.sectionTitle}}
         </div>
         <div class="flex flex-col sm:flex-row gap-7 bg-slate-100 py-5 px-12 overflow-x-auto">
-          ${components.content.cardList}
+          {{components.content.cardList}}
         </div>
       </section>
-    `;
+    `.interpolate(this);
+    this.data.functions = this.components.functions;
 
     return this.data;
   }

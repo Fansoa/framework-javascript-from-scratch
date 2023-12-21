@@ -5,7 +5,7 @@ class Footer extends MiniReact.Component {
   renderComponent() {
     const footerMobile = new FooterMobile({}).renderComponent();
 
-    const components = this.getComponentsData({
+    this.components = this.getComponentsData({
       footerMobile,
     });
 
@@ -61,7 +61,7 @@ class Footer extends MiniReact.Component {
           </div>
         </div>
       </footer>
-      ${components.content.footerMobile}
+      {{components.content.footerMobile}}
       </div>`.interpolate(this);
 
     return this.data;
