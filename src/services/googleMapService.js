@@ -1,3 +1,5 @@
+import CacheDataService from "./cacheDataService.js";
+
 class GoogleMapService {
   constructor(
     mapId,
@@ -12,12 +14,52 @@ class GoogleMapService {
     this.mapMarkers = {
       place: "../../../assets/images/icons/mark_sport.svg",
       spot: "../../../assets/images/icons/mark_spot.svg",
+      user: "../../../assets/images/icons/mark_user.svg",
     };
     this.defaultMarkerSize = 30;
     this.mapZoom = mapZoom;
     this.mapContainer = document.getElementById(mapId);
     this.map = new google.maps.Map(this.mapContainer, this.getMapOptions());
     this.infoWindow = new google.maps.InfoWindow();
+    this.cacheDataService = CacheDataService.getInstance();
+
+    this.handleCurrentLocation();
+  }
+
+  handleCurrentLocation() {
+    const locationButton = document.createElement("button");
+
+    locationButton.textContent = "Pan to Current Location";
+    locationButton.classList.add("custom-map-control-button");
+    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+      locationButton,
+    );
+
+    if (navigator.geolocation) {
+      const { userPosition, userPositionChoice } = this.cacheDataService;
+      if (!userPosition && userPositionChoice !== false) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          this.cacheDataService.userPosition = pos;
+          this.cacheDataService.userPositionChoice = true;
+          this.generateMarker({
+            position: pos,
+            icon: "user",
+          });
+        });
+      } else {
+        this.cacheDataService.userPositionChoice = false;
+      }
+
+      this.generateMarker({
+        position: userPosition,
+        icon: "user",
+      });
+    }
   }
 
   setMapContainer() {
