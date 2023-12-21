@@ -62,6 +62,13 @@ class GoogleMapService {
     }
   }
 
+  generateGoogleMapsDirections(origin, destination) {
+    const originString = origin ? `${origin.lat},${origin.lng}` : "";
+    const destinationString = `${destination.lat},${destination.lng}`;
+
+    return `https://www.google.com/maps/dir/?api=1&origin=${originString}&destination=${destinationString}`;
+  }
+
   setMapContainer() {
     this.mapContainer = map;
   }

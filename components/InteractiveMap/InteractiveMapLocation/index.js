@@ -1,4 +1,5 @@
 import MiniReact from "../../../core/MiniReact.js";
+import CacheDataService from "../../../src/services/cacheDataService.js";
 import GoogleMapService from "../../../src/services/googleMapService.js";
 
 export default class InteractiveMapLocation extends MiniReact.Component {
@@ -6,12 +7,21 @@ export default class InteractiveMapLocation extends MiniReact.Component {
     super(props);
     this.displayedSpots = [];
     this.googleMapService = null;
+    this.cacheDataService = CacheDataService.getInstance();
   }
 
-  createPlaceChildMarker(marker, slug) {
+  createPlaceChildMarker(marker, slug, markerPosition) {
+    const locationPathUrl = this.googleMapService.generateGoogleMapsDirections(
+      this.cacheDataService.userPosition,
+      markerPosition,
+    );
     const content = `
       <section class="p-5">
         <h1><b>${marker.getTitle()}</b></h1>
+        <a href="${locationPathUrl}" target="_blank" class="text-indigo-500 flex items-center">
+          Voir l'itinéraire
+          <img src="../../../assets/images/icons/map.svg" class="ml-2">
+        </a>
         <button class="underline text-indigo-400 hover:text-indigo-600 pt-3">Informations du lieu</button>
       </section>
     `;
@@ -50,7 +60,11 @@ export default class InteractiveMapLocation extends MiniReact.Component {
             if (this.googleMapService.infoWindow) {
               this.googleMapService.infoWindow.close();
             }
-            const fragment = this.createPlaceChildMarker(marker, slug);
+            const fragment = this.createPlaceChildMarker(
+              marker,
+              slug,
+              position,
+            );
 
             this.googleMapService.infoWindow.setContent(fragment);
             this.googleMapService.infoWindow.open(this.map, marker);
@@ -67,8 +81,27 @@ export default class InteractiveMapLocation extends MiniReact.Component {
   }
 
   createStaticSpot() {
-    this.googleMapService.generateMarker({
+    const marker = this.googleMapService.generateMarker({
       position: this.props.locations.location,
+    });
+
+    marker.addListener("click", () => {
+      const locationPathUrl =
+        this.googleMapService.generateGoogleMapsDirections(
+          this.cacheDataService.userPosition,
+          this.props.locations.location,
+        );
+      const content = `
+        <section class="p-5">
+          <a href="${locationPathUrl}" target="_blank" class="text-indigo-500 flex items-center">
+            Voir l'itinéraire
+            <img src="../../../assets/images/icons/map.svg" class="ml-2">
+          </a>
+        </section>
+      `;
+
+      this.googleMapService.infoWindow.setContent(content);
+      this.googleMapService.infoWindow.open(this.map, marker);
     });
   }
 
