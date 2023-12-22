@@ -1,6 +1,6 @@
 import MiniReact from "../../../core/MiniReact.js";
-import CacheDataService from "../../../src/services/cacheDataService.js";
-import GoogleMapService from "../../../src/services/googleMapService.js";
+import CacheDataService from "../../../services/cacheDataService.js";
+import GoogleMapService from "../../../services/googleMapService.js";
 
 export default class InteractiveMapLocation extends MiniReact.Component {
   constructor(props) {

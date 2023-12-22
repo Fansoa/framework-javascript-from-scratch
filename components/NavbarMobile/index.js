@@ -1,5 +1,5 @@
 import MiniReact from "../../core/MiniReact.js";
-import BrowserLink from "../../src/components/BrowserLink.js";
+import BrowserLink from "../BrowserLink/index.js";
 
 class NavbarMobile extends MiniReact.Component {
   renderComponent() {

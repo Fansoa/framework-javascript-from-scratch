@@ -1,10 +1,10 @@
-import EventList from "../../components/EventList/index.js";
-import Footer from "../../components/Footer/index.js";
-import Navbar from "../../components/Navbar/index.js";
-import PageTopper from "../../components/PageTopper/index.js";
-import SectionTitle from "../../components/SectionTitle/index.js";
-import SpotList from "../../components/SpotList/index.js";
-import MiniReact from "../../core/MiniReact.js";
+import EventList from "../components/EventList/index.js";
+import Footer from "../components/Footer/index.js";
+import Navbar from "../components/Navbar/index.js";
+import PageTopper from "../components/PageTopper/index.js";
+import SectionTitle from "../components/SectionTitle/index.js";
+import SpotList from "../components/SpotList/index.js";
+import MiniReact from "../core/MiniReact.js";
 
 export default class LocationDetailPage extends MiniReact.Component {
   constructor(props) {

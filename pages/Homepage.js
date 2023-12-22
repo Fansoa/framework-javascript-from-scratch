@@ -1,9 +1,9 @@
-import MiniReact from "../../core/MiniReact.js";
-import InteractiveMap from "../../components/InteractiveMap/index.js";
-import PageTopper from "../../components/PageTopper/index.js";
-import SectionTitle from "../../components/SectionTitle/index.js";
-import Footer from "../../components/Footer/index.js";
-import Navbar from "../../components/Navbar/index.js";
+import MiniReact from "../core/MiniReact.js";
+import InteractiveMap from "../components/InteractiveMap/index.js";
+import PageTopper from "../components/PageTopper/index.js";
+import SectionTitle from "../components/SectionTitle/index.js";
+import Footer from "../components/Footer/index.js";
+import Navbar from "../components/Navbar/index.js";
 
 export default class Homepage extends MiniReact.Component {
   render() {

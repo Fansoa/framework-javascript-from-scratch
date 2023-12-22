@@ -1,6 +1,6 @@
 import routes from "./routes.js";
 import BrowserRouter from "./core/BrowserRouter.js";
-import CacheDataService from "./src/services/cacheDataService.js";
+import CacheDataService from "./services/cacheDataService.js";
 
 CacheDataService.getInstance();
 

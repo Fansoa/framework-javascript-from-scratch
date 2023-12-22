@@ -1,9 +1,9 @@
-import Footer from "../../components/Footer/index.js";
-import InteractiveMapLocation from "../../components/InteractiveMap/InteractiveMapLocation/index.js";
-import Navbar from "../../components/Navbar/index.js";
-import PageTopper from "../../components/PageTopper/index.js";
-import SectionTitle from "../../components/SectionTitle/index.js";
-import MiniReact from "../../core/MiniReact.js";
+import Footer from "../components/Footer/index.js";
+import InteractiveMapLocation from "../components/InteractiveMap/InteractiveMapLocation/index.js";
+import Navbar from "../components/Navbar/index.js";
+import PageTopper from "../components/PageTopper/index.js";
+import SectionTitle from "../components/SectionTitle/index.js";
+import MiniReact from "../core/MiniReact.js";
 
 export default class SpotDetailPage extends MiniReact.Component {
   constructor(props) {

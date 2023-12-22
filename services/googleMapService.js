@@ -69,10 +69,6 @@ class GoogleMapService {
     return `https://www.google.com/maps/dir/?api=1&origin=${originString}&destination=${destinationString}`;
   }
 
-  setMapContainer() {
-    this.mapContainer = map;
-  }
-
   getMapOptions(
     lat = this.defaultMapCenter.lat,
     lng = this.defaultMapCenter.lng,
