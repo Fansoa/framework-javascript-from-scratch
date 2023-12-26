@@ -10,6 +10,105 @@ const MiniReact = {
       };
     }
 
+    typeCheck(props, propTypes) {
+      this.checking(props, { type: "object", properties: propTypes });
+    }
+
+    checking(variable, conf, propName) {
+      function typeCheckV1(variable, type) {
+        if (typeof variable === "function" && type === "function") return true;
+        if (typeof variable === "number" && type === "number") return true;
+        if (typeof variable === "string" && type === "string") return true;
+        if (typeof variable === "undefined" && type === "undefined")
+          return true;
+        if (
+          typeof variable === "object" &&
+          variable &&
+          type === "null" &&
+          variable !== null
+        )
+          return false;
+        if (
+          variable === null &&
+          typeof variable === "object" &&
+          type === "null"
+        )
+          return true;
+        if (
+          typeof variable === "object" &&
+          variable !== null &&
+          type === "object" &&
+          Array.isArray(variable)
+        )
+          return false;
+        if (
+          typeof variable === "object" &&
+          variable !== null &&
+          type === "array" &&
+          Array.isArray(variable)
+        )
+          return true;
+        if (
+          typeof variable === "object" &&
+          variable !== null &&
+          type === "object"
+        )
+          return true;
+        return false;
+      }
+
+      if (conf.type && !typeCheckV1(variable, conf.type)) {
+        console.error(`props ${propName} must be a ${conf.type}`);
+      }
+
+      if (conf.enum) {
+        if (typeof variable === "object") {
+          const arrayWithStringifiedElements = conf.enum.map((element) =>
+            JSON.stringify(element),
+          );
+          if (
+            !arrayWithStringifiedElements.includes(JSON.stringify(variable))
+          ) {
+            console.error(
+              `${propName} value is equal to ${JSON.stringify(
+                variable,
+              )} instead of ${arrayWithStringifiedElements}`,
+            );
+          }
+        } else if (!conf.enum.includes(variable)) {
+          console.error(
+            `${propName} value should be equal to one of ${JSON.stringify(
+              conf.enum,
+            )}`,
+          );
+        }
+      }
+
+      if (conf.value) {
+        if (typeof variable === "object") {
+          if (JSON.stringify(conf.value) !== JSON.stringify(variable))
+            console.error(
+              `props ${propName} must be ${JSON.stringify(conf.value)}`,
+            );
+        }
+        if (variable !== conf.value) {
+          console.error(
+            `props ${propName} must be ${JSON.stringify(conf.value)}`,
+          );
+        }
+      }
+
+      if (conf.properties) {
+        for (const [propName, propValue] of Object.entries(conf.properties)) {
+          this.checking(
+            variable[propName],
+            conf.properties[propName],
+            propName,
+          );
+        }
+      }
+    }
+
     createTextElement(content) {
       return {
         type: "TEXT_NODE",
