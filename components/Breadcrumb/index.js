@@ -4,7 +4,14 @@ class Breadcrumb extends MiniReact.Component {
   constructor(props) {
     super(props);
     this.title = props.title;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    title: {
+      type: "string",
+    },
+  };
 
   renderComponent() {
     this.data.content =

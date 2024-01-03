@@ -5,7 +5,17 @@ class Image extends MiniReact.Component {
     super(props);
     this.src = props.src;
     this.alt = props.alt;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    src: {
+      type: "string",
+    },
+    alt: {
+      type: "string",
+    },
+  };
 
   renderComponent() {
     this.data.content =

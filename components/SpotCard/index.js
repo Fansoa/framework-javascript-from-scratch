@@ -9,7 +9,23 @@ class SpotCard extends MiniReact.Component {
     this.src = props.src;
     this.alt = props.alt;
     this.slug = props.slug;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    title: {
+      type: "string",
+    },
+    src: {
+      type: "string",
+    },
+    alt: {
+      type: "string",
+    },
+    slug: {
+      type: "string",
+    },
+  };
 
   renderComponent() {
     const image = new Image({

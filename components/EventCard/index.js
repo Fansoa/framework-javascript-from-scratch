@@ -10,7 +10,26 @@ class EventCard extends MiniReact.Component {
     this.description = props.description;
     this.src = props.src;
     this.alt = props.alt;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    title: {
+      type: "string",
+    },
+    date: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    src: {
+      type: "string",
+    },
+    alt: {
+      type: "string",
+    },
+  };
 
   renderComponent() {
     const image = new Image({
