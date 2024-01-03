@@ -16,7 +16,7 @@ class EventList extends MiniReact.Component {
       type: "string",
     },
     events: {
-      type: "object",
+      type: "array",
     },
   };
 
