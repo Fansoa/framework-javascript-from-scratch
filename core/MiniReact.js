@@ -58,7 +58,9 @@ const MiniReact = {
       }
 
       if (conf.type && !typeCheckV1(variable, conf.type)) {
-        console.error(`props ${propName} must be a ${conf.type}`);
+        console.error(
+          `${this.constructor.name} - props ${propName} must be a ${conf.type}`,
+        );
       }
 
       if (conf.enum) {
@@ -70,14 +72,18 @@ const MiniReact = {
             !arrayWithStringifiedElements.includes(JSON.stringify(variable))
           ) {
             console.error(
-              `${propName} value is equal to ${JSON.stringify(
+              `${
+                this.constructor.name
+              } - ${propName} value is equal to ${JSON.stringify(
                 variable,
               )} instead of ${arrayWithStringifiedElements}`,
             );
           }
         } else if (!conf.enum.includes(variable)) {
           console.error(
-            `${propName} value should be equal to one of ${JSON.stringify(
+            `${
+              this.constructor.name
+            } - ${propName} value should be equal to one of ${JSON.stringify(
               conf.enum,
             )}`,
           );
@@ -88,12 +94,16 @@ const MiniReact = {
         if (typeof variable === "object") {
           if (JSON.stringify(conf.value) !== JSON.stringify(variable))
             console.error(
-              `props ${propName} must be ${JSON.stringify(conf.value)}`,
+              `${
+                this.constructor.name
+              } - props ${propName} must be ${JSON.stringify(conf.value)}`,
             );
         }
         if (variable !== conf.value) {
           console.error(
-            `props ${propName} must be ${JSON.stringify(conf.value)}`,
+            `${
+              this.constructor.name
+            } - props ${propName} must be ${JSON.stringify(conf.value)}`,
           );
         }
       }
