@@ -80,42 +80,52 @@ export default class InteractiveMap extends MiniReact.Component {
     });
 
     const searchSport = (search) => {
-      const searchValue = search.target.parentNode.parentNode.firstElementChild.value ?? "";
+      const searchValue = search.target.closest(".search").children[0].value ?? "";
+
+      if (this.state.searchSport === searchValue) {
+        return;
+      }
 
       const listSport = sports.filter((sport) => {
         return sport.name.toLowerCase().includes(searchValue.toLowerCase());
       });
 
       this.setState({
-        sports: this.state.sports, // Prevent fetchSports() to be called
-        eventLocations: this.state.eventLocations, // Prevent fetchSports() to be called
-        sport: this.state.sport, // Prevent fetchSports() to be called
-
+        // ----
+          sports: this.state.sports,
+          eventLocations: this.state.eventLocations,
+          sport: this.state.sport,
+        // ---- Prevent fetchSports() to be called
         searchSport: searchValue,
         filteredSports: listSport,
       });
     };
 
-    this.data.functions[`handleClick_{{key}}`.interpolate(this)] = searchSport;
+    this.data.functions[`handleClick_{{key}}`.interpolate(this)] = searchSport
+    this.data.functions[`handleKeyDown_{{key}}`.interpolate(this)] = (event) => {
+      if (event.key === "Enter") {
+        searchSport(event);
+      }
+    }
 
     this.data.content =
       `<section data-component-key="{{ key }}" class="bg-slate-100 grid sm:grid-cols-3 grid-cols-1 sm:h-[600px] py-2">
         <div class="p-3 overflow-y-scroll sm:max-h-[inherit] max-h-[200px] col-span-1 sm:my-0 my-4">
           <div class="flex items-center justify-center w-full">
-            <div class="bg-white flex rounded w-full">
-              <input class="bg-transparent border-none focus:outline-none outline-none px-4 py-1 text-gray-400 w-full" value="{{ state.searchSport }}" name="search" placeholder="Rechercher un sport">
+            <div class="bg-white flex rounded w-full search">
+              <input class="bg-transparent border-none focus:outline-none outline-none px-4 py-1 text-gray-400 w-full" value="{{ state.searchSport }}" name="search" placeholder="Rechercher un sport" onkeydown="handleKeyDown_{{key}}()">
               <button class="bg-blue-600 m-2 px-4 py-2 rounded text-white" onclick="handleClick_{{key}}()">
                 <img src="../../../assets/images/icons/search.svg">
               </button>
             </div>
           </div>
-          
+
           {{components.content.interactiveMapList}}
         </div>
         <div class="sm:col-span-2 col-span-1">
           {{components.content.interactiveMapLocation}}
         </div>
-    </section>`.interpolate(this);
+      </section>`.interpolate(this);
 
     return this.data;
   }
