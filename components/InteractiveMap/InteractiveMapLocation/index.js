@@ -92,7 +92,7 @@ export default class InteractiveMapLocation extends MiniReact.Component {
           this.props.locations.location,
         );
       const content = `
-        <section class="p-5">
+        <section class="p-3">
           <a href="${locationPathUrl}" target="_blank" class="text-indigo-500 flex items-center">
             Voir l'itinéraire
             <img src="../../../assets/images/icons/map.svg" class="ml-2">

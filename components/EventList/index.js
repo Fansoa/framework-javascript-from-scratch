@@ -43,7 +43,7 @@ class EventList extends MiniReact.Component {
     this.data.content = `
       <div class="sm:px-[3.125rem]">
         <div class="px-2.5 sm:px-0 py-4">
-          <h1 class="text-2xl md:text-4xl uppercase text-zinc-800">{{ props.title }}</h1>
+          <h1 class="text-2xl md:text-4xl uppercase text-zinc-800 font-bold">{{ props.title }}</h1>
         </div>
         <div class="flex flex-col gap-10">
           {{components.content.eventList}}

@@ -15,7 +15,7 @@ class SectionTitle extends MiniReact.Component {
 
   renderComponent() {
     this.data.content =
-      `<h1 class="text-2xl md:text-4xl uppercase text-zinc-800">{{ props.title }}</h1>`.interpolate(
+      `<h1 class="text-2xl md:text-4xl uppercase text-zinc-800 font-bold">{{ props.title }}</h1>`.interpolate(
         this,
       );
 

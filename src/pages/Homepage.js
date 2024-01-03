@@ -31,7 +31,7 @@ export default class Homepage extends MiniReact.Component {
       `<main>
       {{ components.content.navbar }}
       {{ components.content.pageTopper }}
-      <div class="py-3 pl-10">
+      <div class="py-3 pl-12">
         {{ components.content.interactiveMapTitle }}
       </div>
       {{ components.content.interactiveMap }}
