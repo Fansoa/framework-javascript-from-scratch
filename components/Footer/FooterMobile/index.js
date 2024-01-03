@@ -18,7 +18,8 @@ class FooterMobile extends MiniReact.Component {
             Contact
           </h1>
           <div class="text-white text-xs font-semibold leading-5 mt-2">
-            35 impasse de Karl Marx40 800
+            35 impasse de Karl Marx<br />
+            40 800
             <br />
             Aire sur Goulag
             <br />

@@ -70,7 +70,7 @@ export default class SpotDetailPage extends MiniReact.Component {
         <div class="pb-3 pt-8 pl-10">
           {{components.content.descriptionSectionTitle}}
         </div>
-        <p class="pl-10 pt-2">{{ state.spot.description }}</p>
+        <p class="px-10 pt-2">{{ state.spot.description }}</p>
         <div class="mt-10">
           {{components.content.pageFooter}}
         </div>

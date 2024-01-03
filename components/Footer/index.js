@@ -33,7 +33,8 @@ class Footer extends MiniReact.Component {
                   <section class="flex flex-col items-stretch">
                     <h1 class="font-nova-square text-white text-xl leading-5">Contact</h1>
                     <div class="text-white text-xs font-bold leading-5 mt-4">
-                      35 impasse de Karl Marx40 800
+                      35 impasse de Karl Marx<br />
+                      40 800
                       <br />
                       Aire sur Goulag
                       <br />

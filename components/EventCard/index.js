@@ -29,7 +29,7 @@ class EventCard extends MiniReact.Component {
     </div>
         <div class="px-7 py-3">
           <h1 class="text-2xl text-zinc-800">{{ props.title }}</h1>
-          <p class="text-xs italic text-zinc-800">{{ props.date }}</p>
+          <p class="text-xs italic text-zinc-800 pt-[10px]">{{ props.date }}</p>
           <p class="text-base text-zinc-800 mt-3">{{ props.description }}</p>
         </div>
         </section>`.interpolate(this);
