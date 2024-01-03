@@ -8,7 +8,17 @@ class SpotList extends MiniReact.Component {
     super(props);
     this.title = props.title;
     this.spots = props.spots;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    title: {
+      type: "string",
+    },
+    spots: {
+      type: "array",
+    },
+  };
 
   renderComponent() {
     const sectionTitle = new SectionTitle({

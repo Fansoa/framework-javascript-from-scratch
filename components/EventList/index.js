@@ -8,7 +8,17 @@ class EventList extends MiniReact.Component {
     super(props);
     this.title = props.title;
     this.events = props.events;
+    this.typeCheck(props, this.propTypes);
   }
+
+  propTypes = {
+    title: {
+      type: "string",
+    },
+    events: {
+      type: "array",
+    },
+  };
 
   renderComponent() {
     const sectionTitle = new SectionTitle({

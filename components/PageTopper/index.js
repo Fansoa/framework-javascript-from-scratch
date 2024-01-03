@@ -14,10 +14,7 @@ class PageTopper extends MiniReact.Component {
   }
 
   propTypes = {
-    title: {
-      type: "string",
-      enum: [{ toto: "toto" }, "Les sites de competitions"],
-    },
+    title: { type: "string" },
     src: { type: "string" },
     alt: { type: "string" },
   };
