@@ -4,7 +4,6 @@ import AccordionListItem from "./AccordionListItem/index.js";
 class Accordion extends MiniReact.Component {
   constructor(props) {
     super(props);
-    this.props.selected = null;
   }
 
   renderComponent() {
@@ -13,7 +12,6 @@ class Accordion extends MiniReact.Component {
     this.props.data.forEach((list, index) => {
       listItems[`accordion_${index}`] = new AccordionListItem({
         list,
-        selected: this.props.selected,
       }).renderComponent();
     });
 
