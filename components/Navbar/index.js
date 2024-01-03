@@ -16,8 +16,19 @@ class Navbar extends MiniReact.Component {
   </div>`,
     }).renderComponent();
 
+    const LinkFAQ = new BrowserLink({
+      to: "/faq",
+      content: `<div class='group w-fit flex flex-col'>
+        <div class='flex px-1 gap-1 flex items-center h-20'>
+          <p class='text-indigo-400'>FAQ</p>
+        </div>
+        <div class='bg-slate-300 group-hover:bg-indigo-300 h-0.5'></div>
+      </div>`,
+    }).renderComponent();
+
     this.components = this.getComponentsData({
       browserLink,
+      LinkFAQ,
       navbarMobile,
     });
 
@@ -26,7 +37,10 @@ class Navbar extends MiniReact.Component {
       <nav class='hidden h-20 sm:flex justify-between items-center px-5 shadow-md'>
         <img src="../../assets/images/navbarlogo.svg">
 
-        {{components.content.browserLink}}
+        <div class='flex gap-5'>
+          {{components.content.LinkFAQ}}
+          {{components.content.browserLink}}
+        </div>
       </nav>
       {{components.content.navbarMobile}}
     </div>
