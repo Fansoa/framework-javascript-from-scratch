@@ -4,7 +4,12 @@ import AccordionListItem from "./AccordionListItem/index.js";
 class Accordion extends MiniReact.Component {
   constructor(props) {
     super(props);
+    this.typeCheck(props, this.propsType)
   }
+
+  propsType = {
+    data: "array",
+  };
 
   renderComponent() {
     const listItems = {};
