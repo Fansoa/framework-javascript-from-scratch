@@ -64,6 +64,7 @@ const AVAILABLES_EVENTS_TYPE = [
   "webkitmouseforcewillbegin",
   "wheel",
   "cancel",
+  "keydown",
 ];
 
 export default AVAILABLES_EVENTS_TYPE;
