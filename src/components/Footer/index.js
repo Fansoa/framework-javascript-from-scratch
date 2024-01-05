@@ -46,7 +46,9 @@ class Footer extends MiniReact.Component {
                       Retrouvez-nous
                     </h1>
                     <div class="text-white text-xs font-bold leading-5 mt-4">
-                      ESGI - Ecole supérieur du genie ingormatiaueLes fondateurs
+                      ESGI - Ecole supérieur du genie informatique
+                      <br />
+                      Les fondateurs
                     </div>
                   </section>
                 </div>
