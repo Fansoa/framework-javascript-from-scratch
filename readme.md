@@ -9,7 +9,7 @@ Ce projet a pour objectif de créer un mini framework front-end et de l'utiliser
 - Christopher Debray
   - Github : https://github.com/ChristopherDebray
   - Linkedin : https://www.linkedin.com/in/christopher-debray/
-- François Vérin
+- François Verin
   - Github : https://github.com/Fansoa
   - Linkedin : https://www.linkedin.com/in/francoisvrn/
 - Alexis Girard
