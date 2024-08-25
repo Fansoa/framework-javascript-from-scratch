@@ -29,7 +29,7 @@ Le site comprendra plusieurs fonctionnalités principales :
 
 ## Partage des tâches (global, pour le détail veuillez regarder les issues github)
 
-- François Vérin
+- François Verin
   - Création du framework
   - Création du système de parsing
   - Création de la maquette
